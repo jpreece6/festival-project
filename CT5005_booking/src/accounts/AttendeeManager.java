@@ -1,7 +1,6 @@
 package accounts;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -51,7 +50,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
-		int count = count_items();
+		int count = DatabaseManager.count_items("attendees");
 		if (count <= Festival.MAX_ATTENDEES) {
 			
 			Attendee att = (Attendee)data;
@@ -88,6 +87,9 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
+		Booking b = new Booking(null);
+		att.setBooking(b);
+		att.getBooking().setRef("1");
 		att.toString();
 		
 		stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
@@ -138,23 +140,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		stat.close();
 	
-	}
-	
-	@Override
-	public int count_items() throws  SQLException {
-		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		ResultSet rs = stat.executeQuery("SELECT COUNT(*) FROM attendees");
-		
-		if (rs.next()) {
-			
-			return rs.getInt(1);
-			
-		}
-		
-		return 0;
-		
 	}
 	
 	@Override

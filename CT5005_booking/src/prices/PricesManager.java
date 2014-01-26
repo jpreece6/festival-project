@@ -90,28 +90,10 @@ public class PricesManager implements IDatabaseFunctions {
 		
 		stat.execute("DROP TABLE attendees");
 		
-		stat.execute("DROP SEQUENCE ref_auto");
-		
 		stat.close();
 	
 	}
-	
-	@Override
-	public int count_items() throws  SQLException {
-		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		ResultSet rs = stat.executeQuery("SELECT COUNT(*) FROM attendees");
-		
-		if (rs.next()) {
-			
-			return rs.getInt(1);
-			
-		}
-		
-		return 0;
-		
-	}
+
 	
 	@Override
 	public Object get_item(String ref) throws SQLException {

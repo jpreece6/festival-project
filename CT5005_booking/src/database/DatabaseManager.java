@@ -73,6 +73,11 @@ public class DatabaseManager {
 		return conn;
 	}
 	
+	/**
+	 * 
+	 * @param result
+	 * @throws SQLException
+	 */
 	public static void print_results(ResultSet result) throws SQLException {
 		
 		ResultSetMetaData meta = result.getMetaData();
@@ -97,6 +102,28 @@ public class DatabaseManager {
 		}
 		
 		System.out.println();
+		
+	}
+	
+	/**
+	 * 
+	 * @param table
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int count_items(String table) throws  SQLException {
+		
+		Statement stat = DatabaseManager.getConnection().createStatement();
+		
+		ResultSet rs = stat.executeQuery("SELECT COUNT(*) FROM " + table);
+		
+		if (rs.next()) {
+			
+			return rs.getInt(1);
+			
+		}
+		
+		return 0;
 		
 	}
 	

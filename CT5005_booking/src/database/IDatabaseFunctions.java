@@ -48,13 +48,6 @@ public interface IDatabaseFunctions {
 	public void drop_table() throws SQLException;
 	
 	/**
-	 * Counts the number of items/rows in a table
-	 * @return int number of rows
-	 * @throws SQLException
-	 */
-	public int count_items() throws SQLException;
-	
-	/**
 	 * Search the database for rows containing matching the query
 	 * @param column String column to compare data
 	 * @param data String data to compare

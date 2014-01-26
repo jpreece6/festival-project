@@ -2,6 +2,7 @@ package menus;
 
 import java.sql.SQLException;
 
+import prices.Days;
 import festival.ErrorLog;
 import booking.BookingManager;
 import accounts.Attendee;
@@ -29,6 +30,8 @@ public class StaffMenu extends Menu {
 			System.out.println();
 			System.out.println("Create Table : " + StaffMenuOptions.CREATE_TABLES.ordinal());
 			System.out.println("Drop Table : " + StaffMenuOptions.DROP_TABLES.ordinal());
+			System.out.println();
+			System.out.println("Set Prices : " + StaffMenuOptions.SET_PRICES.ordinal());
 			
 			System.out.println("Exit Menu : 999");
 			
@@ -67,6 +70,10 @@ public class StaffMenu extends Menu {
 				} else if (choice == StaffMenuOptions.DROP_TABLES.ordinal()) {
 					
 					display_drop_tables();
+					
+				} else if (choice == StaffMenuOptions.SET_PRICES.ordinal()) {
+					
+					display_set_prices();
 					
 				}
 				
@@ -392,6 +399,55 @@ public class StaffMenu extends Menu {
 			}
 			
 			Menu.menu_end();
+			
+		} while (exit_menu == false);
+		
+		Menu.menu_reset();
+		
+	}
+	
+	private static void display_set_prices() {
+		
+		do {
+			
+			System.out.println("-- Set Prices --");
+			for (int i = 0; i < Days.values().length; i++) {
+				
+				System.out.println(Days.values()[i].toString() + " : " + Days.values()[i].ordinal());
+				
+			}
+			
+			System.out.println("Enter Vaules (e.g. Monday Wednesday Sunday = 036) : ");
+			
+			input = get_input();
+			if (input.isEmpty() == false) {
+				
+				for (int i = 0; i < input.length(); i++) {
+					
+					try {
+						
+						int val = Integer.parseInt(input);
+						if (val > 0 && val <= 7) {
+							
+							System.out.println(Days.values()[val].toString() + " Price = ");
+							input = get_input();
+							
+							if (input.isEmpty() == false) {
+								
+								
+								
+							}
+							
+						}
+						
+					} catch (Exception ex) {
+						
+						break;
+					}
+					
+				}
+				
+			}
 			
 		} while (exit_menu == false);
 		

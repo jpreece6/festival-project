@@ -1,7 +1,6 @@
 package booking;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -31,7 +30,7 @@ public class BookingManager implements IDatabaseFunctions {
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
-		int count = count_items();
+		int count = DatabaseManager.count_items("bookings");
 		if (count <= Festival.MAX_ATTENDEES) {
 			
 			Booking bok = (Booking)data;
@@ -116,23 +115,6 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		stat.close();
 	
-	}
-	
-	@Override
-	public int count_items() throws  SQLException {
-		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		ResultSet rs = stat.executeQuery("SELECT COUNT(*) FROM booking");
-		
-		if (rs.next()) {
-			
-			return rs.getInt(1);
-			
-		}
-		
-		return 0;
-		
 	}
 	
 	@Override
