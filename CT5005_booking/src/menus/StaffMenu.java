@@ -25,6 +25,9 @@ public class StaffMenu extends Menu {
 			System.out.println("Create Booking : " + StaffMenuOptions.CREATE_BOOKING.ordinal());
 			System.out.println("Delete Booking : " + StaffMenuOptions.DELETE_BOOKING.ordinal());
 			System.out.println("Search : " + StaffMenuOptions.SEARCH.ordinal());
+			System.out.println();
+			System.out.println("Create Table : ");
+			System.out.println("Drop Table : ");
 			
 			System.out.println("Exit Menu : 999");
 			

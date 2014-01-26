@@ -15,6 +15,10 @@ public class DatabaseManager {
 	private static String password;
 	private static Connection conn;
 	
+	/**
+	 * Creates a new DatabaseManager object
+	 * @param dataProperties String path to properties file which contains the database credentials
+	 */
 	public DatabaseManager(String dataProperties) {
 		
 		try {
@@ -49,12 +53,20 @@ public class DatabaseManager {
 		}
 	}
 	
+	/**
+	 * Create a new connection to the database
+	 * @throws SQLException
+	 */
 	public static void createConnection() throws SQLException {
 		
 		conn = DriverManager.getConnection(url, username, password);
 		
 	}
 	
+	/**
+	 * Returns the connection object
+	 * @return Connection object
+	 */
 	public static Connection getConnection() {
 		return conn;
 	}

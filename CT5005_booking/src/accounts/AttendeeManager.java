@@ -25,11 +25,14 @@ public class AttendeeManager implements IDatabaseFunctions {
 		att.setBooking(b);
 		
 		try {
-			// Add new attendee to the database
+
 			add_entry(att);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("-- Error --");
+			System.out.println("Could not add attendee at this time.");
+			System.out.println(e.getMessage());
+			System.out.println("----");
 		}
 		
 	}
@@ -42,8 +45,10 @@ public class AttendeeManager implements IDatabaseFunctions {
 			remove_entry(att.getRef());
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("-- Error --");
+			System.out.println("Could not remove attendee at this time.");
+			System.out.println(e.getMessage());
+			System.out.println("----");
 		}
 		
 	}
@@ -176,11 +181,12 @@ public class AttendeeManager implements IDatabaseFunctions {
 				att.setBooking(bok);
 				
 			}
+		
+			return att;
 			
 		}
 		
-		return att;
-		
+		return null;
 	}
 	
 	@Override
