@@ -5,7 +5,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import accounts.Attendee;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
 import festival.Festival;
@@ -84,7 +83,7 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		ResultSet rs = stat.executeQuery("SELECT * FROM booking WHERE " + column + "='" + data + "'");
 		
-		print_results(rs);
+		DatabaseManager.print_results(rs);
 		
 		stat.close();
 		rs.close();
@@ -163,34 +162,6 @@ public class BookingManager implements IDatabaseFunctions {
 		}
 		
 		return null;
-	}
-	
-	@Override
-	public void print_results(ResultSet result) throws SQLException {
-		
-		ResultSetMetaData meta = result.getMetaData();
-		
-		System.out.println("-- Results --");
-		final String FORMAT = "%-20s";
-		
-		for (int i = 1; i <= meta.getColumnCount(); i++) {
-			
-			System.out.format(FORMAT, meta.getColumnName(i));
-		
-		}
-		
-		while (result.next()) {
-			
-			System.out.println();
-			
-			for (int i = 1; i <= meta.getColumnCount(); i++) {
-				System.out.format(FORMAT, result.getString(i));
-			}
-			
-		}
-		
-		System.out.println();
-		
 	}
 
 	

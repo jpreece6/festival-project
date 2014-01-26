@@ -55,13 +55,6 @@ public interface IDatabaseFunctions {
 	public int count_items() throws SQLException;
 	
 	/**
-	 * Prints each column of a result set
-	 * @param results ResultSet to retrieve data
-	 * @throws SQLException
-	 */
-	public void print_results(ResultSet results) throws SQLException;
-	
-	/**
 	 * Search the database for rows containing matching the query
 	 * @param column String column to compare data
 	 * @param data String data to compare

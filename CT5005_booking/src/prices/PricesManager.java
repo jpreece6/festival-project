@@ -1,72 +1,31 @@
-package accounts;
+package prices;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import accounts.Attendee;
 import booking.Booking;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
-import festival.ErrorLog;
-import festival.Festival;
 
-public class AttendeeManager implements IDatabaseFunctions {
+public class PricesManager implements IDatabaseFunctions {
 	
-	public AttendeeManager() {
-		
-	}
-	
-	public void create_attendee(String name, int age, String email_address) {
-		
-		// Create new attendee object
-		Attendee att = new Attendee(name, age, email_address);
-		
-		Booking b = new Booking(att);
-		att.setBooking(b);
-		
-		try {
-
-			add_entry(att);
-			
-		} catch (SQLException e) {
-			ErrorLog.printError("Cannot add attendee to database at this time.", ErrorLog.SEVERITY_MEDIUM);
-		}
-		
-	}
-
-	
-	public void remove_attendee(Attendee att) {
-		
-		try {
-			
-			remove_entry(att.getRef());
-			
-		} catch (SQLException e) {
-			ErrorLog.printError("Cannot remove attendee from the database at this time.", ErrorLog.SEVERITY_MEDIUM);
-		}
-		
-	}
-
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
-		int count = count_items();
-		if (count <= Festival.MAX_ATTENDEES) {
 			
-			Attendee att = (Attendee)data;
-			
-			Statement stat = DatabaseManager.getConnection().createStatement();
-				
-			stat.executeUpdate("INSERT INTO attendees (ref, name, age, email_address, booking) "
-					+ "VALUES(ref_auto.nextval, '" + att.getName() 
-					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
-			
-			stat.close();
-			return true;
-		}
+		Statement stat = DatabaseManager.getConnection().createStatement();
+			/*
+		stat.executeUpdate("INSERT INTO prices (type, price) "
+				+ "VALUES(, '" + att.getName() 
+				+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
 		
-		System.out.println("No available booking space");
+		stat.close();
+
+		
+		System.out.println("No available booking space");*/
 		return false;
 	}
 
@@ -117,12 +76,9 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.execute("CREATE TABLE attendees "
-				+ "(ref varchar(10), name varchar(100), age int, email_address varchar(100), booking varchar(10),"
-				+ "PRIMARY KEY (ref))");
-		
-		stat.execute("CREATE SEQUENCE ref_auto START WITH 1"
-				+ " INCREMENT BY 1 NOMAXVALUE");
+		stat.execute("CREATE TABLE prices "
+				+ "(type varchar(20), price varchar(10),"
+				+ "PRIMARY KEY (type))");
 		
 		stat.close();
 	}
@@ -187,4 +143,5 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		return null;
 	}
+
 }

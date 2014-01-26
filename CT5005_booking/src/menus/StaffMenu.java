@@ -2,6 +2,7 @@ package menus;
 
 import java.sql.SQLException;
 
+import festival.ErrorLog;
 import booking.BookingManager;
 import accounts.Attendee;
 import accounts.AttendeeManager;
@@ -93,7 +94,7 @@ public class StaffMenu extends Menu {
 				}
 				
 			} catch (SQLException ex) {
-				System.out.println("-! Could not delete this booking at this time !- ");
+				ErrorLog.printError("Could not delete booking at this time.", ErrorLog.SEVERITY_MEDIUM);
 			}
 			
 			menu_end();
@@ -135,7 +136,7 @@ public class StaffMenu extends Menu {
 					amg.remove_entry(input);
 					
 				} catch (SQLException e) {
-					System.out.println("-! Could not remove attendee at this time !-");
+					ErrorLog.printError("Could not remove attendee at this time.", ErrorLog.SEVERITY_MEDIUM);
 				}
 				
 				menu_end();
@@ -288,10 +289,11 @@ public class StaffMenu extends Menu {
 		} while (exit_menu == false);
 		
 		try {
+			
 			amg.update_entry(att);
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorLog.printError("Could not update attendee at this time.", ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 		Menu.menu_reset();
@@ -336,7 +338,7 @@ public class StaffMenu extends Menu {
 					}
 					
 				} catch (SQLException ex) {
-					System.out.println(ex.getMessage());
+					ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_LOW);
 				}
 				
 			}
@@ -361,9 +363,7 @@ public class StaffMenu extends Menu {
 				bmg.create_table();
 				
 			} catch (SQLException e) {
-				System.out.println("-- Error --");
-				System.out.println(e.getMessage());
-				System.out.println("----");
+				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);
 			}
 			
 			Menu.menu_end();
@@ -388,9 +388,7 @@ public class StaffMenu extends Menu {
 				bmg.drop_table();
 				
 			} catch (SQLException e) {
-				System.out.println("-- Error --");
-				System.out.println(e.getMessage());
-				System.out.println("----");
+				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);
 			}
 			
 			Menu.menu_end();

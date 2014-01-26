@@ -3,6 +3,8 @@ package database;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
@@ -69,6 +71,33 @@ public class DatabaseManager {
 	 */
 	public static Connection getConnection() {
 		return conn;
+	}
+	
+	public static void print_results(ResultSet result) throws SQLException {
+		
+		ResultSetMetaData meta = result.getMetaData();
+		
+		System.out.println("-- Results --");
+		final String FORMAT = "%-20s";
+		
+		for (int i = 1; i <= meta.getColumnCount(); i++) {
+			
+			System.out.format(FORMAT, meta.getColumnName(i));
+		
+		}
+		
+		while (result.next()) {
+			
+			System.out.println();
+			
+			for (int i = 1; i <= meta.getColumnCount(); i++) {
+				System.out.format(FORMAT, result.getString(i));
+			}
+			
+		}
+		
+		System.out.println();
+		
 	}
 	
 }
