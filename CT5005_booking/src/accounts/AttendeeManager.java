@@ -49,7 +49,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 	}
 
 	@Override
-	public boolean add_entry(Object data) throws SQLException {
+	public void add_entry(Object data) throws SQLException {
 		
 		int count = count_items();
 		if (count <= Festival.MAX_ATTENDEES) {
@@ -63,16 +63,13 @@ public class AttendeeManager implements IDatabaseFunctions {
 					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
 			
 			stat.close();
-			
-			return true;
 		}
 		
 		System.out.println("No available booking space");
-		return false;
 	}
 
 	@Override
-	public boolean remove_entry(String ref) throws SQLException {
+	public void remove_entry(String ref) throws SQLException {
 
 		Statement stat = DatabaseManager.getConnection().createStatement();
 			
@@ -80,12 +77,10 @@ public class AttendeeManager implements IDatabaseFunctions {
 
 		stat.close();
 		
-		return false;
-		
 	}
 	
 	@Override
-	public boolean update_entry(Object data) throws SQLException {
+	public void update_entry(Object data) throws SQLException {
 		
 		Attendee att = (Attendee)data;
 		
@@ -97,7 +92,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		stat.close();
 		
-		return false;
 	}
 	
 	@Override
@@ -115,7 +109,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 	}
 	
 	@Override
-	public boolean create_table() throws SQLException {
+	public void create_table() throws SQLException {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
@@ -127,12 +121,10 @@ public class AttendeeManager implements IDatabaseFunctions {
 				+ " INCREMENT BY 1 NOMAXVALUE");
 		
 		stat.close();
-		
-		return false;
 	}
 	
 	@Override
-	public boolean drop_table() throws SQLException {
+	public void drop_table() throws SQLException {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
@@ -141,8 +133,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		stat.execute("DROP SEQUENCE ref_auto");
 		
 		stat.close();
-		
-		return false;
+	
 	}
 	
 	@Override

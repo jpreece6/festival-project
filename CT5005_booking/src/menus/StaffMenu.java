@@ -202,6 +202,7 @@ public class StaffMenu extends Menu {
 				System.out.println("Ref : ");
 					
 				String ref = get_input();
+				//assert(ref.isEmpty()) : "Blah";
 				if (ref.isEmpty() == false) {
 					
 					att = (Attendee)amg.get_item(ref);
