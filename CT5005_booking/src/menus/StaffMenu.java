@@ -9,7 +9,7 @@ import accounts.AttendeeManager;
 public class StaffMenu extends Menu {
 	
 	private static AttendeeManager amg = new AttendeeManager();
-	private static BookingManager bok = new BookingManager();
+	private static BookingManager bmg = new BookingManager();
 	
 	private static Attendee att;
 	
@@ -26,13 +26,13 @@ public class StaffMenu extends Menu {
 			System.out.println("Delete Booking : " + StaffMenuOptions.DELETE_BOOKING.ordinal());
 			System.out.println("Search : " + StaffMenuOptions.SEARCH.ordinal());
 			System.out.println();
-			System.out.println("Create Table : ");
-			System.out.println("Drop Table : ");
+			System.out.println("Create Table : " + StaffMenuOptions.CREATE_TABLES.ordinal());
+			System.out.println("Drop Table : " + StaffMenuOptions.DROP_TABLES.ordinal());
 			
 			System.out.println("Exit Menu : 999");
 			
 			choice = get_option();
-			if (choice > 0 && choice <= 6) {
+			if (choice > 0 && choice <= 11) {
 				
 				if (choice == StaffMenuOptions.CREATE_ATTENDEE.ordinal()) {
 					
@@ -58,6 +58,14 @@ public class StaffMenu extends Menu {
 				} else if (choice == StaffMenuOptions.SEARCH.ordinal()) {
 					
 					display_search_menu();
+					
+				} else if (choice == StaffMenuOptions.CREATE_TABLES.ordinal()) {
+					
+					display_create_tables();
+					
+				} else if (choice == StaffMenuOptions.DROP_TABLES.ordinal()) {
+					
+					display_drop_tables();
 					
 				}
 				
@@ -321,7 +329,7 @@ public class StaffMenu extends Menu {
 								
 							} else if (choice == StaffMenuOptions.FIND_BOOKING.ordinal()) {
 								
-								bok.search_database(column, search);
+								bmg.search_database(column, search);
 								
 							}
 						}
@@ -340,7 +348,58 @@ public class StaffMenu extends Menu {
 		menu_reset();
 		
 	}
-
+	
+	private static void display_create_tables() {
+		
+		do {
+			
+			System.out.println("\nCreating Tables...");
+			
+			try {
+				
+				amg.create_table();
+				bmg.create_table();
+				
+			} catch (SQLException e) {
+				System.out.println("-- Error --");
+				System.out.println(e.getMessage());
+				System.out.println("----");
+			}
+			
+			Menu.menu_end();
+			
+			
+		} while (exit_menu == false);
+		
+		Menu.menu_reset();
+		
+	}
+	
+	
+	private static void display_drop_tables() {
+		
+		do {
+			
+			try {
+				
+				System.out.println("\nDropping Tables....");
+				
+				amg.drop_table();
+				bmg.drop_table();
+				
+			} catch (SQLException e) {
+				System.out.println("-- Error --");
+				System.out.println(e.getMessage());
+				System.out.println("----");
+			}
+			
+			Menu.menu_end();
+			
+		} while (exit_menu == false);
+		
+		Menu.menu_reset();
+		
+	}
 	
 	
 }

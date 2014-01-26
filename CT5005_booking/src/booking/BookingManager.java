@@ -30,7 +30,7 @@ public class BookingManager implements IDatabaseFunctions {
 	}
 
 	@Override
-	public void add_entry(Object data) throws SQLException {
+	public boolean add_entry(Object data) throws SQLException {
 		
 		int count = count_items();
 		if (count <= Festival.MAX_ATTENDEES) {
@@ -44,9 +44,12 @@ public class BookingManager implements IDatabaseFunctions {
 					+ "')");
 			
 			stat.close();
+			
+			return true;
 		}
 		
 		System.out.println("No available booking space");
+		return false;
 	}
 
 	@Override

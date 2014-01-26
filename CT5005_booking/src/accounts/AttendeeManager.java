@@ -54,7 +54,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 	}
 
 	@Override
-	public void add_entry(Object data) throws SQLException {
+	public boolean add_entry(Object data) throws SQLException {
 		
 		int count = count_items();
 		if (count <= Festival.MAX_ATTENDEES) {
@@ -68,9 +68,11 @@ public class AttendeeManager implements IDatabaseFunctions {
 					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
 			
 			stat.close();
+			return true;
 		}
 		
 		System.out.println("No available booking space");
+		return false;
 	}
 
 	@Override
@@ -90,6 +92,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 		Attendee att = (Attendee)data;
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
+		
+		att.toString();
 		
 		stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
 				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
