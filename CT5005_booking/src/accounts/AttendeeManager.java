@@ -8,6 +8,7 @@ import java.sql.Statement;
 import booking.Booking;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
+import festival.ErrorLog;
 import festival.Festival;
 
 public class AttendeeManager implements IDatabaseFunctions {
@@ -29,10 +30,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			add_entry(att);
 			
 		} catch (SQLException e) {
-			System.out.println("-- Error --");
-			System.out.println("Could not add attendee at this time.");
-			System.out.println(e.getMessage());
-			System.out.println("----");
+			ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
