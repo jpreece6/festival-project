@@ -1,31 +1,66 @@
 package prices;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import accounts.Attendee;
-import booking.Booking;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
+import festival.ErrorLog;
 
 public class PricesManager implements IDatabaseFunctions {
+	
+	private Price pri;
+	
+	public void set_price(Days day, String price) {
+		
+		try {
+			pri = new Price(day, price);
+
+			add_entry(pri);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void update_price(Days day, String price) {
+		
+		try {
+			
+			pri = new Price(day, price);
+			
+			update_entry(pri);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public boolean does_day_exist(String day) {
+		try {
+			
+			return DatabaseManager.does_entry_exist("prices", "type", day);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_LOW);
+			return false;
+		}
+	}
+	
 	
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
-			
 		Statement stat = DatabaseManager.getConnection().createStatement();
-			/*
+			
 		stat.executeUpdate("INSERT INTO prices (type, price) "
-				+ "VALUES(, '" + att.getName() 
-				+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
+				+ "VALUES('" + pri.getDay().toString() + "', '" + pri.getPrice() + "')");
 		
 		stat.close();
 
-		
-		System.out.println("No available booking space");*/
 		return false;
 	}
 
@@ -43,15 +78,10 @@ public class PricesManager implements IDatabaseFunctions {
 	@Override
 	public void update_entry(Object data) throws SQLException {
 		
-		Attendee att = (Attendee)data;
-		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		att.toString();
-		
-		stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
-				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
-				+ "', booking='" + att.getBooking().getRef() + "' WHERE ref=" + att.getRef());
+		stat.executeUpdate("UPDATE prices SET type='" + pri.getDay().toString() + "', price='"
+				+ pri.getPrice() + "' WHERE type=" + pri.getDay().toString());
 		
 		stat.close();
 		
@@ -88,7 +118,7 @@ public class PricesManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.execute("DROP TABLE attendees");
+		stat.execute("DROP TABLE prices");
 		
 		stat.close();
 	
@@ -96,34 +126,38 @@ public class PricesManager implements IDatabaseFunctions {
 
 	
 	@Override
-	public Object get_item(String ref) throws SQLException {
-	
-		Attendee att = new Attendee();
+	public Object get_item(String type) throws SQLException {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		ResultSet result = stat.executeQuery("SELECT * FROM attendees WHERE ref=" + ref);
+		ResultSet result = stat.executeQuery("SELECT * FROM prices WHERE type=" + type);
 		
 		if (result.next()) {
 			
-			att.setRef(result.getString("ref"));
-			att.setName(result.getString("name"));
-			att.setAge(result.getInt("age"));
-			att.setEmailAddress(result.getString("email_address"));
-			
-			if (result.getString("booking") != null) {
-				
-				Booking bok = new Booking(att);
-				bok.setRef(result.getString("booking"));
-				att.setBooking(bok);
-				
-			}
+			pri.setDay(Days.valueOf(result.getString("type")));
+			pri.setPrice(result.getString("price"));
 		
-			return att;
+			return pri;
 			
 		}
 		
 		return null;
+	}
+	
+	public void print_stored_prices() throws SQLException {
+		
+		Statement stat = DatabaseManager.getConnection().createStatement();
+		
+		ResultSet result = stat.executeQuery("SELECT * from prices");
+		
+		System.out.println("\n-- Current Prices --");
+		
+		while (result.next()) {
+			
+			System.out.println(result.getString("type") + " : £" + result.getString("price"));
+			
+		}
+		
 	}
 
 }

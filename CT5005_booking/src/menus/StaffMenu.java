@@ -3,6 +3,7 @@ package menus;
 import java.sql.SQLException;
 
 import prices.Days;
+import prices.PricesManager;
 import festival.ErrorLog;
 import booking.BookingManager;
 import accounts.Attendee;
@@ -12,6 +13,7 @@ public class StaffMenu extends Menu {
 	
 	private static AttendeeManager amg = new AttendeeManager();
 	private static BookingManager bmg = new BookingManager();
+	private static PricesManager pmg = new PricesManager();
 	
 	private static Attendee att;
 	
@@ -32,11 +34,12 @@ public class StaffMenu extends Menu {
 			System.out.println("Drop Table : " + StaffMenuOptions.DROP_TABLES.ordinal());
 			System.out.println();
 			System.out.println("Set Prices : " + StaffMenuOptions.SET_PRICES.ordinal());
+			System.out.println("Get Prices : " + StaffMenuOptions.GET_PRICES.ordinal());
 			
 			System.out.println("Exit Menu : 999");
 			
 			choice = get_option();
-			if (choice > 0 && choice <= 11) {
+			if (choice > 0 && choice <= 12) {
 				
 				if (choice == StaffMenuOptions.CREATE_ATTENDEE.ordinal()) {
 					
@@ -74,6 +77,10 @@ public class StaffMenu extends Menu {
 				} else if (choice == StaffMenuOptions.SET_PRICES.ordinal()) {
 					
 					display_set_prices();
+					
+				} else if (choice == StaffMenuOptions.GET_PRICES.ordinal()) {
+					
+					display_get_prices();
 					
 				}
 				
@@ -312,7 +319,7 @@ public class StaffMenu extends Menu {
 		
 		do {
 			
-			System.out.println("-- Search --");
+			System.out.println("\n-- Search --");
 			System.out.println("Find Attendee : " + StaffMenuOptions.FIND_ATTENDEE.ordinal());
 			System.out.println("Find Booking : " + StaffMenuOptions.FIND_BOOKING.ordinal());
 			
@@ -368,6 +375,7 @@ public class StaffMenu extends Menu {
 				
 				amg.create_table();
 				bmg.create_table();
+				pmg.create_table();
 				
 			} catch (SQLException e) {
 				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);
@@ -393,6 +401,7 @@ public class StaffMenu extends Menu {
 				
 				amg.drop_table();
 				bmg.drop_table();
+				pmg.drop_table();
 				
 			} catch (SQLException e) {
 				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);
@@ -410,7 +419,8 @@ public class StaffMenu extends Menu {
 		
 		do {
 			
-			System.out.println("-- Set Prices --");
+			// List days from Days enum
+			System.out.println("\n-- Set Prices --");
 			for (int i = 0; i < Days.values().length; i++) {
 				
 				System.out.println(Days.values()[i].toString() + " : " + Days.values()[i].ordinal());
@@ -419,35 +429,70 @@ public class StaffMenu extends Menu {
 			
 			System.out.println("Enter Vaules (e.g. Monday Wednesday Sunday = 036) : ");
 			
+			// Get user input
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
+				// Process each char (number) inputed by the user
 				for (int i = 0; i < input.length(); i++) {
 					
 					try {
 						
-						int val = Integer.parseInt(input);
-						if (val > 0 && val <= 7) {
+						// Parse the input to an integer
+						int val = Character.getNumericValue(input.charAt(i));
+						if (val >= 0 && val <= 6) {
 							
+							// Get user to input price
 							System.out.println(Days.values()[val].toString() + " Price = ");
-							input = get_input();
+							String price = get_input();
 							
-							if (input.isEmpty() == false) {
-								
-								
+							if (price.isEmpty() == false) {
+															
+								if (pmg.does_day_exist(Days.values()[val].toString()) == false) { 
+									
+									pmg.set_price(Days.values()[val], price);
+									
+								} else {
+									
+									pmg.update_price(Days.values()[val], price);
+									
+								}
 								
 							}
 							
 						}
 						
 					} catch (Exception ex) {
-						
-						break;
+						ex.printStackTrace();
+						ErrorLog.printError("", ErrorLog.SEVERITY_LOW);
+						//break;
 					}
 					
 				}
 				
+				Menu.menu_end();
+				
 			}
+			
+		} while (exit_menu == false);
+		
+		Menu.menu_reset();
+		
+	}
+	
+	private static void display_get_prices() {
+		
+		do {
+		
+			try {
+				
+				pmg.print_stored_prices();
+				
+			} catch (SQLException e) {
+				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			}
+			
+			Menu.menu_end();
 			
 		} while (exit_menu == false);
 		

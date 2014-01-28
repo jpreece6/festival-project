@@ -13,6 +13,7 @@ public enum StaffMenuOptions {
 	FIND_BOOKING,
 	CREATE_TABLES,
 	DROP_TABLES,
-	SET_PRICES
+	SET_PRICES,
+	GET_PRICES
 	
 }

@@ -36,4 +36,11 @@ public abstract class ErrorLog {
 		
 	}
 	
+	public static void printInfo(String msg) {
+		
+		System.out.println("\n-- INFO --");
+		System.out.println("Message : " + msg);
+		System.out.println("-- END INFO --\n");
+	}
+	
 }

@@ -113,7 +113,7 @@ public class DatabaseManager {
 	 */
 	public static int count_items(String table) throws  SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
+		Statement stat = getConnection().createStatement();
 		
 		ResultSet rs = stat.executeQuery("SELECT COUNT(*) FROM " + table);
 		
@@ -124,6 +124,17 @@ public class DatabaseManager {
 		}
 		
 		return 0;
+		
+	}
+	
+	public static boolean does_entry_exist(String table, String column, String entry) throws SQLException {
+		
+		Statement stat = getConnection().createStatement();
+		
+		boolean result = stat.execute("SELECT * FROM " + table + " WHERE " + column + "=" + entry);
+		
+		stat.close();
+		return result;
 		
 	}
 	
