@@ -4,11 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import accounts.Attendee;
+import prices.Days;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
 import festival.ErrorLog;
-import festival.Festival;
 
 public class BookingManager implements IDatabaseFunctions {
 
@@ -19,15 +18,34 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
-	public boolean create_booking() {
+	public void create_booking() {
 		
-		return false;
+		try {
+			
+			bok = new Booking();
+			add_entry(bok);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
 		
 	}
 	
-	public boolean delete_booking() {
+	public void delete_booking(String booking_ref) {
 
-		return false;
+		try {
+			
+			remove_entry(booking_ref);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void print_booking_details() {
+		
+		
 		
 	}
 	
@@ -45,16 +63,14 @@ public class BookingManager implements IDatabaseFunctions {
 
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
-
-		Attendee att = (Attendee)data;
+		
+		bok = (Booking)data;
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		/*
-		stat.executeUpdate("INSERT INTO attendees (ref, name, age, email_address, booking) "
-				+ "VALUES(ref_auto.nextval, '" + att.getName() 
-				+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
-		*/
+		stat.executeUpdate("INSERT INTO attendees (ref, valid_day) "
+				+ "VALUES(ref_auto.nextval, '" + bok.getValid_Day().ordinal() + "')");
+		
 		stat.close();
 		return true;
 
@@ -74,13 +90,14 @@ public class BookingManager implements IDatabaseFunctions {
 	@Override
 	public void update_entry(Object data) throws SQLException {
 		
+		bok = (Booking)data;
+		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		/*
-		stat.executeUpdate("UPDATE bookings SET name='" + bok.g + "', age='"
-				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
-				+ "', booking='" + att.getBooking().getRef() + "' WHERE ref=" + att.getRef());
-		*/
+		
+		stat.executeUpdate("UPDATE bookings SET valid_day='" + bok.getValid_Day() 
+				+ "' WHERE ref=" + bok.getRef());
+		
 		stat.close();
 		
 	}
@@ -116,28 +133,18 @@ public class BookingManager implements IDatabaseFunctions {
 	@Override
 	public Object get_item(String ref) throws SQLException {
 	
-		Attendee att = new Attendee();
+		bok = new Booking();
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		ResultSet result = stat.executeQuery("SELECT * FROM booking WHERE ref=" + ref);
+		ResultSet result = stat.executeQuery("SELECT * FROM bookings WHERE ref=" + ref);
 		
 		if (result.next()) {
 			
-			att.setRef(result.getString("ref"));
-			att.setName(result.getString("name"));
-			att.setAge(result.getInt("age"));
-			att.setEmailAddress(result.getString("email_address"));
-			
-			if (result.getString("booking") != null) {
-				
-				Booking bok = new Booking(att);
-				bok.setRef(result.getString("booking"));
-				att.setBooking(bok);
-				
-			}
+			bok.setRef(result.getString("ref"));
+			bok.setValid_Day(Days.valueOf(result.getString("valid_day")));
 		
-			return att;
+			return bok;
 			
 		}
 		

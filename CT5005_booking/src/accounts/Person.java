@@ -75,10 +75,11 @@ public abstract class Person {
 	 * Prints this Person's details to the screen
 	 */
 	public String toString() {
-		System.out.println("-- Person --");
+		System.out.println("\n-- Person --");
 		System.out.println("Name : " + getName());
 		System.out.println("Age : " + getAge());
 		System.out.println("Email : " + getEmailAddress());
+		System.out.println("-- END Person --\n");
 		
 		return "";
 	}

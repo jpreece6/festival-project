@@ -17,7 +17,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		// Create new attendee object
 		Attendee att = new Attendee(name, age, email_address);
 		
-		Booking b = new Booking(att);
+		Booking b = new Booking();
 		att.setBooking(b);
 		
 		try {
@@ -34,7 +34,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		try {
 			
-			DatabaseManager.search_database("attendees", column, data);
+			DatabaseManager.print_results(DatabaseManager.search_database("attendees", column, data));
+			
 			
 		} catch (SQLException e) {
 			ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -81,7 +82,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			return true;
 		}
 		
-		System.out.println("No available booking space");
+		ErrorLog.printInfo("No available attendee spaces");
 		return false;
 	}
 
@@ -103,7 +104,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		Booking b = new Booking(null);
+		Booking b = new Booking();
 		att.setBooking(b);
 		att.getBooking().setRef("1");
 		att.toString();
@@ -162,7 +163,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 			if (result.getString("booking") != null) {
 				
-				Booking bok = new Booking(att);
+				Booking bok = new Booking();
 				bok.setRef(result.getString("booking"));
 				att.setBooking(bok);
 				

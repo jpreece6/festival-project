@@ -27,6 +27,7 @@ public class StaffMenu extends Menu {
 			System.out.println("Delete Attendee : " + StaffMenuOptions.DELETE_ATTENDEE.ordinal());
 			System.out.println();
 			System.out.println("Create Booking : " + StaffMenuOptions.CREATE_BOOKING.ordinal());
+			System.out.println("Edit Booking : " + StaffMenuOptions.EDIT_BOOKING.ordinal());
 			System.out.println("Delete Booking : " + StaffMenuOptions.DELETE_BOOKING.ordinal());
 			System.out.println("Search : " + StaffMenuOptions.SEARCH.ordinal());
 			System.out.println();
@@ -57,6 +58,10 @@ public class StaffMenu extends Menu {
 				} else if (choice == StaffMenuOptions.CREATE_BOOKING.ordinal()) {
 					
 					display_create_booking();
+					
+				} else if (choice == StaffMenuOptions.EDIT_BOOKING.ordinal()) {
+					
+					display_edit_booking();
 					
 				} else if (choice == StaffMenuOptions.DELETE_BOOKING.ordinal()) {
 					
@@ -95,7 +100,7 @@ public class StaffMenu extends Menu {
 		
 		do {
 			
-			System.out.println("-- Delete Booking --");
+			System.out.println("\n-- Delete Booking --");
 			System.out.println("Booking Ref :  ");
 			
 			try {
@@ -123,13 +128,62 @@ public class StaffMenu extends Menu {
 		
 		do {
 			
-			System.out.println("-- Create Booking --");
+			System.out.println("\n-- Create Booking --");
 			System.out.println("Attendee Ref : ");
 			
 					
 		} while (exit_menu == false);
 		
 		menu_reset();
+		
+	}
+	
+	private static void display_edit_booking() {
+		
+		final int EDIT_DAYS = 1;
+		final int EDIT_ADD_TENT = 2;
+		final int EDIT_REMOVE_TENT = 3;
+		
+		do {
+			
+			System.out.println("\n-- Edit Booking --");
+			System.out.println("Change Days : " + EDIT_DAYS);
+			System.out.println("Add a tent : " + EDIT_ADD_TENT);
+			System.out.println("Remove a tent : " + EDIT_REMOVE_TENT);
+			
+			choice = get_option();
+			if (choice > 0 && choice <= 3) {
+				
+				switch (choice) {
+				
+				case EDIT_DAYS :
+					
+					
+					
+					break;
+				case EDIT_ADD_TENT :
+					
+					
+					
+					break;
+				case EDIT_REMOVE_TENT:
+					
+					
+					
+					break;
+				
+				}
+				
+				
+			}
+			
+			Menu.menu_end();
+			
+			
+		} while (exit_menu == false);
+		
+		Menu.menu_reset();
+		
 		
 	}
 	
@@ -250,7 +304,9 @@ public class StaffMenu extends Menu {
 			choice = get_option();
 			if (choice > 0 && choice <= 4) {
 				
-				if (choice == EDIT_NAME) {
+				switch(choice) {
+				
+				case EDIT_NAME :
 					
 					System.out.println("Name : ");
 					input = get_input();
@@ -261,7 +317,9 @@ public class StaffMenu extends Menu {
 						
 					}
 					
-				} else if (choice == EDIT_AGE) {
+					break;
+					
+				case EDIT_AGE :
 					
 					System.out.println("Age : ");
 					
@@ -272,7 +330,9 @@ public class StaffMenu extends Menu {
 						
 					}
 					
-				} else if (choice == EDIT_EMAIL) {
+					break;
+					
+				case EDIT_EMAIL :
 					
 					System.out.println("Email : ");
 					input = get_input();
@@ -283,7 +343,9 @@ public class StaffMenu extends Menu {
 						
 					}
 					
-				} else if (choice == EDIT_BOOKING) {
+					break;
+					
+				case EDIT_BOOKING :
 					
 					System.out.println("Booking Ref : ");
 					input = get_input();
@@ -295,6 +357,7 @@ public class StaffMenu extends Menu {
 						
 					}
 					
+					break;
 				}
 				
 				Menu.menu_end();

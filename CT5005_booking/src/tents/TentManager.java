@@ -19,6 +19,44 @@ public class TentManager implements IDatabaseFunctions {
 		
 	}
 	
+	public void add_tent(String booking_ref) {
+		
+		try {
+			
+			tnt = new Tent();
+			tnt.set_booking_ref(booking_ref);
+			add_entry(tnt);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void remove_tent(String space_no) {
+		
+		try {
+			
+			remove_entry(space_no);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void print_tents(String booking_ref) {
+		
+		try {
+
+			DatabaseManager.print_results(DatabaseManager.search_database("tents", "booking", booking_ref));
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
