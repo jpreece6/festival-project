@@ -45,15 +45,6 @@ public interface IDatabaseFunctions {
 	 * Drops/Deletes a table from the database
 	 * @throws SQLException
 	 */
-	public void drop_table() throws SQLException;
-	
-	/**
-	 * Search the database for rows containing matching the query
-	 * @param column String column to compare data
-	 * @param data String data to compare
-	 * @throws SQLException
-	 */
-	public void search_database(String column, String data) throws SQLException;
-	
+	public void drop_table() throws SQLException;	
 	
 }

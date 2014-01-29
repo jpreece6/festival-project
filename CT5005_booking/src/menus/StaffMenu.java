@@ -1,5 +1,6 @@
 package menus;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import prices.Days;
@@ -326,35 +327,28 @@ public class StaffMenu extends Menu {
 			choice = get_option();
 			if (choice > 0) {
 				
-				try {
+				System.out.println("Category e.g. (ref, name) : ");
+				
+				String column = get_input();
+				if (column.isEmpty() == false) {
+				
+					System.out.println("Search : ");
 					
-					System.out.println("Category e.g. (ref, name) : ");
-					
-					String column = get_input();
-					if (column.isEmpty() == false) {
-					
-						System.out.println("Search : ");
+					String search = get_input();
+					if (search.isEmpty() == false) {
 						
-						String search = get_input();
-						if (search.isEmpty() == false) {
-							
+					
+						if (choice == StaffMenuOptions.FIND_ATTENDEE.ordinal()) {
 						
-							if (choice == StaffMenuOptions.FIND_ATTENDEE.ordinal()) {
+							amg.search_for_attendee(column, search);
 							
-								amg.search_database(column, search);
-								
-							} else if (choice == StaffMenuOptions.FIND_BOOKING.ordinal()) {
-								
-								bmg.search_database(column, search);
-								
-							}
+						} else if (choice == StaffMenuOptions.FIND_BOOKING.ordinal()) {
+							
+							bmg.search_for_booking(column, search);
+							
 						}
 					}
-					
-				} catch (SQLException ex) {
-					ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_LOW);
 				}
-				
 			}
 			
 			menu_end();

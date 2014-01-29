@@ -88,20 +88,6 @@ public class PricesManager implements IDatabaseFunctions {
 	}
 	
 	@Override
-	public void  search_database(String column, String data) throws SQLException {
-		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		ResultSet rs = stat.executeQuery("SELECT * FROM attendees WHERE " + column + "='" + data + "'");
-		
-		DatabaseManager.print_results(rs);
-		
-		stat.close();
-		rs.close();
-		
-	}
-	
-	@Override
 	public void create_table() throws SQLException {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();

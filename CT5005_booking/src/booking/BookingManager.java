@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
+import festival.ErrorLog;
 import festival.Festival;
 
 public class BookingManager implements IDatabaseFunctions {
@@ -24,6 +25,18 @@ public class BookingManager implements IDatabaseFunctions {
 	public boolean delete_booking() {
 
 		return false;
+		
+	}
+	
+	public void search_for_booking(String column, String data) {
+		
+		try {
+			
+			DatabaseManager.search_database("bookings", column, data);
+			
+		} catch (SQLException e) {
+			ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
 		
 	}
 
@@ -72,20 +85,6 @@ public class BookingManager implements IDatabaseFunctions {
 				+ bok.getBooker().getRef() + "' WHERE ref=" + bok.getRef());
 		
 		stat.close();
-		
-	}
-	
-	@Override
-	public void  search_database(String column, String data) throws SQLException {
-		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		ResultSet rs = stat.executeQuery("SELECT * FROM booking WHERE " + column + "='" + data + "'");
-		
-		DatabaseManager.print_results(rs);
-		
-		stat.close();
-		rs.close();
 		
 	}
 	

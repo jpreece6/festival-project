@@ -138,4 +138,17 @@ public class DatabaseManager {
 		
 	}
 	
+	public static void  search_database(String table, String column, String data) throws SQLException {
+		
+		Statement stat = DatabaseManager.getConnection().createStatement();
+		
+		ResultSet rs = stat.executeQuery("SELECT * FROM " + table + " WHERE " + column + "='" + data + "'");
+		
+		DatabaseManager.print_results(rs);
+		
+		stat.close();
+		rs.close();
+		
+	}
+	
 }

@@ -8,6 +8,8 @@ public enum Days {
 	THURSDAY,
 	FRIDAY,
 	SATURDAY,
-	SUNDAY
+	SUNDAY,
+	ALL_WEEK,
+	ALL_WEEKEND
 	
 }

@@ -1,74 +1,31 @@
-package accounts;
+package tents;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import accounts.Attendee;
 import booking.Booking;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
-import festival.ErrorLog;
 import festival.Festival;
 
-public class AttendeeManager implements IDatabaseFunctions {
-	
-	public void create_attendee(String name, int age, String email_address) {
-		
-		// Create new attendee object
-		Attendee att = new Attendee(name, age, email_address);
-		
-		Booking b = new Booking(att);
-		att.setBooking(b);
-		
-		try {
+public class TentManager implements IDatabaseFunctions {
 
-			add_entry(att);
-			
-		} catch (SQLException e) {
-			ErrorLog.printError("Cannot add attendee to database at this time.", ErrorLog.SEVERITY_MEDIUM);
-		}
-		
-	}
+	private static Tent tnt;
 	
-	public void search_for_attendee(String column, String data) {
-		
-		try {
-			
-			DatabaseManager.search_database("attendees", column, data);
-			
-		} catch (SQLException e) {
-			ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
-		}
-		
-	}
-
-	
-	public void remove_attendee(Attendee att) {
-		
-		try {
-			
-			remove_entry(att.getRef());
-			
-		} catch (SQLException e) {
-			ErrorLog.printError("Cannot remove attendee from the database at this time.", ErrorLog.SEVERITY_MEDIUM);
-		}
-		
-	}
-
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
-		int count = DatabaseManager.count_items("attendees");
-		if (count <= Festival.MAX_ATTENDEES) {
-			
-			Attendee att = (Attendee)data;
+		int count = DatabaseManager.count_items("tents");
+		if (count <= Festival.MAX_TENTS) {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
-				
-			stat.executeUpdate("INSERT INTO attendees (ref, name, age, email_address, booking) "
+			/*	
+			stat.executeUpdate("INSERT INTO attendees (space_no, booking) "
 					+ "VALUES(ref_auto.nextval, '" + att.getName() 
 					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
-			
+			*/
 			stat.close();
 			return true;
 		}
@@ -78,11 +35,11 @@ public class AttendeeManager implements IDatabaseFunctions {
 	}
 
 	@Override
-	public void remove_entry(String ref) throws SQLException {
+	public void remove_entry(String space) throws SQLException {
 
 		Statement stat = DatabaseManager.getConnection().createStatement();
 			
-		stat.execute("DELETE FROM attendees WHERE ref=" + ref);
+		stat.execute("DELETE FROM tents WHERE sapce_no=" + space);
 
 		stat.close();
 		
@@ -91,19 +48,13 @@ public class AttendeeManager implements IDatabaseFunctions {
 	@Override
 	public void update_entry(Object data) throws SQLException {
 		
-		Attendee att = (Attendee)data;
-		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		Booking b = new Booking(null);
-		att.setBooking(b);
-		att.getBooking().setRef("1");
-		att.toString();
-		
+		/*
 		stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
 				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
 				+ "', booking='" + att.getBooking().getRef() + "' WHERE ref=" + att.getRef());
-		
+		*/
 		stat.close();
 		
 	}
@@ -113,12 +64,9 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.execute("CREATE TABLE attendees "
-				+ "(ref varchar(10), name varchar(100), age int, email_address varchar(100), booking varchar(10),"
+		stat.execute("CREATE TABLE tents "
+				+ "(space_no varchar(4), booking varchar(10),"
 				+ "PRIMARY KEY (ref))");
-		
-		stat.execute("CREATE SEQUENCE ref_auto START WITH 1"
-				+ " INCREMENT BY 1 NOMAXVALUE");
 		
 		stat.close();
 	}
@@ -128,9 +76,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.execute("DROP TABLE attendees");
-		
-		stat.execute("DROP SEQUENCE ref_auto");
+		stat.execute("DROP TABLE prices");
 		
 		stat.close();
 	
@@ -166,4 +112,5 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		return null;
 	}
+
 }
