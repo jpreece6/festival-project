@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import accounts.Attendee;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
 import festival.ErrorLog;
@@ -11,6 +12,8 @@ import festival.Festival;
 
 public class BookingManager implements IDatabaseFunctions {
 
+	private static Booking bok;
+	
 	public BookingManager() {
 		
 		
@@ -42,25 +45,19 @@ public class BookingManager implements IDatabaseFunctions {
 
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
+
+		Attendee att = (Attendee)data;
 		
-		int count = DatabaseManager.count_items("bookings");
-		if (count <= Festival.MAX_ATTENDEES) {
-			
-			Booking bok = (Booking)data;
-			
-			Statement stat = DatabaseManager.getConnection().createStatement();
-				
-			stat.executeUpdate("INSERT INTO booking (ref, booker) "
-					+ "VALUES(ref_book_auto.nextval, '" + bok.getBooker() 
-					+ "')");
-			
-			stat.close();
-			
-			return true;
-		}
+		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		System.out.println("No available booking space");
-		return false;
+		/*
+		stat.executeUpdate("INSERT INTO attendees (ref, name, age, email_address, booking) "
+				+ "VALUES(ref_auto.nextval, '" + att.getName() 
+				+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
+		*/
+		stat.close();
+		return true;
+
 	}
 
 	@Override
@@ -68,7 +65,7 @@ public class BookingManager implements IDatabaseFunctions {
 
 		Statement stat = DatabaseManager.getConnection().createStatement();
 			
-		stat.execute("DELETE FROM booking WHERE ref=" + ref);
+		stat.execute("DELETE FROM bookings WHERE ref=" + ref);
 
 		stat.close();
 		
@@ -77,13 +74,13 @@ public class BookingManager implements IDatabaseFunctions {
 	@Override
 	public void update_entry(Object data) throws SQLException {
 		
-		Booking bok = (Booking)data;
-		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.executeUpdate("UPDATE booking SET ref='" + bok.getRef() + "', booker='"
-				+ bok.getBooker().getRef() + "' WHERE ref=" + bok.getRef());
-		
+		/*
+		stat.executeUpdate("UPDATE bookings SET name='" + bok.g + "', age='"
+				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
+				+ "', booking='" + att.getBooking().getRef() + "' WHERE ref=" + att.getRef());
+		*/
 		stat.close();
 		
 	}
@@ -93,8 +90,8 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.execute("CREATE TABLE booking "
-				+ "(ref varchar(10), booker varchar(10),"
+		stat.execute("CREATE TABLE bookings "
+				+ "(ref varchar(10), valid_day varchar(20),"
 				+ "PRIMARY KEY (ref))");
 		
 		stat.execute("CREATE SEQUENCE ref_book_auto START WITH 1"
@@ -119,7 +116,7 @@ public class BookingManager implements IDatabaseFunctions {
 	@Override
 	public Object get_item(String ref) throws SQLException {
 	
-		Booking bok = new Booking(null);
+		Attendee att = new Attendee();
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
@@ -127,18 +124,20 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		if (result.next()) {
 			
-			bok.setRef(result.getString("ref"));
+			att.setRef(result.getString("ref"));
+			att.setName(result.getString("name"));
+			att.setAge(result.getInt("age"));
+			att.setEmailAddress(result.getString("email_address"));
 			
-			/*
-			if (result.getString("booker") != null) {
+			if (result.getString("booking") != null) {
 				
-				Attendee att = new Attendee();
-				att.setRef(result.getString("booking"));
+				Booking bok = new Booking(att);
+				bok.setRef(result.getString("booking"));
 				att.setBooking(bok);
 				
-			}*/
+			}
 		
-			return bok;
+			return att;
 			
 		}
 		

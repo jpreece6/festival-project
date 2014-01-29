@@ -1,22 +1,21 @@
 package menus;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 import prices.Days;
 import prices.PricesManager;
-import festival.ErrorLog;
-import booking.BookingManager;
+import tents.TentManager;
 import accounts.Attendee;
 import accounts.AttendeeManager;
+import booking.BookingManager;
+import festival.ErrorLog;
 
 public class StaffMenu extends Menu {
 	
 	private static AttendeeManager amg = new AttendeeManager();
 	private static BookingManager bmg = new BookingManager();
 	private static PricesManager pmg = new PricesManager();
-	
-	private static Attendee att;
+	private static TentManager tmg = new TentManager();
 	
 	public static void display_menu() {
 
@@ -221,6 +220,8 @@ public class StaffMenu extends Menu {
 		final int EDIT_EMAIL = 3;
 		final int EDIT_BOOKING = 4;
 		
+		Attendee att = new Attendee();
+		
 		do {
 			
 			try {
@@ -370,6 +371,7 @@ public class StaffMenu extends Menu {
 				amg.create_table();
 				bmg.create_table();
 				pmg.create_table();
+				tmg.create_table();
 				
 			} catch (SQLException e) {
 				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);
@@ -396,6 +398,7 @@ public class StaffMenu extends Menu {
 				amg.drop_table();
 				bmg.drop_table();
 				pmg.drop_table();
+				tmg.drop_table();
 				
 			} catch (SQLException e) {
 				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);

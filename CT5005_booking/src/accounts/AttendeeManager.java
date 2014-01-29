@@ -54,6 +54,14 @@ public class AttendeeManager implements IDatabaseFunctions {
 		}
 		
 	}
+	
+	public void update_attendee() {
+		
+		
+		
+	}
+	
+	
 
 	@Override
 	public boolean add_entry(Object data) throws SQLException {

@@ -4,33 +4,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import accounts.Attendee;
-import booking.Booking;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
+import festival.ErrorLog;
 import festival.Festival;
 
 public class TentManager implements IDatabaseFunctions {
 
 	private static Tent tnt;
 	
+	public TentManager() {
+		
+		//tnt = new Tent();
+		
+	}
+	
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
+		
+		tnt = (Tent)data;
 		
 		int count = DatabaseManager.count_items("tents");
 		if (count <= Festival.MAX_TENTS) {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
-			/*	
-			stat.executeUpdate("INSERT INTO attendees (space_no, booking) "
-					+ "VALUES(ref_auto.nextval, '" + att.getName() 
-					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
-			*/
+				
+			stat.executeUpdate("INSERT INTO tents (space_no, booking) "
+					+ "VALUES(ref_tent_auto.nextval, '" + tnt.get_booking_ref() + "')");
+			
 			stat.close();
 			return true;
 		}
 		
-		System.out.println("No available booking space");
+		ErrorLog.printInfo("No available tent spaces");
 		return false;
 	}
 
@@ -48,13 +54,13 @@ public class TentManager implements IDatabaseFunctions {
 	@Override
 	public void update_entry(Object data) throws SQLException {
 		
+		tnt = (Tent)data;
+		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		/*
-		stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
-				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
-				+ "', booking='" + att.getBooking().getRef() + "' WHERE ref=" + att.getRef());
-		*/
+		stat.executeUpdate("UPDATE tents SET booking='" + tnt.get_booking_ref() + "', age='"
+				 + "' WHERE space_no=" + tnt.get_space_no());
+		
 		stat.close();
 		
 	}
@@ -68,6 +74,9 @@ public class TentManager implements IDatabaseFunctions {
 				+ "(space_no varchar(4), booking varchar(10),"
 				+ "PRIMARY KEY (ref))");
 		
+		stat.execute("CREATE SEQUENCE ref_tent_auto START WITH 1"
+				+ " INCREMENT BY 1 NOMAXVALUE");
+		
 		stat.close();
 	}
 	
@@ -76,40 +85,33 @@ public class TentManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.execute("DROP TABLE prices");
+		stat.execute("DROP TABLE tents");
+		
+		stat.execute("DROP SEQUENCE ref_tent_auto");
 		
 		stat.close();
 	
 	}
 	
 	@Override
-	public Object get_item(String ref) throws SQLException {
+	public Object get_item(String space_no) throws SQLException {
 	
-		Attendee att = new Attendee();
+		tnt = new Tent();
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		ResultSet result = stat.executeQuery("SELECT * FROM attendees WHERE ref=" + ref);
+		ResultSet result = stat.executeQuery("SELECT * FROM tents WHERE space_no=" + space_no);
 		
 		if (result.next()) {
 			
-			att.setRef(result.getString("ref"));
-			att.setName(result.getString("name"));
-			att.setAge(result.getInt("age"));
-			att.setEmailAddress(result.getString("email_address"));
-			
-			if (result.getString("booking") != null) {
-				
-				Booking bok = new Booking(att);
-				bok.setRef(result.getString("booking"));
-				att.setBooking(bok);
-				
-			}
+			tnt.set_space_no(result.getString("space_no"));
+			tnt.set_booking_ref(result.getString("booking"));
 		
-			return att;
+			return tnt;
 			
 		}
 		
+		ErrorLog.printInfo("Could not find tent in database");
 		return null;
 	}
 
