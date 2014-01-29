@@ -7,6 +7,7 @@ import prices.PricesManager;
 import tents.TentManager;
 import accounts.Attendee;
 import accounts.AttendeeManager;
+import booking.Booking;
 import booking.BookingManager;
 import festival.ErrorLog;
 
@@ -31,8 +32,8 @@ public class StaffMenu extends Menu {
 			System.out.println("Delete Booking : " + StaffMenuOptions.DELETE_BOOKING.ordinal());
 			System.out.println("Search : " + StaffMenuOptions.SEARCH.ordinal());
 			System.out.println();
-			System.out.println("Create Table : " + StaffMenuOptions.CREATE_TABLES.ordinal());
-			System.out.println("Drop Table : " + StaffMenuOptions.DROP_TABLES.ordinal());
+			System.out.println("Create Tables : " + StaffMenuOptions.CREATE_TABLES.ordinal());
+			System.out.println("Drop Tables : " + StaffMenuOptions.DROP_TABLES.ordinal());
 			System.out.println();
 			System.out.println("Set Prices : " + StaffMenuOptions.SET_PRICES.ordinal());
 			System.out.println("Get Prices : " + StaffMenuOptions.GET_PRICES.ordinal());
@@ -129,7 +130,8 @@ public class StaffMenu extends Menu {
 		do {
 			
 			System.out.println("\n-- Create Booking --");
-			System.out.println("Attendee Ref : ");
+			
+			
 			
 					
 		} while (exit_menu == false);
@@ -144,37 +146,49 @@ public class StaffMenu extends Menu {
 		final int EDIT_ADD_TENT = 2;
 		final int EDIT_REMOVE_TENT = 3;
 		
+		Booking bok = new Booking();
+		
 		do {
 			
 			System.out.println("\n-- Edit Booking --");
-			System.out.println("Change Days : " + EDIT_DAYS);
-			System.out.println("Add a tent : " + EDIT_ADD_TENT);
-			System.out.println("Remove a tent : " + EDIT_REMOVE_TENT);
+			System.out.println("Ref :");
 			
-			choice = get_option();
-			if (choice > 0 && choice <= 3) {
+			input = get_input();
+			if (input.isEmpty() == false) {
 				
-				switch (choice) {
+				bok.setRef(input);
+			
+				System.out.println("Change Days : " + EDIT_DAYS);
+				System.out.println("Add a tent : " + EDIT_ADD_TENT);
+				System.out.println("Remove a tent : " + EDIT_REMOVE_TENT);
 				
-				case EDIT_DAYS :
+				choice = get_option();
+				if (choice > 0 && choice <= 3) {
+					
+					switch (choice) {
+					
+					case EDIT_DAYS :
+						
+						System.out.println("");
+						
+						break;
+					case EDIT_ADD_TENT :
+						
+						System.out.println("Adding Tent...");
+						tmg.add_tent(bok.getRef());
+						
+						break;
+					case EDIT_REMOVE_TENT:
+						
+						System.out.println("Removing Tent...");
+						//tmg.remove_tent(space_no);
+						
+						break;
+					
+					}
 					
 					
-					
-					break;
-				case EDIT_ADD_TENT :
-					
-					
-					
-					break;
-				case EDIT_REMOVE_TENT:
-					
-					
-					
-					break;
-				
 				}
-				
-				
 			}
 			
 			Menu.menu_end();

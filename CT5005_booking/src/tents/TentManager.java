@@ -15,7 +15,6 @@ public class TentManager implements IDatabaseFunctions {
 	
 	public TentManager() {
 		
-		//tnt = new Tent();
 		
 	}
 	
@@ -49,7 +48,7 @@ public class TentManager implements IDatabaseFunctions {
 		
 		try {
 
-			DatabaseManager.print_results(DatabaseManager.search_database("tents", "booking", booking_ref));
+			DatabaseManager.print_results("Tent Search Result", DatabaseManager.search_database("tents", "booking", booking_ref));
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -106,28 +105,40 @@ public class TentManager implements IDatabaseFunctions {
 	@Override
 	public void create_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
+		if (DatabaseManager.does_table_exist("tents")) {
+			
+			ErrorLog.printInfo("Table 'tents' already exists");
+			
+		} else {
 		
-		stat.execute("CREATE TABLE tents "
-				+ "(space_no varchar(4), booking varchar(10),"
-				+ "PRIMARY KEY (ref))");
-		
-		stat.execute("CREATE SEQUENCE ref_tent_auto START WITH 1"
-				+ " INCREMENT BY 1 NOMAXVALUE");
-		
-		stat.close();
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("CREATE TABLE tents "
+					+ "(space_no varchar(4), booking varchar(10),"
+					+ "PRIMARY KEY (space_no))");
+			
+			stat.execute("CREATE SEQUENCE ref_tent_auto START WITH 1"
+					+ " INCREMENT BY 1 NOMAXVALUE");
+			
+			stat.close();
+			
+		}
 	}
 	
 	@Override
 	public void drop_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		stat.execute("DROP TABLE tents");
-		
-		stat.execute("DROP SEQUENCE ref_tent_auto");
-		
-		stat.close();
+		if (DatabaseManager.does_table_exist("tents")) {
+			
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("DROP TABLE tents");
+			
+			stat.execute("DROP SEQUENCE ref_tent_auto");
+			
+			stat.close();
+			
+		}
 	
 	}
 	

@@ -43,9 +43,16 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
-	public void print_booking_details() {
+	public void print_booking_details(Booking booking) {
 		
-		
+		try {
+			
+			DatabaseManager.print_results("Booking Details", DatabaseManager.search_database("bookings", "ref", booking.getRef()));
+			DatabaseManager.print_results("", null);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
 		
 	}
 	
@@ -105,28 +112,40 @@ public class BookingManager implements IDatabaseFunctions {
 	@Override
 	public void create_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		stat.execute("CREATE TABLE bookings "
-				+ "(ref varchar(10), valid_day varchar(20),"
-				+ "PRIMARY KEY (ref))");
-		
-		stat.execute("CREATE SEQUENCE ref_book_auto START WITH 1"
-				+ " INCREMENT BY 1 NOMAXVALUE");
-		
-		stat.close();
+		if (DatabaseManager.does_table_exist("bookings")) {
+			
+			ErrorLog.printInfo("Table 'bookings' already exists");
+			
+		} else {
+			
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("CREATE TABLE bookings "
+					+ "(ref varchar(10), valid_day varchar(20),"
+					+ "PRIMARY KEY (ref))");
+			
+			stat.execute("CREATE SEQUENCE ref_book_auto START WITH 1"
+					+ " INCREMENT BY 1 NOMAXVALUE");
+			
+			stat.close();
+			
+		}
 	}
 	
 	@Override
 	public void drop_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		stat.execute("DROP TABLE booking");
-		
-		stat.execute("DROP SEQUENCE ref_book_auto");
-		
-		stat.close();
+		if (DatabaseManager.does_table_exist("bookings")) {
+			
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("DROP TABLE booking");
+			
+			stat.execute("DROP SEQUENCE ref_book_auto");
+			
+			stat.close();
+			
+		}
 	
 	}
 	

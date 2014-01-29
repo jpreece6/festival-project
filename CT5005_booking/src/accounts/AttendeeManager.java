@@ -34,7 +34,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		try {
 			
-			DatabaseManager.print_results(DatabaseManager.search_database("attendees", column, data));
+			DatabaseManager.print_results("Attendee Search Result", DatabaseManager.search_database("attendees", column, data));
 			
 			
 		} catch (SQLException e) {
@@ -120,28 +120,40 @@ public class AttendeeManager implements IDatabaseFunctions {
 	@Override
 	public void create_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
+		if (DatabaseManager.does_table_exist("attendees")) {
+			
+			ErrorLog.printInfo("Table 'attendees' already exists");
+			
+		} else {
 		
-		stat.execute("CREATE TABLE attendees "
-				+ "(ref varchar(10), name varchar(100), age int, email_address varchar(100), booking varchar(10),"
-				+ "PRIMARY KEY (ref))");
-		
-		stat.execute("CREATE SEQUENCE ref_auto START WITH 1"
-				+ " INCREMENT BY 1 NOMAXVALUE");
-		
-		stat.close();
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("CREATE TABLE attendees "
+					+ "(ref varchar(10), name varchar(100), age int, email_address varchar(100), booking varchar(10),"
+					+ "PRIMARY KEY (ref))");
+			
+			stat.execute("CREATE SEQUENCE ref_auto START WITH 1"
+					+ " INCREMENT BY 1 NOMAXVALUE");
+			
+			stat.close();
+			
+		}
 	}
 	
 	@Override
 	public void drop_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		stat.execute("DROP TABLE attendees");
-		
-		stat.execute("DROP SEQUENCE ref_auto");
-		
-		stat.close();
+		if (DatabaseManager.does_table_exist("attendees")) {
+			
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("DROP TABLE attendees");
+			
+			stat.execute("DROP SEQUENCE ref_auto");
+			
+			stat.close();
+			
+		}
 	
 	}
 	

@@ -90,23 +90,35 @@ public class PricesManager implements IDatabaseFunctions {
 	@Override
 	public void create_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		stat.execute("CREATE TABLE prices "
-				+ "(type varchar(20), price varchar(10),"
-				+ "PRIMARY KEY (type))");
-		
-		stat.close();
+		if (DatabaseManager.does_table_exist("prices")) {
+			
+			ErrorLog.printInfo("Table 'prices' already exists");
+			
+		} else {
+			
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("CREATE TABLE prices "
+					+ "(type varchar(20), price varchar(10),"
+					+ "PRIMARY KEY (type))");
+			
+			stat.close();
+			
+		}
 	}
 	
 	@Override
 	public void drop_table() throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		stat.execute("DROP TABLE prices");
-		
-		stat.close();
+		if (DatabaseManager.does_table_exist("prices")) {
+			
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			stat.execute("DROP TABLE prices");
+			
+			stat.close();
+			
+		}
 	
 	}
 

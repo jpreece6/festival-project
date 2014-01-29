@@ -32,8 +32,7 @@ public class Festival {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+	
 		StaffMenu.display_menu();
 		
 	}

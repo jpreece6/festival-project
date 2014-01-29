@@ -2,6 +2,7 @@ package database;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -77,11 +78,11 @@ public class DatabaseManager {
 	 * @param result
 	 * @throws SQLException
 	 */
-	public static void print_results(ResultSet result) throws SQLException {
+	public static void print_results(String title, ResultSet result) throws SQLException {
 		
 		ResultSetMetaData meta = result.getMetaData();
 		
-		System.out.println("-- Results --");
+		System.out.println("\n-- " + title + " --");
 		final String FORMAT = "%-20s";
 		
 		for (int i = 1; i <= meta.getColumnCount(); i++) {
@@ -137,9 +138,18 @@ public class DatabaseManager {
 		
 	}
 	
-	public static ResultSet  search_database(String table, String column, String data) throws SQLException {
+	public static boolean does_table_exist(String table) throws SQLException {
 		
-		Statement stat = DatabaseManager.getConnection().createStatement();
+		DatabaseMetaData meta = getConnection().getMetaData();
+		ResultSet rs = meta.getTables(null, null, table, null);
+		
+		return rs.next();
+		
+	}
+	
+	public static ResultSet search_database(String table, String column, String data) throws SQLException {
+		
+		Statement stat = getConnection().createStatement();
 		
 		ResultSet rs = stat.executeQuery("SELECT * FROM " + table + " WHERE " + column + "='" + data + "'");
 		
