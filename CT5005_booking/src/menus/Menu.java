@@ -2,8 +2,6 @@ package menus;
 
 import java.util.Scanner;
 
-import accounts.AccountsManager;
-
 public abstract class Menu {
 
 	protected static final int EXIT_MENU = 999;
@@ -11,7 +9,6 @@ public abstract class Menu {
 	protected static int choice;
 	protected static String input;
 	protected static boolean exit_menu;
-	protected static AccountsManager act;
 	
 	protected static void display_menu() {
 		
@@ -19,9 +16,8 @@ public abstract class Menu {
 		
 	}
 
+	/*
 	protected static void display_login() {
-		
-		act = new AccountsManager();
 		
 		do {
 			
@@ -93,7 +89,7 @@ public abstract class Menu {
 			
 		} while (exit_menu == false);
 		
-	}
+	}*/
 	
 	protected static int get_option() {
 		

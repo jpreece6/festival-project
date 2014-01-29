@@ -21,7 +21,7 @@ public class MainMenu extends Menu {
 				} else if (choice == MainMenuOptions.ATTENDEE_LOGIN.ordinal()) {
 					
 					// Display attendee login
-					Menu.display_login();
+					//Menu.display_login();
 					
 				} else if (choice == MainMenuOptions.STAFF_LOGIN.ordinal()) {
 					

@@ -2,10 +2,7 @@ package festival;
 
 import java.sql.SQLException;
 
-import menus.MainMenu;
 import menus.StaffMenu;
-import accounts.AccountsManager;
-import accounts.Attendee;
 import booking.BookingManager;
 import database.DatabaseManager;
 
