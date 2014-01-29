@@ -125,7 +125,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			ErrorLog.printInfo("Table 'attendees' already exists");
 			
 		} else {
-		
+			
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
 			stat.execute("CREATE TABLE attendees "

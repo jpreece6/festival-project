@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import festival.ErrorLog;
+
 public class DatabaseManager {
 
 	private static String url;
@@ -141,9 +143,20 @@ public class DatabaseManager {
 	public static boolean does_table_exist(String table) throws SQLException {
 		
 		DatabaseMetaData meta = getConnection().getMetaData();
-		ResultSet rs = meta.getTables(null, null, table, null);
 		
-		return rs.next();
+		ResultSet rs = meta.getTables(null, null, "attendees", null);
+		
+		if (rs.next()) {
+			
+			ErrorLog.printInfo("Table ex");
+			
+		} else {
+			
+			ErrorLog.printInfo("Table no");
+			
+		}
+		
+		return false;
 		
 	}
 	
