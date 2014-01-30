@@ -160,7 +160,7 @@ public class DatabaseManager {
 		
 		ResultSet rs = stat.executeQuery("SELECT * FROM " + table + " WHERE " + column + "='" + data + "'");
 		
-		stat.close();
+		//stat.close();
 		return rs;
 		
 	}

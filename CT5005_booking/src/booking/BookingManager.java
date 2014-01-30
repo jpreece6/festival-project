@@ -26,7 +26,7 @@ public class BookingManager implements IDatabaseFunctions {
 			add_entry(bok);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Add booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -38,7 +38,20 @@ public class BookingManager implements IDatabaseFunctions {
 			remove_entry(booking_ref);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Remove booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public boolean does_booking_exist(String booking_ref) {
+		
+		try {
+			
+			return DatabaseManager.does_entry_exist("bookings", "ref", booking_ref);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Check for booking exists failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return false;
 		}
 		
 	}

@@ -25,7 +25,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			add_entry(att);
 			
 		} catch (SQLException e) {
-			ErrorLog.printError("Cannot add attendee to database at this time.", ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Create attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -38,7 +38,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 			
 		} catch (SQLException e) {
-			ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Search for attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -51,7 +51,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			remove_entry(att.getRef());
 			
 		} catch (SQLException e) {
-			ErrorLog.printError("Cannot remove attendee from the database at this time.", ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Remove attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}

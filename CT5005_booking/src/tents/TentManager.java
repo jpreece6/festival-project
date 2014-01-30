@@ -27,7 +27,7 @@ public class TentManager implements IDatabaseFunctions {
 			add_entry(tnt);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Add tent failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -39,7 +39,7 @@ public class TentManager implements IDatabaseFunctions {
 			remove_entry(space_no);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Remove tent failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -51,7 +51,7 @@ public class TentManager implements IDatabaseFunctions {
 			DatabaseManager.print_results("Tent Search Result", DatabaseManager.search_database("tents", "booking", booking_ref));
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Print tents failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}

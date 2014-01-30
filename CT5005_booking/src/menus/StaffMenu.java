@@ -366,8 +366,7 @@ public class StaffMenu extends Menu {
 					
 					if (input.isEmpty() == false) {
 						
-						// SET BOOKING 
-						// PRE CHECK BOOKING EXISTS
+						
 						
 					}
 					
@@ -451,7 +450,7 @@ public class StaffMenu extends Menu {
 				tmg.create_table();
 				
 			} catch (SQLException e) {
-				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);
+				ErrorLog.printError("Error creating tables!\n" + e.getMessage(), ErrorLog.SEVERITY_HIGH);
 			}
 			
 			Menu.menu_end();
@@ -478,7 +477,7 @@ public class StaffMenu extends Menu {
 				tmg.drop_table();
 				
 			} catch (SQLException e) {
-				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_HIGH);
+				ErrorLog.printError("Error dropping tables\n" +  e.getMessage(), ErrorLog.SEVERITY_HIGH);
 			}
 			
 			Menu.menu_end();

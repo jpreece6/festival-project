@@ -20,7 +20,7 @@ public class PricesManager implements IDatabaseFunctions {
 			add_entry(pri);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Set price failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -34,7 +34,7 @@ public class PricesManager implements IDatabaseFunctions {
 			update_entry(pri);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			ErrorLog.printError("Update price failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -45,7 +45,7 @@ public class PricesManager implements IDatabaseFunctions {
 			return DatabaseManager.does_entry_exist("prices", "type", day);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_LOW);
+			ErrorLog.printError("Check day exists failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_LOW);
 			return false;
 		}
 	}
