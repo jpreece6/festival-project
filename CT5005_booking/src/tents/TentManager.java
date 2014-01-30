@@ -122,6 +122,8 @@ public class TentManager implements IDatabaseFunctions {
 			
 			stat.close();
 			
+			System.out.println("CREATE tents DONE...");
+			
 		}
 	}
 	
@@ -137,6 +139,8 @@ public class TentManager implements IDatabaseFunctions {
 			stat.execute("DROP SEQUENCE ref_tent_auto");
 			
 			stat.close();
+			
+			System.out.println("DROP tents DONE...");
 			
 		}
 	

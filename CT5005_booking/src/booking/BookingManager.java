@@ -129,6 +129,8 @@ public class BookingManager implements IDatabaseFunctions {
 			
 			stat.close();
 			
+			System.out.println("CREATE bookings DONE...");
+			
 		}
 	}
 	
@@ -139,11 +141,13 @@ public class BookingManager implements IDatabaseFunctions {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
-			stat.execute("DROP TABLE booking");
+			stat.execute("DROP TABLE bookings");
 			
 			stat.execute("DROP SEQUENCE ref_book_auto");
 			
 			stat.close();
+			
+			System.out.println("DROP bookings DONE...");
 			
 		}
 	

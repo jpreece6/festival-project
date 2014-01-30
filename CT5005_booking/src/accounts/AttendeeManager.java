@@ -137,6 +137,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 			stat.close();
 			
+			System.out.println("CREATE attendees DONE...");
+			
 		}
 	}
 	
@@ -152,6 +154,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 			stat.execute("DROP SEQUENCE ref_auto");
 			
 			stat.close();
+			
+			System.out.println("DROP attendees DONE");
 			
 		}
 	

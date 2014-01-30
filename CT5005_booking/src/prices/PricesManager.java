@@ -104,6 +104,8 @@ public class PricesManager implements IDatabaseFunctions {
 			
 			stat.close();
 			
+			System.out.println("CREATE prices DONE...");
+			
 		}
 	}
 	
@@ -117,6 +119,8 @@ public class PricesManager implements IDatabaseFunctions {
 			stat.execute("DROP TABLE prices");
 			
 			stat.close();
+			
+			System.out.println("DROP prices DONE...");
 			
 		}
 	
