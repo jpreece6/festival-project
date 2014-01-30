@@ -17,12 +17,23 @@ public class AttendeeManager implements IDatabaseFunctions {
 		// Create new attendee object
 		Attendee att = new Attendee(name, age, email_address);
 		
+		// Create an empty booking to init the database column
 		Booking b = new Booking();
-		att.setBooking(b);
+		att.setBooking(b.getRef());
 		
 		try {
 
-			add_entry(att);
+			if (att.getAge() <= 12) {
+				
+				// do something if attendee is under 12
+				
+			} else {
+			
+				add_entry(att);
+			
+			}
+			
+			System.out.println("Create attendee successful...");
 			
 		} catch (SQLException e) {
 			ErrorLog.printError("Create attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -35,7 +46,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 		try {
 			
 			DatabaseManager.print_results("Attendee Search Result", DatabaseManager.search_database("attendees", column, data));
-			
 			
 		} catch (SQLException e) {
 			ErrorLog.printError("Search for attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -50,19 +60,13 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 			remove_entry(att.getRef());
 			
+			System.out.println("Remove attemdee successful...");
+			
 		} catch (SQLException e) {
 			ErrorLog.printError("Remove attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
-	
-	public void update_attendee() {
-		
-		
-		
-	}
-	
-	
 
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
@@ -76,7 +80,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 				
 			stat.executeUpdate("INSERT INTO attendees (ref, name, age, email_address, booking) "
 					+ "VALUES(ref_auto.nextval, '" + att.getName() 
-					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking().getRef() + "')");
+					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
 			
 			stat.close();
 			return true;
@@ -105,13 +109,13 @@ public class AttendeeManager implements IDatabaseFunctions {
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
 		Booking b = new Booking();
-		att.setBooking(b);
-		att.getBooking().setRef("1");
+		att.setBooking(b.getRef());
+		att.setBooking("1");
 		att.toString();
 		
 		stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
 				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
-				+ "', booking='" + att.getBooking().getRef() + "' WHERE ref=" + att.getRef());
+				+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
 		
 		stat.close();
 		
@@ -181,7 +185,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 				
 				Booking bok = new Booking();
 				bok.setRef(result.getString("booking"));
-				att.setBooking(bok);
+				att.setBooking(bok.getRef());
 				
 			}
 		

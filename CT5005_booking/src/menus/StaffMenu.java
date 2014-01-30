@@ -256,16 +256,6 @@ public class StaffMenu extends Menu {
 					email = get_input();
 					if (email.isEmpty() == false && email.contains("@")) {
 						
-						AttendeeManager amg = new AttendeeManager();
-						
-						// TEMP
-						/*try {
-							//amg.drop_table();
-							amg.create_table();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}*/
-						
 						amg.create_attendee(name, age, email);
 						menu_end();
 						
@@ -366,7 +356,11 @@ public class StaffMenu extends Menu {
 					
 					if (input.isEmpty() == false) {
 						
-						
+						if (bmg.does_booking_exist(input)) {
+							
+							att.setBooking(input);
+							
+						}
 						
 					}
 					

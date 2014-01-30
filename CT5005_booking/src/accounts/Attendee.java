@@ -1,11 +1,8 @@
 package accounts;
 
-import booking.Booking;
-
-
 public class Attendee extends Person {
 	
-	private Booking booking;
+	private String booking_ref;
 	
 	public Attendee() {}
 	
@@ -15,17 +12,17 @@ public class Attendee extends Person {
 		setEmailAddress(email_address);
 	}
 	
-	public void setBooking(Booking booking) {
-		this.booking = booking;
+	public void setBooking(String booking) {
+		this.booking_ref = booking;
 	}
 	
-	public Booking getBooking() {
-		return this.booking;
+	public String getBooking() {
+		return this.booking_ref;
 	}
 	
 	public String toString() {
 		super.toString();
-		System.out.print("Booking : " + getBooking().getRef());
+		System.out.print("Booking Ref : " + getBooking());
 		return "";
 	}
 

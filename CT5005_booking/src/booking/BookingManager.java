@@ -17,7 +17,7 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		
 	}
-	
+
 	public void create_booking() {
 		
 		try {
@@ -25,17 +25,25 @@ public class BookingManager implements IDatabaseFunctions {
 			bok = new Booking();
 			add_entry(bok);
 			
+			System.out.println("Booking created...");
+			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Add booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
 	
+	/**
+	 * Delete a booking from the database
+	 * @param booking_ref String ref of the booking to remove
+	 */
 	public void delete_booking(String booking_ref) {
 
 		try {
 			
 			remove_entry(booking_ref);
+			
+			System.out.println("Booking removed...");
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Remove booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -43,6 +51,11 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Check if booking exists
+	 * @param booking_ref String ref of booking to check for
+	 * @return Returns true if if booking is found in the database false if not
+	 */
 	public boolean does_booking_exist(String booking_ref) {
 		
 		try {
@@ -56,6 +69,10 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Prints the details of a booking stored in the database
+	 * @param booking 
+	 */
 	public void print_booking_details(Booking booking) {
 		
 		try {
@@ -69,6 +86,11 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Search for a booking in the database
+	 * @param column String column to search in
+	 * @param data String data to search for
+	 */
 	public void search_for_booking(String column, String data) {
 		
 		try {
@@ -77,6 +99,22 @@ public class BookingManager implements IDatabaseFunctions {
 			
 		} catch (SQLException e) {
 			ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void get_all_attendees_attached(String attendee_ref) {
+		
+		try {
+			
+			ResultSet rs = DatabaseManager.search_database("attendees", "ref", attendee_ref);
+			
+			while (rs.next()) {
+				// add to group
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Get all attendees failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}

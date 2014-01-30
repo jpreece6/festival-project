@@ -5,7 +5,7 @@ import prices.Days;
 public class Booking {
 
 	private String ref = "";
-	private String booker;
+	private String booker_ref;
 	private Days valid_day;
 	private Group group;
 	
@@ -22,11 +22,11 @@ public class Booking {
 	}
 	
 	public String getBooker() {
-		return this.booker;
+		return this.booker_ref;
 	}
 	
 	public void setBooker(String booker) {
-		this.booker = booker;
+		this.booker_ref = booker;
 	}
 	
 	public void setValid_Day(Days day) {
