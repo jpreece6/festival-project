@@ -18,12 +18,17 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 
-	public void create_booking() {
+	public void create_booking(String attendee_ref) {
 		
 		try {
 			
 			bok = new Booking();
-			add_entry(bok);
+			bok.setBooker(attendee_ref);
+			
+			// check for a booking with a booker 
+			if (DatabaseManager.does_entry_exist("bookings", "booker", bok.getBooker())) {
+				add_entry(bok);
+			}
 			
 			System.out.println("Booking created...");
 			
