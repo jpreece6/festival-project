@@ -3,14 +3,14 @@ package prices;
 public class Price {
 
 	private String price;
-	private Days day;
+	private Price_Entry day;
 	
 	/**
 	 * Create a new Price object
 	 * @param day
 	 * @param price
 	 */
-	public Price(Days day, String price) {
+	public Price(Price_Entry day, String price) {
 		this.day = day;
 		this.price = price;
 	}
@@ -23,11 +23,11 @@ public class Price {
 		return this.price;
 	}
 	
-	public void setDay(Days day) {
+	public void setDay(Price_Entry day) {
 		this.day = day;
 	}
 	
-	public Days getDay() {
+	public Price_Entry getDay() {
 		return day;
 	}
 	

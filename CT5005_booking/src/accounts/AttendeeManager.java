@@ -76,14 +76,14 @@ public class AttendeeManager implements IDatabaseFunctions {
 	}
 
 	
-	public void remove_attendee(Attendee att) {
+	public void remove_attendee(String attendee_ref) {
 		
 		try {
 			
 			// Check if the attendee exists in the database before removing (pre-condition)
-			if (DatabaseManager.does_entry_exist("attendees", "ref", att.getRef())) {
+			if (DatabaseManager.does_entry_exist("attendees", "ref", attendee_ref)) {
 				
-				remove_entry(att.getRef());
+				remove_entry(attendee_ref);
 				System.out.println("Remove attemdee successful...");
 			
 			} else {

@@ -12,7 +12,7 @@ public class PricesManager implements IDatabaseFunctions {
 	
 	private Price pri;
 	
-	public void set_price(Days day, String price) {
+	public void set_price(Price_Entry day, String price) {
 		
 		try {
 			pri = new Price(day, price);
@@ -31,13 +31,21 @@ public class PricesManager implements IDatabaseFunctions {
 	 * @param price String price of the day
 	 * @Pre-Condition Price must be > 0
 	 */
-	public void update_price(Days day, String price) {
+	public void update_price(Price_Entry entry, String price) {
 		
 		try {
 			
-			pri = new Price(day, price);
+			if (DatabaseManager.does_entry_exist("prices", "type", entry.toString())) {
 			
-			update_entry(pri);
+				pri = new Price(entry, price);
+				update_entry(pri);
+				
+			} else {
+				
+				// Should'nt get here but just in case
+				System.out.println("Entry does not yet exist. Please set an inital price.");
+				
+			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Update price failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -45,13 +53,13 @@ public class PricesManager implements IDatabaseFunctions {
 		
 	}
 	
-	public boolean does_day_exist(String day) {
+	public boolean does_day_exist(String entry) {
 		try {
 			
-			return DatabaseManager.does_entry_exist("prices", "type", day);
+			return DatabaseManager.does_entry_exist("prices", "type", entry);
 			
 		} catch (SQLException ex) {
-			ErrorLog.printError("Check day exists failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_LOW);
+			ErrorLog.printError("Check day exists failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 			return false;
 		}
 	}
@@ -75,7 +83,7 @@ public class PricesManager implements IDatabaseFunctions {
 
 		Statement stat = DatabaseManager.getConnection().createStatement();
 			
-		stat.execute("DELETE FROM attendees WHERE ref=" + ref);
+		stat.execute("DELETE FROM prices WHERE ref=" + ref);
 
 		stat.close();
 		
@@ -142,7 +150,7 @@ public class PricesManager implements IDatabaseFunctions {
 		
 		if (result.next()) {
 			
-			pri.setDay(Days.valueOf(result.getString("type")));
+			pri.setDay(Price_Entry.valueOf(result.getString("type")));
 			pri.setPrice(result.getString("price"));
 		
 			return pri;

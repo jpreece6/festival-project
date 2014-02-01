@@ -1,12 +1,12 @@
 package booking;
 
-import prices.Days;
+import prices.Price_Entry;
 
 public class Booking {
 
 	private String ref = "";
 	private String booker_ref;
-	private Days valid_day;
+	private Price_Entry valid_day;
 	private Group group;
 	
 	public Booking() {
@@ -29,11 +29,11 @@ public class Booking {
 		this.booker_ref = booker;
 	}
 	
-	public void setValid_Day(Days day) {
+	public void setValid_Day(Price_Entry day) {
 		this.valid_day = day;
 	}
 	
-	public Days getValid_Day() {
+	public Price_Entry getValid_Day() {
 		return this.valid_day;
 	}
 	

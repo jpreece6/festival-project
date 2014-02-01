@@ -1,6 +1,6 @@
 package prices;
 
-public enum Days {
+public enum Price_Entry {
 
 	MONDAY,
 	TUESDAY,
@@ -10,6 +10,7 @@ public enum Days {
 	SATURDAY,
 	SUNDAY,
 	ALL_WEEK,
-	ALL_WEEKEND
+	ALL_WEEKEND,
+	TENTS
 	
 }

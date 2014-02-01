@@ -1,3 +1,10 @@
+/**
+ * @author Joshua Preece
+ * @version 1.0
+ * @description This class allows the app to connect to a remote database and defines methods which aid getting information about
+ * the database and its tables
+ */
+
 package database;
 
 import java.io.FileInputStream;
@@ -154,10 +161,9 @@ public class DatabaseManager {
 		
 		Statement stat = getConnection().createStatement();
 		
-		boolean result = stat.execute("SELECT * FROM " + table + " WHERE " + column + "=" + entry);
+		ResultSet rs = stat.executeQuery("SELECT * FROM " + table + " WHERE " + column + "=" + entry);
 		
-		stat.close();
-		return result;
+		return rs.next();
 		
 	}
 	

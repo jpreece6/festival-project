@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import prices.Days;
+import prices.Price_Entry;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
 import festival.ErrorLog;
@@ -60,6 +60,26 @@ public class BookingManager implements IDatabaseFunctions {
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Remove booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void edit_booking(Booking book) {
+		
+		try {
+			
+			if (DatabaseManager.does_entry_exist("bookings", "ref", book.getRef())) {
+				
+				update_entry(book);
+				
+			} else {
+				
+				System.out.println("Could not find booking to edit. Please check Ref!");
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not edit booking!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
@@ -253,7 +273,7 @@ public class BookingManager implements IDatabaseFunctions {
 		if (result.next()) {
 			
 			bok.setRef(result.getString("ref"));
-			bok.setValid_Day(Days.valueOf(result.getString("valid_day")));
+			bok.setValid_Day(Price_Entry.valueOf(result.getString("valid_day")));
 		
 			return bok;
 			

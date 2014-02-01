@@ -1,8 +1,14 @@
+/**
+ * @author Joshua Preece
+ * @version 0.4
+ * @description Handles the staff menus
+ */
+
 package menus;
 
 import java.sql.SQLException;
 
-import prices.Days;
+import prices.Price_Entry;
 import prices.PricesManager;
 import tents.TentManager;
 import accounts.Attendee;
@@ -213,15 +219,8 @@ public class StaffMenu extends Menu {
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
-				try {
-					
-					//TEMP
-					AttendeeManager amg = new AttendeeManager();
-					amg.remove_entry(input);
-					
-				} catch (SQLException e) {
-					ErrorLog.printError("Could not remove attendee at this time.", ErrorLog.SEVERITY_MEDIUM);
-				}
+
+				amg.remove_attendee(input);
 				
 				menu_end();
 				
@@ -417,7 +416,7 @@ public class StaffMenu extends Menu {
 			choice = get_option();
 			if (choice > 0) {
 				
-				System.out.println("Category e.g. (ref, name) : ");
+				System.out.println("Category e.g. (ref, first_name, last_name, age, email_address, booking) : ");
 				
 				String column = get_input();
 				if (column.isEmpty() == false) {
@@ -509,9 +508,9 @@ public class StaffMenu extends Menu {
 			
 			// List days from Days enum
 			System.out.println("\n-- Set Prices --");
-			for (int i = 0; i < Days.values().length; i++) {
+			for (int i = 0; i < Price_Entry.values().length; i++) {
 				
-				System.out.println(Days.values()[i].toString() + " : " + Days.values()[i].ordinal());
+				System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
 				
 			}
 			
@@ -528,21 +527,21 @@ public class StaffMenu extends Menu {
 						
 						// Parse the input to an integer
 						int val = Character.getNumericValue(input.charAt(i));
-						if (val >= 0 && val <= 6) {
+						if (val >= 0 && val <= 9) {
 							
 							// Get user to input price
-							System.out.println(Days.values()[val].toString() + " Price = ");
+							System.out.println(Price_Entry.values()[val].toString() + " Price = ");
 							String price = get_input();
 							
 							if (price.isEmpty() == false) {
 															
-								if (pmg.does_day_exist(Days.values()[val].toString()) == false) { 
+								if (pmg.does_day_exist(Price_Entry.values()[val].toString()) == false) { 
 									
-									pmg.set_price(Days.values()[val], price);
+									pmg.set_price(Price_Entry.values()[val], price);
 									
 								} else {
 									
-									pmg.update_price(Days.values()[val], price);
+									pmg.update_price(Price_Entry.values()[val], price);
 									
 								}
 								
