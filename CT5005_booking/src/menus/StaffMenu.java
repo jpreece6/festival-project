@@ -2,6 +2,7 @@ package menus;
 
 import java.sql.SQLException;
 
+import database.DatabaseManager;
 import prices.Days;
 import prices.PricesManager;
 import tents.TentManager;
@@ -437,7 +438,7 @@ public class StaffMenu extends Menu {
 			System.out.println("\nCreating Tables...");
 			
 			try {
-				
+			
 				amg.create_table();
 				bmg.create_table();
 				pmg.create_table();

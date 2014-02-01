@@ -127,6 +127,29 @@ public class DatabaseManager {
 		
 	}
 	
+	/**
+	 * Counts a the number of specific items in the database
+	 * @param table String table to count in
+	 * @param column String column to search in
+	 * @param data String item to specifically search for and count
+	 * @return Returns the count/number of results returned
+	 * @throws SQLException
+	 */
+	public static int count_specific_items(String table, String column, String data) throws SQLException {
+		
+		ResultSet rs = search_database(table, column, data);
+		
+		int count = 0;
+		while (rs.next()) {
+			
+			count++;
+			
+		}
+		
+		return count;
+		
+	}
+	
 	public static boolean does_entry_exist(String table, String column, String entry) throws SQLException {
 		
 		Statement stat = getConnection().createStatement();
@@ -154,6 +177,15 @@ public class DatabaseManager {
 		
 	}
 	
+	/**
+	 * Searches for entries in the database which match the passed parameters
+	 * @param table String table to search in
+	 * @param column String column to search in
+	 * @param data String item to search for
+	 * @return Returns a ResultSet of the matched items
+	 * @Pre-Condition the database must not be empty
+	 * @throws SQLException
+	 */
 	public static ResultSet search_database(String table, String column, String data) throws SQLException {
 		
 		Statement stat = getConnection().createStatement();

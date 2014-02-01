@@ -7,7 +7,7 @@ public interface IDatabaseFunctions {
 	/**
 	 * Adds a new entry to the database
 	 * @param data Object to be added to the database
-	 * @returns Returns true if item was added to the database or false if it failed
+	 * @return Returns true if item was added to the database or false if it failed.
 	 * @throws SQLException
 	 */
 	public boolean add_entry(Object data) throws SQLException;
@@ -15,6 +15,7 @@ public interface IDatabaseFunctions {
 	/**
 	 * Remove an item from the database
 	 * @param ref String to identify the object to be removed
+	 * @Pre-Conditions Entry must exist in the database before attempting to remove.
 	 * @throws SQLException
 	 */
 	public void remove_entry(String ref) throws SQLException;
@@ -30,6 +31,7 @@ public interface IDatabaseFunctions {
 	 * Returns an Object from the database
 	 * @param ref String to identify the object to be returned
 	 * @return Object
+	 * @Pre-Condition ensure item exists in the database before attempting to retrieve the item
 	 * @throws SQLException
 	 */
 	public Object get_item(String ref) throws SQLException;

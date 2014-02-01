@@ -123,6 +123,30 @@ public class BookingManager implements IDatabaseFunctions {
 		}
 		
 	}
+	
+	public int get_number_of_attendees(Booking book) {
+		
+		bok = book;
+		
+		try {
+			
+			ResultSet rs = DatabaseManager.search_database("attendees", "booking", bok.getBooker());
+			
+			int count = 0;
+			while (rs.next()) {
+				
+				count++;
+				
+			}
+			
+			return count;
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not retrieve booking's attendee count!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return 0;
+		}
+		 
+	}
 
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
