@@ -12,6 +12,20 @@ import festival.Festival;
 
 public class ChildManager implements IDatabaseFunctions {
 
+	private Attendee att;
+	
+	public void add_child(Attendee attend) {
+		
+		try {
+			
+			add_entry(attend);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not add child to the database!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
@@ -22,7 +36,7 @@ public class ChildManager implements IDatabaseFunctions {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
 				
-			stat.executeUpdate("INSERT INTO attendees (ref, name, age, email_address, booking) "
+			stat.executeUpdate("INSERT INTO children (ref, first_name, last_name, booking) "
 					+ "VALUES(ref_auto.nextval, '" + att.getName() 
 					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
 			

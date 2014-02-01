@@ -3,7 +3,8 @@ package accounts;
 public abstract class Person {
 
 	private String ref;
-	private String name;
+	private String first_name;
+	private String last_name;
 	private int age;
 	private String email_address;
 	

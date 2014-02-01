@@ -46,9 +46,17 @@ public class BookingManager implements IDatabaseFunctions {
 
 		try {
 			
-			remove_entry(booking_ref);
-			
-			System.out.println("Booking removed...");
+			// Check if the booking exists before removeing it
+			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
+				
+				remove_entry(booking_ref);
+				System.out.println("Booking removed...");
+				
+			} else {
+				
+				System.out.println("Booking does not exist. Please check the booking Ref!");
+				
+			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Remove booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);

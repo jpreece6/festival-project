@@ -25,6 +25,12 @@ public class PricesManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Updates the price stored in the database
+	 * @param day Day to set price for
+	 * @param price String price of the day
+	 * @Pre-Condition Price must be > 0
+	 */
 	public void update_price(Days day, String price) {
 		
 		try {
