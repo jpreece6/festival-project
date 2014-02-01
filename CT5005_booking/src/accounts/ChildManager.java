@@ -26,6 +26,18 @@ public class ChildManager implements IDatabaseFunctions {
 		
 	}
 	
+	public void search_for_child(String column, String data) {
+		
+		try {
+			
+			DatabaseManager.print_results("Child Search Result", DatabaseManager.search_database("children", column, data));
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not find child!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
@@ -36,9 +48,9 @@ public class ChildManager implements IDatabaseFunctions {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
 				
-			stat.executeUpdate("INSERT INTO children (ref, first_name, last_name, booking) "
-					+ "VALUES(ref_auto.nextval, '" + att.getFirst_Name() + "', '" + att.getLast_Name()
-					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
+			stat.executeUpdate("INSERT INTO children (ref, first_name, last_name, age, booking) "
+					+ "VALUES(ref_child_auto.nextval, '" + att.getFirst_Name() + "', '" + att.getLast_Name()
+					+ "', '" + att.getAge() + "', '" + att.getBooking() + "')");
 			
 			stat.close();
 			return true;

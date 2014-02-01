@@ -410,8 +410,10 @@ public class StaffMenu extends Menu {
 		do {
 			
 			System.out.println("\n-- Search --");
-			System.out.println("Find Attendee : " + StaffMenuOptions.FIND_ATTENDEE.ordinal());
-			System.out.println("Find Booking : " + StaffMenuOptions.FIND_BOOKING.ordinal());
+			System.out.println("Find Attendee : " + SearchOptions.FIND_ATTENDEE.ordinal());
+			System.out.println("Find Booking : " + SearchOptions.FIND_BOOKING.ordinal());
+			System.out.println("Find Child : " + SearchOptions.FIND_CHILD.ordinal());
+			System.out.println("Find Tent : " + SearchOptions.FIND_TENT.ordinal());
 			
 			choice = get_option();
 			if (choice > 0) {
@@ -427,13 +429,21 @@ public class StaffMenu extends Menu {
 					if (search.isEmpty() == false) {
 						
 					
-						if (choice == StaffMenuOptions.FIND_ATTENDEE.ordinal()) {
+						if (choice == SearchOptions.FIND_ATTENDEE.ordinal()) {
 						
 							amg.search_for_attendee(column, search);
 							
-						} else if (choice == StaffMenuOptions.FIND_BOOKING.ordinal()) {
+						} else if (choice == SearchOptions.FIND_BOOKING.ordinal()) {
 							
 							bmg.search_for_booking(column, search);
+							
+						} else if (choice == SearchOptions.FIND_CHILD.ordinal()) {
+							
+							cmg.search_for_child(column, search);
+							
+						} else if (choice == SearchOptions.FIND_TENT.ordinal()) {
+							
+							// TODO
 							
 						}
 					}

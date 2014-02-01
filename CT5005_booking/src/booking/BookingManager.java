@@ -46,7 +46,7 @@ public class BookingManager implements IDatabaseFunctions {
 
 		try {
 			
-			// Check if the booking exists before removeing it
+			// Check if the booking exists before removing it
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
 				remove_entry(booking_ref);
@@ -184,7 +184,7 @@ public class BookingManager implements IDatabaseFunctions {
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
 		stat.executeUpdate("INSERT INTO attendees (ref, valid_day) "
-				+ "VALUES(ref_auto.nextval, '" + bok.getValid_Day().ordinal() + "')");
+				+ "VALUES(ref_book_auto.nextval, '" + bok.getValid_Day().ordinal() + "')");
 		
 		stat.close();
 		return true;

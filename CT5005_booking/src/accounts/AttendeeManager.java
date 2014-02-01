@@ -34,7 +34,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 				
 				if (att.getAge() <= 12) {
 					
-					System.out.println("Attendee under 12 years old or younger will be added to the childrens table for health and safety");
+					ErrorLog.printInfo("Attendee under 12 years old or younger will be added to the childrens table for health and safety");
 					ChildManager cmg = new ChildManager();
 					cmg.add_child(att);
 					
