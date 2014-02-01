@@ -29,8 +29,8 @@ public class Booking {
 		this.booker_ref = booker;
 	}
 	
-	public void setValid_Day(Price_Entry day) {
-		this.valid_day = day;
+	public void setValid_Day(Price_Entry entry) {
+		this.valid_day = entry;
 	}
 	
 	public Price_Entry getValid_Day() {

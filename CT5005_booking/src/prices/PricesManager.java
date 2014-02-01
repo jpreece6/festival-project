@@ -64,6 +64,15 @@ public class PricesManager implements IDatabaseFunctions {
 		}
 	}
 	
+	public void list_price_types() {
+		
+		for (int i = 0; i < Price_Entry.values().length; i++) {
+			
+			System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
+			
+		}
+		
+	}
 	
 	@Override
 	public boolean add_entry(Object data) throws SQLException {

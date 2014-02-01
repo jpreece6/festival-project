@@ -138,9 +138,24 @@ public class StaffMenu extends Menu {
 		do {
 			
 			System.out.println("\n-- Create Booking --");
+			System.out.println("Attendee Ref : ");
 			
+			input = get_input();
+			if (input.isEmpty() == false) {
+				
+				pmg.list_price_types();
+				System.out.println("\nSelect Price_Entry : ");
+				
+				choice = get_option();
+				if (choice >= 0 && choice <= 9) {
+					
+					bmg.create_booking(input, Price_Entry.values()[choice]);
+					
+				}
+				
+			}
 			
-			
+			Menu.menu_end();
 					
 		} while (exit_menu == false);
 		
@@ -518,11 +533,7 @@ public class StaffMenu extends Menu {
 			
 			// List days from Days enum
 			System.out.println("\n-- Set Prices --");
-			for (int i = 0; i < Price_Entry.values().length; i++) {
-				
-				System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
-				
-			}
+			pmg.list_price_types();
 			
 			System.out.println("Enter Vaules (e.g. Monday Wednesday Sunday = 036) : ");
 			

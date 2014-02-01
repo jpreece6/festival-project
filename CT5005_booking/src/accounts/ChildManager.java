@@ -11,8 +11,6 @@ import festival.ErrorLog;
 import festival.Festival;
 
 public class ChildManager implements IDatabaseFunctions {
-
-	private Attendee att;
 	
 	public void add_child(Attendee attend) {
 		
@@ -65,7 +63,7 @@ public class ChildManager implements IDatabaseFunctions {
 
 		Statement stat = DatabaseManager.getConnection().createStatement();
 			
-		stat.execute("DELETE FROM attendees WHERE ref=" + ref);
+		stat.execute("DELETE FROM children WHERE ref=" + ref);
 
 		stat.close();
 		
@@ -83,9 +81,8 @@ public class ChildManager implements IDatabaseFunctions {
 		att.setBooking("1");
 		att.toString();
 		
-		stat.executeUpdate("UPDATE attendees SET first_name='" + att.getFirst_Name() + "', last_name="
-				+ att.getLast_Name() + "', age='"
-				+ Integer.toString(att.getAge())
+		stat.executeUpdate("UPDATE children SET first_name='" + att.getFirst_Name() + "', last_name="
+				+ att.getLast_Name() + "', age='" + Integer.toString(att.getAge())
 				+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
 		
 		stat.close();
