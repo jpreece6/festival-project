@@ -2,12 +2,12 @@ package menus;
 
 import java.sql.SQLException;
 
-import database.DatabaseManager;
 import prices.Days;
 import prices.PricesManager;
 import tents.TentManager;
 import accounts.Attendee;
 import accounts.AttendeeManager;
+import accounts.ChildManager;
 import booking.Booking;
 import booking.BookingManager;
 import festival.ErrorLog;
@@ -18,6 +18,7 @@ public class StaffMenu extends Menu {
 	private static BookingManager bmg = new BookingManager();
 	private static PricesManager pmg = new PricesManager();
 	private static TentManager tmg = new TentManager();
+	private static ChildManager cmg = new ChildManager();
 	
 	public static void display_menu() {
 
@@ -237,31 +238,37 @@ public class StaffMenu extends Menu {
 		
 		do {
 			
-			String name;
+			String first_name;
+			String last_name;
 			int age;
 			String email;
 			
 			System.out.println("-- Create new attendee --\n");
-			System.out.println("Name : ");
+			System.out.println("First Name : ");
 			
-			name = get_input();
-			if (name.isEmpty() == false) {
+			first_name = get_input();
+			if (first_name.isEmpty() == false) {
 				
-				System.out.println("Age : ");
-				
-				age = Integer.parseInt(get_input());
-				if (age > 0 && age < 100) {
+				System.out.println("Last Name : ");
+				last_name = get_input();
+				if (last_name.isEmpty() == false) {
 					
-					System.out.println("Email Address : ");
+					System.out.println("Age : ");
 					
-					email = get_input();
-					if (email.isEmpty() == false && email.contains("@")) {
+					age = Integer.parseInt(get_input());
+					if (age > 0 && age < 100) {
 						
-						amg.create_attendee(name, age, email);
-						menu_end();
+						System.out.println("Email Address : ");
+						
+						email = get_input();
+						if (email.isEmpty() == false && email.contains("@")) {
+							
+							amg.create_attendee(first_name, last_name, age, email);
+							menu_end();
+							
+						}
 						
 					}
-					
 				}
 				
 			}
@@ -280,6 +287,9 @@ public class StaffMenu extends Menu {
 		final int EDIT_BOOKING = 4;
 		
 		Attendee att = new Attendee();
+		
+		String first_name;
+		String last_name;
 		
 		do {
 			
@@ -313,12 +323,20 @@ public class StaffMenu extends Menu {
 				
 				case EDIT_NAME :
 					
-					System.out.println("Name : ");
-					input = get_input();
+					System.out.println("First Name : ");
+					first_name = get_input();
 					
-					if (input.isEmpty() == false) {
+					if (first_name.isEmpty() == false) {
 						
-						att.setName(input);
+						System.out.println("Last Name : ");
+						last_name = get_input();
+						
+						if (last_name.isEmpty() == false) {
+							
+							att.setFirst_Name(first_name);
+							att.setLast_Name(last_name);
+							
+						}
 						
 					}
 					
@@ -443,6 +461,7 @@ public class StaffMenu extends Menu {
 				bmg.create_table();
 				pmg.create_table();
 				tmg.create_table();
+				cmg.create_table();
 				
 			} catch (SQLException e) {
 				ErrorLog.printError("Error creating tables!\n" + e.getMessage(), ErrorLog.SEVERITY_HIGH);
@@ -470,6 +489,7 @@ public class StaffMenu extends Menu {
 				bmg.drop_table();
 				pmg.drop_table();
 				tmg.drop_table();
+				cmg.drop_table();
 				
 			} catch (SQLException e) {
 				ErrorLog.printError("Error dropping tables\n" +  e.getMessage(), ErrorLog.SEVERITY_HIGH);

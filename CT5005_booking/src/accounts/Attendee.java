@@ -6,8 +6,9 @@ public class Attendee extends Person {
 	
 	public Attendee() {}
 	
-	public Attendee(String name, int age, String email_address) {
-		setName(name);
+	public Attendee(String first_name, String last_name, int age, String email_address) {
+		setFirst_Name(first_name);
+		setLast_Name(last_name);
 		setAge(age);
 		setEmailAddress(email_address);
 	}

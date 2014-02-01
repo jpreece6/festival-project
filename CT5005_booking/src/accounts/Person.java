@@ -25,19 +25,36 @@ public abstract class Person {
 	}
 	
 	/**
-	 * Get this Person's name
-	 * @return String name
+	 * Get this Person's first name
+	 * @return String first name
 	 */
-	public String getName() {
-		return this.name;
+	public String getFirst_Name() {
+		return this.first_name;
 	}
 	
 	/**
-	 * Sets this Person's name
+	 * Sets this Person's first name
 	 * @param name String
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setFirst_Name(String name) {
+		this.first_name = name;
+	}
+	
+	/**
+	 * Gets this Person's last name
+	 * @param name String
+	 * @return String last name
+	 */
+	public String getLast_Name() {
+		return this.last_name;
+	}
+	
+	/**
+	 * Sets this Person's last name
+	 * @param name String
+	 */
+	public void setLast_Name(String name) {
+		this.last_name = name;
 	}
 	
 	/**
@@ -77,7 +94,7 @@ public abstract class Person {
 	 */
 	public String toString() {
 		System.out.println("\n-- Person --");
-		System.out.println("Name : " + getName());
+		System.out.println("Name : " + getFirst_Name() + " " + getLast_Name());
 		System.out.println("Age : " + getAge());
 		System.out.println("Email : " + getEmailAddress());
 		System.out.println("-- END Person --\n");

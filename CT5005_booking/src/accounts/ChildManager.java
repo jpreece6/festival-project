@@ -37,7 +37,7 @@ public class ChildManager implements IDatabaseFunctions {
 			Statement stat = DatabaseManager.getConnection().createStatement();
 				
 			stat.executeUpdate("INSERT INTO children (ref, first_name, last_name, booking) "
-					+ "VALUES(ref_auto.nextval, '" + att.getName() 
+					+ "VALUES(ref_auto.nextval, '" + att.getFirst_Name() + "', '" + att.getLast_Name()
 					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
 			
 			stat.close();
@@ -71,8 +71,9 @@ public class ChildManager implements IDatabaseFunctions {
 		att.setBooking("1");
 		att.toString();
 		
-		stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
-				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
+		stat.executeUpdate("UPDATE attendees SET first_name='" + att.getFirst_Name() + "', last_name="
+				+ att.getLast_Name() + "', age='"
+				+ Integer.toString(att.getAge())
 				+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
 		
 		stat.close();
@@ -82,24 +83,25 @@ public class ChildManager implements IDatabaseFunctions {
 	@Override
 	public void create_table() throws SQLException {
 		
-		if (DatabaseManager.does_table_exist("attendees")) {
+		if (DatabaseManager.does_table_exist("children")) {
 			
-			ErrorLog.printInfo("Table 'attendees' already exists");
+			ErrorLog.printInfo("Table 'children' already exists");
 			
 		} else {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
-			stat.execute("CREATE TABLE attendees "
-					+ "(ref varchar(10), name varchar(100), age int, email_address varchar(100), booking varchar(10),"
+			stat.execute("CREATE TABLE children "
+					+ "(ref varchar(10), first_name varchar(100), last_name varchar(100), age int"
+					+ ", booking varchar(10),"
 					+ "PRIMARY KEY (ref))");
 			
-			stat.execute("CREATE SEQUENCE ref_auto START WITH 1"
+			stat.execute("CREATE SEQUENCE ref_child_auto START WITH 1"
 					+ " INCREMENT BY 1 NOMAXVALUE");
 			
 			stat.close();
 			
-			System.out.println("CREATE attendees DONE...");
+			System.out.println("CREATE children DONE...");
 			
 		}
 	}
@@ -107,17 +109,17 @@ public class ChildManager implements IDatabaseFunctions {
 	@Override
 	public void drop_table() throws SQLException {
 		
-		if (DatabaseManager.does_table_exist("attendees")) {
+		if (DatabaseManager.does_table_exist("children")) {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
-			stat.execute("DROP TABLE attendees");
+			stat.execute("DROP TABLE children");
 			
-			stat.execute("DROP SEQUENCE ref_auto");
+			stat.execute("DROP SEQUENCE ref_child_auto");
 			
 			stat.close();
 			
-			System.out.println("DROP attendees DONE");
+			System.out.println("DROP children DONE");
 			
 		}
 	
@@ -130,12 +132,13 @@ public class ChildManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		ResultSet result = stat.executeQuery("SELECT * FROM attendees WHERE ref=" + ref);
+		ResultSet result = stat.executeQuery("SELECT * FROM children WHERE ref=" + ref);
 		
 		if (result.next()) {
 			
 			att.setRef(result.getString("ref"));
-			att.setName(result.getString("name"));
+			att.setFirst_Name(result.getString("first_name"));
+			att.setLast_Name(result.getString("last_name"));
 			att.setAge(result.getInt("age"));
 			att.setEmailAddress(result.getString("email_address"));
 			

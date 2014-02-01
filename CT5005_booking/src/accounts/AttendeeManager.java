@@ -18,10 +18,10 @@ import festival.Festival;
 
 public class AttendeeManager implements IDatabaseFunctions {
 	
-	public void create_attendee(String name, int age, String email_address) {
+	public void create_attendee(String first_name, String last_name, int age, String email_address) {
 		
 		// Create new attendee object
-		Attendee att = new Attendee(name, age, email_address);
+		Attendee att = new Attendee(first_name, last_name, age, email_address);
 		
 		// Create an empty booking to init the database column
 		Booking b = new Booking();
@@ -34,7 +34,9 @@ public class AttendeeManager implements IDatabaseFunctions {
 				
 				if (att.getAge() <= 12) {
 					
-					// do something if attendee is under 12
+					System.out.println("Attendee under 12 years old or younger will be added to the childrens table for health and safety");
+					ChildManager cmg = new ChildManager();
+					cmg.add_child(att);
 					
 				} else {
 				
@@ -57,7 +59,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		try {
 			
 			// Check to see if the database is not empty (pre-condition)
-			if (DatabaseManager.count_items("attendees") < 0) {
+			if (DatabaseManager.count_items("attendees") > 0) {
 				
 				DatabaseManager.print_results("Attendee Search Result", DatabaseManager.search_database("attendees", column, data));
 			
@@ -79,7 +81,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		try {
 			
 			// Check if the attendee exists in the database before removing (pre-condition)
-			if (DatabaseManager.does_entry_exist("attendess", "ref", att.getRef())) {
+			if (DatabaseManager.does_entry_exist("attendees", "ref", att.getRef())) {
 				
 				remove_entry(att.getRef());
 				System.out.println("Remove attemdee successful...");
@@ -109,8 +111,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 			Statement stat = DatabaseManager.getConnection().createStatement();
 				
-			stat.executeUpdate("INSERT INTO attendees (ref, name, age, email_address, booking) "
-					+ "VALUES(ref_auto.nextval, '" + att.getName() 
+			stat.executeUpdate("INSERT INTO attendees (ref, first_name, last_name, age, email_address, booking) "
+					+ "VALUES(ref_auto.nextval, '" + att.getFirst_Name() + "', '" + att.getLast_Name()
 					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
 			
 			stat.close();
@@ -155,7 +157,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 			att.setBooking("1");
 			att.toString();
 			
-			stat.executeUpdate("UPDATE attendees SET name='" + att.getName() + "', age='"
+			stat.executeUpdate("UPDATE attendees SET first_name='" + att.getFirst_Name() + "', last_name'" 
+					+ att.getLast_Name() + "', age='"
 					+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
 					+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
 		
@@ -181,7 +184,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
 			stat.execute("CREATE TABLE attendees "
-					+ "(ref varchar(10), name varchar(100), age int, email_address varchar(100), booking varchar(10),"
+					+ "(ref varchar(10), first_name varchar(100), last_name varchar(100), age int, "
+					+ "email_address varchar(100), booking varchar(10),"
 					+ "PRIMARY KEY (ref))");
 			
 			stat.execute("CREATE SEQUENCE ref_auto START WITH 1"
@@ -226,7 +230,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 		if (result.next()) {
 			
 			att.setRef(result.getString("ref"));
-			att.setName(result.getString("name"));
+			att.setFirst_Name(result.getString("first_name"));
+			att.setLast_Name(result.getString("last_name"));
 			att.setAge(result.getInt("age"));
 			att.setEmailAddress(result.getString("email_address"));
 			
