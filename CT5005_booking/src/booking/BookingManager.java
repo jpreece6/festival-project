@@ -27,11 +27,18 @@ public class BookingManager implements IDatabaseFunctions {
 			bok.setValid_Day(price_entry);
 			
 			// check for a booking with a booker 
-			if (DatabaseManager.does_entry_exist("bookings", "booker", bok.getBooker())) {
+			if (DatabaseManager.does_entry_exist("bookings", "booker", bok.getBooker()) == false) {
+				
 				add_entry(bok);
+				System.out.println("Booking created...");
+				
+			} else {
+				
+				System.out.println("Attendee is already has a booking...");
+				
 			}
 			
-			System.out.println("Booking created...");
+			
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Add booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -72,6 +79,7 @@ public class BookingManager implements IDatabaseFunctions {
 			if (DatabaseManager.does_entry_exist("bookings", "ref", book.getRef())) {
 				
 				update_entry(book);
+				System.out.println("Booking updated!");
 				
 			} else {
 				
@@ -83,6 +91,18 @@ public class BookingManager implements IDatabaseFunctions {
 			ErrorLog.printError("Could not edit booking!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
+	}
+	
+	public Booking getBooking(String booker_ref) {
+		
+		try {
+			
+			return (Booking)get_item(booker_ref);
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not retrieve booking. Please check ref\n" + ex.getMessage(), ErrorLog.SEVERITY_LOW);
+			return null;
+		}
 	}
 	
 	/**
@@ -129,7 +149,7 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		try {
 			
-			DatabaseManager.search_database("bookings", column, data);
+			DatabaseManager.print_results("Booking Search Results", DatabaseManager.search_database("bookings", column, data));
 			
 		} catch (SQLException e) {
 			ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -184,8 +204,8 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.executeUpdate("INSERT INTO attendees (ref, valid_day) "
-				+ "VALUES(ref_book_auto.nextval, '" + bok.getValid_Day().ordinal() + "')");
+		stat.executeUpdate("INSERT INTO bookings (ref, valid_day, booker) "
+				+ "VALUES(ref_book_auto.nextval, '" + bok.getValid_Day().toString() + "', '" + bok.getBooker() + "')");
 		
 		stat.close();
 		return true;
@@ -211,7 +231,7 @@ public class BookingManager implements IDatabaseFunctions {
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
 		
-		stat.executeUpdate("UPDATE bookings SET valid_day='" + bok.getValid_Day() 
+		stat.executeUpdate("UPDATE bookings SET valid_day='" + bok.getValid_Day().toString() + "', booker='" + bok.getBooker()
 				+ "' WHERE ref=" + bok.getRef());
 		
 		stat.close();
@@ -230,7 +250,7 @@ public class BookingManager implements IDatabaseFunctions {
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
 			stat.execute("CREATE TABLE bookings "
-					+ "(ref varchar(10), valid_day varchar(20),"
+					+ "(ref varchar(10), valid_day varchar(20), booker varchar(10),"
 					+ "PRIMARY KEY (ref))");
 			
 			stat.execute("CREATE SEQUENCE ref_book_auto START WITH 1"
@@ -275,6 +295,7 @@ public class BookingManager implements IDatabaseFunctions {
 			
 			bok.setRef(result.getString("ref"));
 			bok.setValid_Day(Price_Entry.valueOf(result.getString("valid_day")));
+			bok.setBooker(result.getString("booker"));
 		
 			return bok;
 			

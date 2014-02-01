@@ -112,24 +112,16 @@ public class StaffMenu extends Menu {
 			System.out.println("\n-- Delete Booking --");
 			System.out.println("Booking Ref :  ");
 			
-			try {
-				
-				BookingManager bok = new BookingManager ();
-				
-				input = get_input();
-				if (input.isEmpty() == false) {
-					bok.remove_entry(input);
-				}
-				
-			} catch (SQLException ex) {
-				ErrorLog.printError("Could not delete booking at this time.", ErrorLog.SEVERITY_MEDIUM);
+			input = get_input();
+			if (input.isEmpty() == false) {
+				bmg.delete_booking(input);
 			}
 			
-			menu_end();
+			Menu.menu_end();
 			
 		} while (exit_menu == false);
 		
-		menu_reset();
+		Menu.menu_reset();
 		
 	}
 	
@@ -174,12 +166,12 @@ public class StaffMenu extends Menu {
 		do {
 			
 			System.out.println("\n-- Edit Booking --");
-			System.out.println("Ref :");
+			System.out.println("Booking Ref :");
 			
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
-				bok.setRef(input);
+				bok = bmg.getBooking(input);
 			
 				System.out.println("Change Days : " + EDIT_DAYS);
 				System.out.println("Add a tent : " + EDIT_ADD_TENT);
@@ -192,7 +184,16 @@ public class StaffMenu extends Menu {
 					
 					case EDIT_DAYS :
 						
-						System.out.println("");
+						pmg.list_price_types();
+						System.out.println("Select new price entry : ");
+						
+						int entry = get_option();
+						if (entry >= 0 && entry <= 9) {
+							
+							bok.setValid_Day(Price_Entry.values()[entry]);
+							bmg.edit_booking(bok);
+							
+						}
 						
 						break;
 					case EDIT_ADD_TENT :
@@ -310,7 +311,7 @@ public class StaffMenu extends Menu {
 			try {
 				
 				System.out.println("\n-- Select Attendee --");
-				System.out.println("Ref : ");
+				System.out.println("Attendee Ref : ");
 					
 				String ref = get_input();
 				//assert(ref.isEmpty()) : "Blah";
