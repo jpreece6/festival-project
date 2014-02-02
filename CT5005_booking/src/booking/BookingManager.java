@@ -205,6 +205,11 @@ public class BookingManager implements IDatabaseFunctions {
 		 
 	}
 	
+	/**
+	 * Returns the total cost of a booking
+	 * @param booking_ref String booking ref to calculate cost for
+	 * @return String cost
+	 */
 	public String get_total_cost(String booking_ref) {
 		
 		try {
@@ -235,7 +240,7 @@ public class BookingManager implements IDatabaseFunctions {
 						
 					if (DatabaseManager.does_entry_exist("tents", "booking", booking_ref)) {
 						
-						rs = DatabaseManager.search_database("prices", "type", "TENT");
+						rs = DatabaseManager.search_database("prices", "type", "TENTS");
 						
 						if (rs.next()) {
 							

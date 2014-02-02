@@ -157,6 +157,14 @@ public class DatabaseManager {
 		
 	}
 	
+	/**
+	 * Check to see if an entry exists in the database
+	 * @param table String name of the table to search in
+	 * @param column String name of the column to search
+	 * @param entry String entry/item to search for
+	 * @return Boolean true if item exists, false if it does not
+	 * @throws SQLException
+	 */
 	public static boolean does_entry_exist(String table, String column, String entry) throws SQLException {
 		
 		Statement stat = getConnection().createStatement();

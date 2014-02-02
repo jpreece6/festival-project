@@ -23,8 +23,27 @@ public class TentManager implements IDatabaseFunctions {
 		try {
 			
 			tnt = new Tent();
-			tnt.set_booking_ref(booking_ref);
-			add_entry(tnt);
+			
+			// Ensure that a booking exists
+			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
+				
+				// Ensure that the booking does not have more than 4 tents already
+				if (DatabaseManager.count_specific_items("tents", "booking", booking_ref) < 4) {
+					
+					tnt.set_booking_ref(booking_ref);
+					add_entry(tnt);
+					
+				} else {
+					
+					ErrorLog.printInfo("Booking already has the maximum number of assigned tents");
+					
+				}
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find booking. Please check ref");
+				
+			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Add tent failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -36,7 +55,15 @@ public class TentManager implements IDatabaseFunctions {
 		
 		try {
 			
-			remove_entry(space_no);
+			if (DatabaseManager.does_entry_exist("tents", "space_no", space_no)) {
+			
+				remove_entry(space_no);
+			
+			} else {
+				
+				ErrorLog.printInfo("Could not find tent space. Please check space number");
+				
+			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Remove tent failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -44,12 +71,19 @@ public class TentManager implements IDatabaseFunctions {
 		
 	}
 	
-	public void print_tents(String booking_ref) {
+	public void list_tents(String booking_ref) {
 		
 		try {
 
-			DatabaseManager.print_results("Tent Search Result", DatabaseManager.search_database("tents", "booking", booking_ref));
+			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 			
+				DatabaseManager.print_results("Tent List Result", DatabaseManager.search_database("tents", "booking", booking_ref));
+			
+			} else {
+				
+				ErrorLog.printInfo("Could not find booking. Please check ref");
+				
+			}
 		} catch (SQLException ex) {
 			ErrorLog.printError("Print tents failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}

@@ -64,13 +64,28 @@ public class PricesManager implements IDatabaseFunctions {
 		}
 	}
 	
-	public void list_price_types() {
+	public void list_price_types(String[] exclude) {
 		
 		for (int i = 0; i < Price_Entry.values().length; i++) {
 			
-			/*String day = Price_Entry.values()[i].toString();
-			int index = day.indexOf("_") + 1;*/
-			System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
+			if (exclude != null) {
+			
+				int index = 0;
+				do {
+		
+					if (Price_Entry.values()[i].toString().equals(exclude[index]) == false) {
+						System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
+					}
+					
+					index++;
+					
+				} while (index != exclude.length);
+				
+			} else {
+				
+				System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
+				
+			}
 			
 		}
 		

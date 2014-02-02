@@ -146,7 +146,9 @@ public class StaffMenu extends Menu {
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
-				pmg.list_price_types();
+				// Exclude tents from the list as we don't want to store this in bookings
+				String[] exclude = { "TENTS" };
+				pmg.list_price_types(exclude);
 				System.out.println("\nSelect Price_Entry : ");
 				
 				choice = get_option();
@@ -171,6 +173,7 @@ public class StaffMenu extends Menu {
 		final int EDIT_DAYS = 1;
 		final int EDIT_ADD_TENT = 2;
 		final int EDIT_REMOVE_TENT = 3;
+		final int LIST_TENTS = 4;
 		
 		Booking bok = new Booking();
 		
@@ -187,15 +190,16 @@ public class StaffMenu extends Menu {
 				System.out.println("Change Days : " + EDIT_DAYS);
 				System.out.println("Add a tent : " + EDIT_ADD_TENT);
 				System.out.println("Remove a tent : " + EDIT_REMOVE_TENT);
+				System.out.println("List all tents : " + LIST_TENTS);
 				
 				choice = get_option();
-				if (choice > 0 && choice <= 3) {
+				if (choice > 0) {
 					
 					switch (choice) {
 					
 					case EDIT_DAYS :
 						
-						pmg.list_price_types();
+						pmg.list_price_types(null);
 						System.out.println("Select new price entry : ");
 						
 						int entry = get_option();
@@ -216,7 +220,19 @@ public class StaffMenu extends Menu {
 					case EDIT_REMOVE_TENT:
 						
 						System.out.println("Removing Tent...");
-						//tmg.remove_tent(space_no);
+						System.out.println("Space Number : ");
+						
+						input = get_input();
+						if (input.isEmpty() == false) {
+							
+							tmg.remove_tent(input);
+							
+						}
+						
+						break;
+					case LIST_TENTS :
+						
+						tmg.list_tents(input);
 						
 						break;
 					
@@ -589,7 +605,7 @@ public class StaffMenu extends Menu {
 			
 			// List days from Days enum
 			System.out.println("\n-- Set Prices --");
-			pmg.list_price_types();
+			pmg.list_price_types(null);
 			
 			System.out.println("Enter Vaules (e.g. Monday Wednesday Sunday = 036) : ");
 			
