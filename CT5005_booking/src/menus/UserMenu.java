@@ -84,17 +84,17 @@ public class UserMenu extends Menu {
 				
 				case PRINT_DETAILS :
 					
-					
+					// TODO
 					
 					break;
 				case EDIT_ATTENDEE :
 					
-					
+					AttendeeMenu.display_edit_attendee();
 					
 					break;
 				case REMOVE_ATTENDEE :
 					
-					
+					AttendeeMenu.display_delete_attendee();
 					
 					break;
 				case Menu.EXIT_MENU :
@@ -142,32 +142,32 @@ public class UserMenu extends Menu {
 				
 				case PRINT_DETAILS :
 					
-					
+					// TODO
 					
 					break;
 				case EDIT_BOOKING :
 					
-					
+					BookingMenu.display_edit_booking();
 					
 					break;
 				case REMOVE_BOOKING :
 					
-					
+					BookingMenu.display_delete_booking();
 					
 					break;
 				case GET_BOOKING_COST :
 					
-					
+					BookingMenu.display_booking_cost();
 					
 					break;
 				case LIST_BOOKING_ATTENDEES :
 					
-					
+					AttendeeMenu.display_list_attendees();
 					
 					break;
 				case LIST_BOOKING_TENTS :
 					
-					
+					// TODO
 					
 					break;
 				case Menu.EXIT_MENU :
@@ -190,13 +190,49 @@ public class UserMenu extends Menu {
 	
 	private static void display_child_options() {
 		
+		final int PRINT_DETAILS = 1;
+		final int EDIT_CHILD = 2;
+		final int REMOVE_CHILD = 3;
+		
 		do {
 			
 			System.out.println("\n-- Child Options --");
-			System.out.println("Print Child Details : " );
-			System.out.println("Edit Child : " );
-			System.out.println("Remove Chlid : ");
+			System.out.println("Print Child Details : " + PRINT_DETAILS);
+			System.out.println("Edit Child : " + EDIT_CHILD);
+			System.out.println("Remove Chlid : " + REMOVE_CHILD);
 			System.out.println("Exit Menu : " + Menu.EXIT_MENU);
+			
+			choice = get_option();
+			if (choice >= 0) {
+				
+				switch (choice) {
+				
+				case PRINT_DETAILS :
+					
+					
+					
+					break;
+				case EDIT_CHILD :
+					
+					
+					
+					break;
+				case REMOVE_CHILD :
+					
+					
+					
+					break;
+				case Menu.EXIT_MENU :
+					
+					Menu.menu_end();
+					break;
+				}
+				
+			} else {
+				
+				ErrorLog.printInfo("Please enter a valid option");
+				
+			}
 			
 		} while (exit_menu == false);
 		
