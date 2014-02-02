@@ -1,3 +1,9 @@
+/**
+ * @author Joshua Preece
+ * @version 0.2
+ * @description ChildManager handles the database requests for attendees under the age of 12
+ */
+
 package accounts;
 
 import java.sql.ResultSet;
@@ -12,11 +18,24 @@ import festival.Festival;
 
 public class ChildManager implements IDatabaseFunctions {
 	
+	/**
+	 * Adds a child attendee to the database
+	 * @param attend Attendee object containing the attendees details
+	 */
 	public void add_child(Attendee attend) {
 		
 		try {
 			
-			add_entry(attend);
+			// Ensure that the booking
+			if (DatabaseManager.count_specific_items("children", "booking", attend.getBooking()) < 2) {
+				
+				add_entry(attend);
+			
+			} else {
+				
+				ErrorLog.printInfo("Booking already has the maximum number of assigned children");
+				
+			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Could not add child to the database!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);

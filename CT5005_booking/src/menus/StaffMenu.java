@@ -154,7 +154,11 @@ public class StaffMenu extends Menu {
 				choice = get_option();
 				if (choice >= 0 && choice <= 9) {
 					
-					bmg.create_booking(input, Price_Entry.values()[choice]);
+					// If booking created successfully update booker with booking ref
+					if (bmg.create_booking(input, Price_Entry.values()[choice])); {
+						
+						// update booking ref
+					}
 					
 				}
 				
@@ -354,8 +358,20 @@ public class StaffMenu extends Menu {
 							
 						}
 						
+					} else {
+						
+						ErrorLog.printInfo("Please enter an age above 0 and lower than 100");
+						
 					}
+				} else {
+					
+					ErrorLog.printInfo("Please enter a last name");
+					
 				}
+				
+			} else {
+				
+				ErrorLog.printInfo("Please enter a first name");
 				
 			}
 			

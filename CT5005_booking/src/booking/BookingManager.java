@@ -18,7 +18,7 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 
-	public void create_booking(String attendee_ref, Price_Entry price_entry) {
+	public boolean create_booking(String attendee_ref, Price_Entry price_entry) {
 		
 		try {
 			
@@ -35,16 +35,19 @@ public class BookingManager implements IDatabaseFunctions {
 					add_entry(bok);
 					// TODO Update booker booking --
 					System.out.println("Booking created...");
+					return true;
 					
 				} else {
 					
 					System.out.println("Attendee is already has a booking...");
+					return false;
 					
 				}
 				
 			} else {
 				
 				ErrorLog.printInfo("Could not find attendee. Please create an attendee or check the ref");
+				return false;
 				
 			}
 			
@@ -52,6 +55,7 @@ public class BookingManager implements IDatabaseFunctions {
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Add booking failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return false;
 		}
 		
 	}

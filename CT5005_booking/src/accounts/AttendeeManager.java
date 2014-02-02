@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import booking.Booking;
 import database.DatabaseManager;
 import database.IDatabaseFunctions;
 import festival.ErrorLog;
@@ -18,14 +17,15 @@ import festival.Festival;
 
 public class AttendeeManager implements IDatabaseFunctions {
 	
+	
+	
 	public void create_attendee(String first_name, String last_name, int age, String email_address) {
 		
 		// Create new attendee object
 		Attendee att = new Attendee(first_name, last_name, age, email_address);
 		
-		// Create an empty booking to init the database column
-		Booking b = new Booking();
-		att.setBooking(b.getRef());
+		// Create set an empty booking for now
+		att.setBooking("null");
 		
 		try {
 
@@ -94,6 +94,27 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 		} catch (SQLException e) {
 			ErrorLog.printError("Remove attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void update_attendee(String attendee_ref) {
+		
+		try {
+			
+			if (DatabaseManager.does_entry_exist("attendees", "ref", attendee_ref)) {
+				
+				
+				update_attendee(attendee_ref);
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find attendee. Please check ref");
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not update attendee!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
