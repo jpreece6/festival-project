@@ -44,6 +44,53 @@ public class ChildManager implements IDatabaseFunctions {
 	}
 	
 	/**
+	 * Removes a child entry from the children's table
+	 * @param attendee_ref String ref of child to remove
+	 */
+	public void remove_child(String attendee_ref) {
+		
+		try {
+			
+			if (DatabaseManager.does_entry_exist("children", "ref", attendee_ref)) {
+				
+				remove_entry(attendee_ref);
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find child to remove. Please check ref");
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not delete child!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	/**
+	 * Updates a child entry in the database
+	 * @param child Attendee object
+	 */
+	public void update_child(Attendee child) {
+		
+		try {
+			
+			if (DatabaseManager.does_entry_exist("children", "ref", child.getRef())) {
+				
+				update_entry(child);
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find child to update. Please check ref");
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not update child!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+	}
+	
+	/**
 	 * Search for a child in the children's table
 	 * @param column String column to search
 	 * @param data String data to search for

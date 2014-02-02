@@ -5,16 +5,12 @@
  */
 package menuOptions;
 
-public enum AttendeeMenuOptions {
+public enum UserMenuOptions {
 
 	UNKOWN_OPTION,
-	CREATE_ATTENDEE,
-	EDIT_ATTENDEE,
-	
-	GET_BOOKING,
+	REGISTER_ATTENDEE,
 	CREATE_BOOKING,
-	DELETE_BOOKING,
-	EDIT_BOKOING,
-	ADD_GROUP_MEMBER
+	ATTENDEE_OPTIONS,
+	BOOKING_OPTIONS
 	
 }
