@@ -8,10 +8,6 @@ public class Booking {
 	private String booker_ref;
 	private Price_Entry valid_day;
 	
-	public Booking() {
-		
-	}
-	
 	/**
 	 * Gets the ref for this booking
 	 * @return String ref

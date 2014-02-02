@@ -110,7 +110,7 @@ public class BookingMenu extends Menu {
 				System.out.println("Exit Menu : " + Menu.EXIT_MENU);
 				
 				choice = get_option();
-				if (choice > 0) {
+				if (choice >= 0) {
 					
 					switch (choice) {
 					
@@ -200,4 +200,6 @@ public class BookingMenu extends Menu {
 		Menu.menu_reset();
 		
 	}
+	
+
 }

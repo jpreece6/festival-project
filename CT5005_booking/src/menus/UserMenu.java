@@ -27,11 +27,11 @@ public class UserMenu extends Menu {
 				
 				if (choice == UserMenuOptions.REGISTER_ATTENDEE.ordinal()) {
 					
-					// TODO
+					AttendeeMenu.display_create_attendee();
 					
 				} else if (choice == UserMenuOptions.CREATE_BOOKING.ordinal()) {
 					
-					// TODO
+					BookingMenu.display_create_booking();
 					
 				} else if (choice == UserMenuOptions.ATTENDEE_OPTIONS.ordinal()) {
 					
@@ -84,7 +84,7 @@ public class UserMenu extends Menu {
 				
 				case PRINT_DETAILS :
 					
-					// TODO
+					
 					
 					break;
 				case EDIT_ATTENDEE :
@@ -120,9 +120,11 @@ public class UserMenu extends Menu {
 		final int PRINT_DETAILS = 1;
 		final int EDIT_BOOKING = 2;
 		final int REMOVE_BOOKING = 3;
-		final int GET_BOOKING_COST = 4;
-		final int LIST_BOOKING_ATTENDEES = 5;
-		final int LIST_BOOKING_TENTS = 6;
+		final int ADD_TENT = 4;
+		final int REMOVE_TENT = 5;
+		final int GET_BOOKING_COST = 6;
+		final int LIST_BOOKING_ATTENDEES = 7;
+		final int LIST_BOOKING_TENTS = 8;
 		
 		do {
 			
@@ -130,6 +132,8 @@ public class UserMenu extends Menu {
 			System.out.println("Print Booking Details : " + PRINT_DETAILS);
 			System.out.println("Edit Booking : " + EDIT_BOOKING);
 			System.out.println("Remove Booking : " + REMOVE_BOOKING);
+			System.out.println("Add Tent : " + ADD_TENT);
+			System.out.println("Remove Tent : " + REMOVE_TENT);
 			System.out.println("Get Booking Cost : " + GET_BOOKING_COST);
 			System.out.println("List Booking Attendees : " + LIST_BOOKING_ATTENDEES);
 			System.out.println("List Booking Tents : " + LIST_BOOKING_TENTS);
@@ -155,6 +159,16 @@ public class UserMenu extends Menu {
 					BookingMenu.display_delete_booking();
 					
 					break;
+				case ADD_TENT :
+					
+					TentMenu.display_add_tent();
+					
+					break;
+				case REMOVE_TENT :
+					
+					TentMenu.display_remove_tent();
+					
+					break;
 				case GET_BOOKING_COST :
 					
 					BookingMenu.display_booking_cost();
@@ -167,7 +181,7 @@ public class UserMenu extends Menu {
 					break;
 				case LIST_BOOKING_TENTS :
 					
-					// TODO
+					TentMenu.display_list_tents();
 					
 					break;
 				case Menu.EXIT_MENU :
