@@ -2,7 +2,7 @@ package menuOptions;
 
 public enum AttendeeMenuOptions {
 
-	UNKNOWN_OPTION,
+	EXIT_MENU,
 	CREATE_ATTENDEE,
 	EDIT_ATTENDEE,
 	

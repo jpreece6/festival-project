@@ -2,8 +2,7 @@ package menuOptions;
 
 public enum MainMenuOptions {
 	
-	UNKNOWN_OPTION,
-	REGISTER,
+	EXIT_MENU,
 	ATTENDEE_LOGIN,
 	STAFF_LOGIN
 

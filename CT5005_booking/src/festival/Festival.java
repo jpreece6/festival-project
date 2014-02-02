@@ -1,7 +1,15 @@
+/**
+ * @author Joshua Preece
+ * @version 0.6
+ * @description This is the main entry point to the program. This is a festival system which allows
+ * attendees and staff members to book tickets to a festival.
+ */
+
 package festival;
 
 import java.sql.SQLException;
 
+import menus.MainMenu;
 import menus.StaffMenu;
 import booking.BookingManager;
 import database.DatabaseManager;
@@ -9,7 +17,7 @@ import database.DatabaseManager;
 public class Festival {
 
 	private static final String APP_NAME = "Festival Booking";
-	private static final String VERSION = "0.1";
+	private static final String VERSION = "0.6";
 	
 	public static final int MAX_ATTENDEES = 4000;
 	public static final int MAX_TENTS = 400;
@@ -24,16 +32,21 @@ public class Festival {
 		
 		System.out.println(APP_NAME + " " + VERSION);
 		
+		// Get the database credentials from a properties file
 		DatabaseManager mgr = new DatabaseManager("bin/database/database.properties");
-		BookingManager bok = new BookingManager();
 		
 		try {
+			
+			// Connect to the database
 			DatabaseManager.createConnection();
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.printError("Could not connect to the remote database. Please check you connection.\n"
+					+ e.getMessage(), ErrorLog.SEVERITY_CRITICAL);
 		}
 	
-		StaffMenu.display_menu();
+		// Start the main menu
+		MainMenu.display_menu();
 		
 	}
 

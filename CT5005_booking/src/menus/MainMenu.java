@@ -8,36 +8,36 @@ public class MainMenu extends Menu {
 		
 		do {
 			
-			System.out.println("Create Booking : " + MainMenuOptions.REGISTER.ordinal());
-			System.out.println("Attendee Login : " + MainMenuOptions.ATTENDEE_LOGIN.ordinal());
-			System.out.println("Staff Login : " + MainMenuOptions.STAFF_LOGIN.ordinal());
-			System.out.println("Exit : 4");
+			System.out.println("\n-- Main Menu --");
+			System.out.println("Attendee Menu : " + MainMenuOptions.ATTENDEE_LOGIN.ordinal());
+			System.out.println("Staff Menu : " + MainMenuOptions.STAFF_LOGIN.ordinal());
+			System.out.println("Exit : " + MainMenuOptions.EXIT_MENU.ordinal());
 		
 			choice = get_option();
-			if (choice > 0 && choice <= 4) {
+			if (choice >= 0) {
 			
-				if (choice == MainMenuOptions.REGISTER.ordinal()) {
+				if (choice == MainMenuOptions.ATTENDEE_LOGIN.ordinal()) {
 					
-					// Register a new attendee
-					
-				} else if (choice == MainMenuOptions.ATTENDEE_LOGIN.ordinal()) {
-					
-					// Display attendee login
-					//Menu.display_login();
+					// Opens the user menu for attendees
+					UserMenu.display_user_menu();
 					
 				} else if (choice == MainMenuOptions.STAFF_LOGIN.ordinal()) {
 					
-					// Display staff login
+					// Opens the staff menu for staff
+					StaffMenu.display_menu();
 					
-				} else {
+				} else if (choice == MainMenuOptions.EXIT_MENU.ordinal()) {
 					
-					exit_menu = true;
+					// Returns to main menu
+					Menu.menu_end();
 					
 				}
 			
 			}
 			
 		} while (exit_menu == false);
+		
+		Menu.menu_reset();
 		
 	}
 	

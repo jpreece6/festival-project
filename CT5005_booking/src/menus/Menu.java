@@ -16,93 +16,24 @@ public abstract class Menu {
 	protected static TentManager tmg = new TentManager();
 	protected static ChildManager cmg = new ChildManager();
 	
-	protected static final int EXIT_MENU = 999;
-	protected static final int BACK = 100;
 	protected static int choice;
 	protected static String input;
 	protected static boolean exit_menu;
 	
+	/**
+	 * Main entry point to he menu
+	 */
 	protected static void display_menu() {
 		
+		// Because this method needs to be static it cannot be abstract
 		System.out.print("MAIN");
 		
 	}
-
-	/*
-	protected static void display_login() {
-		
-		do {
-			
-			System.out.print("Username : ");
-			
-			String username = get_input();
-			if (input.trim().isEmpty() == false) {
-				
-				System.out.print("\nPassword : ");
-				
-				String password = get_input();
-				if (input.trim().isEmpty() == false) {
-					
-					
-					act.user_login(username, password);
-					exit_menu = true;
-					
-					
-				} else {
-					
-					System.out.println("Please enter a password");
-					
-				}
-				
-				
-			} else {
-				
-				System.out.println("Please enter a username");
-				
-			}
-			
-			
-			
-		} while (exit_menu == false);
-		
-		exit_menu = false;
-		
-	}
 	
-	protected static void display_registration() {
-		
-		do {
-			
-			clear_screen();
-			
-			String name;
-			int age;
-			String address;
-			
-			
-			System.out.println("Attendee Registration\n\n");
-			System.out.print("Name : ");
-			
-			name = get_input();
-			if (input.trim().isEmpty() == false) {
-				
-				try {
-					age = Integer.parseInt(get_input());
-				} catch (Exception ex) {
-					System.out.println("Please enter a valid name");
-				}
-				
-				
-			} else {
-				
-				System.out.println("Please enter a name");
-				
-			}
-			
-		} while (exit_menu == false);
-		
-	}*/
-	
+	/**
+	 * Gets an option input from the user
+	 * @return Integer option
+	 */
 	protected static int get_option() {
 		
 		try {
@@ -116,6 +47,10 @@ public abstract class Menu {
 		
 	}
 	
+	/**
+	 * Gets input from the user
+	 * @return String inpit
+	 */
 	protected static String get_input() {
 		
 		try {
@@ -137,10 +72,18 @@ public abstract class Menu {
 		
 	}
 	
+	/**
+	 * Sets exit menu to true to allow menus to exit from their do while loop
+	 * and return to a previous menu
+	 */
 	protected static void menu_end() {
 		exit_menu = true;
 	}
 	
+	/**
+	 * Sets the exit menu to false ensuring that when returning from a menu
+	 * the returning menu is not exited immediately
+	 */
 	protected static void menu_reset() {
 		exit_menu = false;
 	}
