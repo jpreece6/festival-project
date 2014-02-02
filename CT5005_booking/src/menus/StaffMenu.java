@@ -8,6 +8,8 @@ package menus;
 
 import java.sql.SQLException;
 
+import menuOptions.SearchOptions;
+import menuOptions.StaffMenuOptions;
 import prices.Price_Entry;
 import prices.PricesManager;
 import tents.TentManager;

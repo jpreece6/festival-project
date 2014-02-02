@@ -1,5 +1,7 @@
 package menus;
 
+import menuOptions.MainMenuOptions;
+
 public class MainMenu extends Menu {
 	
 	public static void display_menu() {

@@ -1,4 +1,4 @@
-package menus;
+package menuOptions;
 
 public enum MainMenuOptions {
 	

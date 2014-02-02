@@ -2,8 +2,20 @@ package menus;
 
 import java.util.Scanner;
 
+import prices.PricesManager;
+import tents.TentManager;
+import accounts.AttendeeManager;
+import accounts.ChildManager;
+import booking.BookingManager;
+
 public abstract class Menu {
 
+	protected static AttendeeManager amg = new AttendeeManager();
+	protected static BookingManager bmg = new BookingManager();
+	protected static PricesManager pmg = new PricesManager();
+	protected static TentManager tmg = new TentManager();
+	protected static ChildManager cmg = new ChildManager();
+	
 	protected static final int EXIT_MENU = 999;
 	protected static final int BACK = 100;
 	protected static int choice;

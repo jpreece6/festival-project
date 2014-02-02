@@ -1,50 +1,89 @@
 package menus;
 
+import festival.ErrorLog;
+
 
 public class AttendeeMenu extends Menu {
 	
-	protected static void display_menu() {
-
+	public static void display_delete_attendee() {
+		
 		do {
 			
-			clear_screen();
+			System.out.println("\n-- Delete Attendee -- ");
+			System.out.println("Attendee Ref : ");
 			
-			System.out.println("Get booking : " + AttendeeMenuOptions.GET_BOOKING.ordinal());
-			System.out.println("Create booking : " + AttendeeMenuOptions.CREATE_BOOKING.ordinal());
-			System.out.println("Delete booking : " + AttendeeMenuOptions.DELETE_BOOKING.ordinal());
-			System.out.println("Add member to group : " + AttendeeMenuOptions.ADD_GROUP_MEMBER.ordinal());
-			System.out.println("Exit : 0");
-			
-			choice = get_option();
-			if (choice > 0 && choice <= 4) {
+			input = get_input();
+			if (input.isEmpty() == false) {
 				
-				if (choice == AttendeeMenuOptions.GET_BOOKING.ordinal()) {
-					
-					
-					
-				} else if (choice == AttendeeMenuOptions.CREATE_BOOKING.ordinal()) {
-					
-					// Create a new booking
-					
-				} else if (choice == AttendeeMenuOptions.DELETE_BOOKING.ordinal()) {
-					
-					// Delete a booking
-					
-				} else if (choice == AttendeeMenuOptions.ADD_GROUP_MEMBER.ordinal()) {
-					
-					// Add a member to the 
-					
-				}
+
+				amg.remove_attendee(input);
+				
+				menu_end();
 				
 			}
 			
 			
-			
 		} while (exit_menu == false);
+		
+		menu_reset();
 		
 	}
 	
-	
-	
+	public static void display_create_attendee() {
+		
+		do {
+			
+			String first_name;
+			String last_name;
+			int age;
+			String email;
+			
+			System.out.println("-- Create new attendee --\n");
+			System.out.println("First Name : ");
+			
+			first_name = get_input();
+			if (first_name.isEmpty() == false) {
+				
+				System.out.println("Last Name : ");
+				last_name = get_input();
+				if (last_name.isEmpty() == false) {
+					
+					System.out.println("Age : ");
+					
+					age = Integer.parseInt(get_input());
+					if (age > 0 && age < 100) {
+						
+						System.out.println("Email Address : ");
+						
+						email = get_input();
+						if (email.isEmpty() == false && email.contains("@")) {
+							
+							amg.create_attendee(first_name, last_name, age, email);
+							menu_end();
+							
+						}
+						
+					} else {
+						
+						ErrorLog.printInfo("Please enter an age above 0 and lower than 100");
+						
+					}
+				} else {
+					
+					ErrorLog.printInfo("Please enter a last name");
+					
+				}
+				
+			} else {
+				
+				ErrorLog.printInfo("Please enter a first name");
+				
+			}
+			
+		} while (exit_menu == false);
+		
+		menu_reset();
+		
+	}
 	
 }
