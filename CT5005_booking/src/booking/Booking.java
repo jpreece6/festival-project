@@ -7,7 +7,6 @@ public class Booking {
 	private String ref = "";
 	private String booker_ref;
 	private Price_Entry valid_day;
-	private Group group;
 	
 	public Booking() {
 		
