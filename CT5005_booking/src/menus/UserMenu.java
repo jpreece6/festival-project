@@ -84,7 +84,7 @@ public class UserMenu extends Menu {
 				
 				case PRINT_DETAILS :
 					
-					
+					AttendeeMenu.display_attendee_details();
 					
 					break;
 				case EDIT_ATTENDEE :
@@ -228,12 +228,12 @@ public class UserMenu extends Menu {
 					break;
 				case EDIT_CHILD :
 					
-					
+					AttendeeMenu.display_edit_attendee();
 					
 					break;
 				case REMOVE_CHILD :
 					
-					
+					//AttendeeMenu.
 					
 					break;
 				case Menu.EXIT_MENU :

@@ -86,9 +86,6 @@ public class BookingMenu extends Menu {
 	public static void display_edit_booking() {
 		
 		final int EDIT_DAYS = 1;
-		final int EDIT_ADD_TENT = 2;
-		final int EDIT_REMOVE_TENT = 3;
-		final int LIST_TENTS = 4;
 		
 		Booking bok = new Booking();
 		
@@ -103,10 +100,7 @@ public class BookingMenu extends Menu {
 				
 				bok = bmg.getBooking(input);
 			
-				System.out.println("Change Days : " + EDIT_DAYS);
-				System.out.println("Add a tent : " + EDIT_ADD_TENT);
-				System.out.println("Remove a tent : " + EDIT_REMOVE_TENT);
-				System.out.println("List all tents : " + LIST_TENTS);
+				System.out.println("Change Price Type : " + EDIT_DAYS);
 				System.out.println("Exit Menu : " + Menu.EXIT_MENU);
 				
 				choice = get_option();
@@ -127,36 +121,6 @@ public class BookingMenu extends Menu {
 							bmg.edit_booking(bok);
 							
 						}
-						
-						break;
-						
-					// Add a tent to the booking
-					case EDIT_ADD_TENT :
-						
-						System.out.println("Adding Tent...");
-						tmg.add_tent(bok.getRef());
-						
-						break;
-						
-					// Remove a tent from the booking
-					case EDIT_REMOVE_TENT:
-						
-						System.out.println("Removing Tent...");
-						System.out.println("Space Number : ");
-						
-						input = get_input();
-						if (input.isEmpty() == false) {
-							
-							tmg.remove_tent(input);
-							
-						}
-						
-						break;
-						
-					// List all tents assigned to this booking
-					case LIST_TENTS :
-						
-						tmg.list_tents(input);
 						
 						break;
 					

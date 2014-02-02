@@ -115,16 +115,15 @@ public class AttendeeManager implements IDatabaseFunctions {
 	
 	/**
 	 * Update an attendee's information
-	 * @param attendee_ref String attendee to update
+	 * @param att attendee_ref Attendee attendee to update
 	 */
-	public void update_attendee(String attendee_ref) {
+	public void update_attendee(Attendee att) {
 		
 		try {
 			
-			if (DatabaseManager.does_entry_exist("attendees", "ref", attendee_ref)) {
+			if (DatabaseManager.does_entry_exist("attendees", "ref", att.getRef())) {
 				
-				
-				update_attendee(attendee_ref);
+				update_entry(att);
 				
 			} else {
 				
@@ -220,7 +219,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		// validate that a booking does not already have the max number of attendees
 		if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) <= 4) {
 			
-			stat.executeUpdate("UPDATE attendees SET first_name='" + att.getFirst_Name() + "', last_name'" 
+			stat.executeUpdate("UPDATE attendees SET first_name='" + att.getFirst_Name() + "', last_name='" 
 					+ att.getLast_Name() + "', age='"
 					+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
 					+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
