@@ -161,7 +161,7 @@ public class DatabaseManager {
 		
 		Statement stat = getConnection().createStatement();
 		
-		ResultSet rs = stat.executeQuery("SELECT * FROM " + table + " WHERE " + column + "=" + entry);
+		ResultSet rs = stat.executeQuery("SELECT * FROM " + table + " WHERE " + column + "='" + entry + "'");
 		
 		return rs.next();
 		

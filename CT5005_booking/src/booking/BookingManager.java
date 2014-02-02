@@ -26,15 +26,25 @@ public class BookingManager implements IDatabaseFunctions {
 			bok.setBooker(attendee_ref);
 			bok.setValid_Day(price_entry);
 			
-			// check for a booking with a booker 
-			if (DatabaseManager.does_entry_exist("bookings", "booker", bok.getBooker()) == false) {
+			// Check if the attendee exists
+			if (DatabaseManager.does_entry_exist("attendees", "ref", attendee_ref)) {
 				
-				add_entry(bok);
-				System.out.println("Booking created...");
+				// check for a booking with a booker 
+				if (DatabaseManager.does_entry_exist("bookings", "booker", bok.getBooker()) == false) {
+					
+					add_entry(bok);
+					// TODO Update booker booking --
+					System.out.println("Booking created...");
+					
+				} else {
+					
+					System.out.println("Attendee is already has a booking...");
+					
+				}
 				
 			} else {
 				
-				System.out.println("Attendee is already has a booking...");
+				ErrorLog.printInfo("Could not find attendee. Please create an attendee or check the ref");
 				
 			}
 			
@@ -127,7 +137,7 @@ public class BookingManager implements IDatabaseFunctions {
 	 * Prints the details of a booking stored in the database
 	 * @param booking 
 	 */
-	public void print_booking_details(Booking booking) {
+	/*public void print_booking_details(Booking booking) {
 		
 		try {
 			
@@ -138,7 +148,7 @@ public class BookingManager implements IDatabaseFunctions {
 			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
-	}
+	}*/
 	
 	/**
 	 * Search for a booking in the database
@@ -157,15 +167,13 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
-	public void get_all_attendees_attached(String attendee_ref) {
+	public void print_all_attendees_attached(String booking_ref) {
 		
 		try {
 			
-			ResultSet rs = DatabaseManager.search_database("attendees", "ref", attendee_ref);
+			DatabaseManager.print_results("Booking Attendees", DatabaseManager.search_database("attendees", "booking", booking_ref));
+			DatabaseManager.print_results("Booking Children", DatabaseManager.search_database("children", "booking", booking_ref));
 			
-			while (rs.next()) {
-				// add to group
-			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Get all attendees failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -195,6 +203,70 @@ public class BookingManager implements IDatabaseFunctions {
 			return 0;
 		}
 		 
+	}
+	
+	public String get_total_cost(String booking_ref) {
+		
+		try {
+			
+			int total = 0;
+			String valid = "";
+			ResultSet rs;
+			
+			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
+				
+				rs = DatabaseManager.search_database("bookings", "ref", booking_ref);
+				
+				if (rs.next()) {
+					
+					valid = rs.getString("valid_day");
+					
+				}
+				
+				if (valid.isEmpty() == false) {
+					
+					rs = DatabaseManager.search_database("prices", "type", valid);
+					
+					if (rs.next()) {
+						
+						total += Integer.parseInt(rs.getString("price"));
+						
+					}
+						
+					if (DatabaseManager.does_entry_exist("tents", "booking", booking_ref)) {
+						
+						rs = DatabaseManager.search_database("prices", "type", "TENT");
+						
+						if (rs.next()) {
+							
+							total += Integer.parseInt(rs.getString("price"));
+							return Integer.toString(total);
+							
+						}
+						
+					} else {
+						
+						return Integer.toString(total);
+						
+					}
+					
+				}
+				
+				ErrorLog.printInfo("Could not find booking valid day. Please check ref.");
+				return "?";
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find booking. Please check ref.");
+				return "?";
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not calculate and retrieve the total cost!\n" + ex.getMessage(),	ErrorLog.SEVERITY_MEDIUM);
+			return "Error";
+		}
+		
 	}
 
 	@Override

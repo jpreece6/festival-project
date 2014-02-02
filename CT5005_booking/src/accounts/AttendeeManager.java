@@ -29,7 +29,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		try {
 
-			// Check if the database does not have the maximum number of attendees (pre-condition)
+			// Check if the database does not have the maximum number of attendees
 			if (DatabaseManager.count_items("attendees") <= Festival.MAX_ATTENDEES) {
 				
 				if (att.getAge() <= 12) {
@@ -58,7 +58,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		try {
 			
-			// Check to see if the database is not empty (pre-condition)
+			// Check to see if the database is not empty
 			if (DatabaseManager.count_items("attendees") > 0) {
 				
 				DatabaseManager.print_results("Attendee Search Result", DatabaseManager.search_database("attendees", column, data));
@@ -104,7 +104,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		
-		int count = DatabaseManager.count_items("attendees");
+		// Add both the number of attendees and children to get the total number of attendees currently registered
+		int count = (DatabaseManager.count_items("attendees") + DatabaseManager.count_items("children"));
 		if (count <= Festival.MAX_ATTENDEES) {
 			
 			Attendee att = (Attendee)data;
@@ -131,7 +132,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		// delete entry only if it exists
 		if (DatabaseManager.does_entry_exist("attendees", "ref", ref)) {
 			
-		stat.execute("DELETE FROM attendees WHERE ref=" + ref);
+			stat.execute("DELETE FROM attendees WHERE ref=" + ref);
 
 		}
 		
@@ -151,11 +152,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		// validate that a booking does not already have the max number of attendees
 		if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) <= 4) {
-		
-			Booking b = new Booking();
-			att.setBooking(b.getRef());
-			att.setBooking("1");
-			att.toString();
 			
 			stat.executeUpdate("UPDATE attendees SET first_name='" + att.getFirst_Name() + "', last_name'" 
 					+ att.getLast_Name() + "', age='"
@@ -164,7 +160,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		} else {
 			
-			
+			ErrorLog.printInfo("Booking already has the maximum number of attendees assigned");
 		}
 		
 		stat.close();
@@ -234,14 +230,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			att.setLast_Name(result.getString("last_name"));
 			att.setAge(result.getInt("age"));
 			att.setEmailAddress(result.getString("email_address"));
-			
-			if (result.getString("booking") != null) {
-				
-				Booking bok = new Booking();
-				bok.setRef(result.getString("booking"));
-				att.setBooking(bok.getRef());
-				
-			}
+			att.setBooking(result.getString("booking"));
 		
 			return att;
 			

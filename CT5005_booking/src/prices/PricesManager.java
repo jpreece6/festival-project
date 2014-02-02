@@ -68,10 +68,33 @@ public class PricesManager implements IDatabaseFunctions {
 		
 		for (int i = 0; i < Price_Entry.values().length; i++) {
 			
+			/*String day = Price_Entry.values()[i].toString();
+			int index = day.indexOf("_") + 1;*/
 			System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
 			
 		}
 		
+	}
+	
+	public void print_stored_prices() {
+
+		try {
+			
+			Statement stat = DatabaseManager.getConnection().createStatement();
+			
+			ResultSet result = stat.executeQuery("SELECT * from prices");
+			
+			System.out.println("\n-- Current Prices --");
+			
+			while (result.next()) {
+				
+				System.out.println(result.getString("type") + " : £" + result.getString("price"));
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not retrieve prices!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
 	}
 	
 	@Override
@@ -104,7 +127,7 @@ public class PricesManager implements IDatabaseFunctions {
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
 		stat.executeUpdate("UPDATE prices SET type='" + pri.getDay().toString() + "', price='"
-				+ pri.getPrice() + "' WHERE type=" + pri.getDay().toString());
+				+ pri.getPrice() + "' WHERE type='" + pri.getDay().toString() + "'");
 		
 		stat.close();
 		
@@ -167,22 +190,6 @@ public class PricesManager implements IDatabaseFunctions {
 		}
 		
 		return null;
-	}
-	
-	public void print_stored_prices() throws SQLException {
-		
-		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		ResultSet result = stat.executeQuery("SELECT * from prices");
-		
-		System.out.println("\n-- Current Prices --");
-		
-		while (result.next()) {
-			
-			System.out.println(result.getString("type") + " : £" + result.getString("price"));
-			
-		}
-		
 	}
 
 }

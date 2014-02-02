@@ -38,6 +38,9 @@ public class StaffMenu extends Menu {
 			System.out.println("Create Booking : " + StaffMenuOptions.CREATE_BOOKING.ordinal());
 			System.out.println("Edit Booking : " + StaffMenuOptions.EDIT_BOOKING.ordinal());
 			System.out.println("Delete Booking : " + StaffMenuOptions.DELETE_BOOKING.ordinal());
+			System.out.println("Get Booking Cost : " + StaffMenuOptions.BOOKING_COST.ordinal());
+			System.out.println("List Booking Attendees : " + StaffMenuOptions.LIST_BOOKING_ATTENDEES.ordinal());
+			System.out.println();
 			System.out.println("Search : " + StaffMenuOptions.SEARCH.ordinal());
 			System.out.println();
 			System.out.println("Create Tables : " + StaffMenuOptions.CREATE_TABLES.ordinal());
@@ -49,7 +52,7 @@ public class StaffMenu extends Menu {
 			System.out.println("Exit Menu : 999");
 			
 			choice = get_option();
-			if (choice > 0 && choice <= 12) {
+			if (choice > 0) {
 				
 				if (choice == StaffMenuOptions.CREATE_ATTENDEE.ordinal()) {
 					
@@ -75,6 +78,14 @@ public class StaffMenu extends Menu {
 				} else if (choice == StaffMenuOptions.DELETE_BOOKING.ordinal()) {
 					
 					display_delete_booking();
+					
+				} else if (choice == StaffMenuOptions.BOOKING_COST.ordinal()) {
+					
+					display_booking_cost();
+					
+				} else if (choice == StaffMenuOptions.LIST_BOOKING_ATTENDEES.ordinal()) {
+					
+					display_list_attendees();
 					
 				} else if (choice == StaffMenuOptions.SEARCH.ordinal()) {
 					
@@ -222,6 +233,50 @@ public class StaffMenu extends Menu {
 		
 		Menu.menu_reset();
 		
+		
+	}
+	
+	private static void display_booking_cost() {
+		
+		do {
+			
+			System.out.println("\n-- Booking Cost --");
+			System.out.println("Booking Ref : ");
+			
+			input = get_input();
+			if (input.isEmpty() == false) {
+				
+				System.out.println("Total : £" + bmg.get_total_cost(input));
+				
+				Menu.menu_end();
+				
+			}
+			
+		} while (exit_menu == false);
+		
+		Menu.menu_reset();
+		
+	}
+	
+	private static void display_list_attendees() {
+		
+		do {
+			
+			System.out.println("\n-- Booking Attendees --");
+			System.out.println("Booking Ref : ");
+			
+			input = get_input();
+			if (input.isEmpty() == false) {
+				
+				bmg.print_all_attendees_attached(input);
+				
+			}
+			
+			Menu.menu_end();
+			
+		} while (exit_menu == false);
+			
+		Menu.menu_reset();
 		
 	}
 	
@@ -432,7 +487,7 @@ public class StaffMenu extends Menu {
 			System.out.println("Find Tent : " + SearchOptions.FIND_TENT.ordinal());
 			
 			choice = get_option();
-			if (choice > 0) {
+			if (choice >= 0) {
 				
 				System.out.println("Category e.g. (ref, first_name, last_name, age, email_address, booking) : ");
 				
@@ -592,14 +647,8 @@ public class StaffMenu extends Menu {
 	private static void display_get_prices() {
 		
 		do {
-		
-			try {
-				
-				pmg.print_stored_prices();
-				
-			} catch (SQLException e) {
-				ErrorLog.printError(e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
-			}
+			
+			pmg.print_stored_prices();
 			
 			Menu.menu_end();
 			
