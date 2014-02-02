@@ -11,7 +11,7 @@ public class MainMenu extends Menu {
 			System.out.println("\n-- Main Menu --");
 			System.out.println("Attendee Menu : " + MainMenuOptions.ATTENDEE_LOGIN.ordinal());
 			System.out.println("Staff Menu : " + MainMenuOptions.STAFF_LOGIN.ordinal());
-			System.out.println("Exit : " + MainMenuOptions.EXIT_MENU.ordinal());
+			System.out.println("Exit : " + Menu.EXIT_MENU);
 		
 			choice = get_option();
 			if (choice >= 0) {
@@ -26,7 +26,7 @@ public class MainMenu extends Menu {
 					// Opens the staff menu for staff
 					StaffMenu.display_menu();
 					
-				} else if (choice == MainMenuOptions.EXIT_MENU.ordinal()) {
+				} else if (choice == Menu.EXIT_MENU) {
 					
 					// Returns to main menu
 					Menu.menu_end();

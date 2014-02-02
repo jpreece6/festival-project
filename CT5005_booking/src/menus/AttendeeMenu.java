@@ -1,6 +1,9 @@
+/**
+ * @author Joshua Preece
+ * @version 1.2
+ * @description Menus used to manipulate attendees
+ */
 package menus;
-
-import java.sql.SQLException;
 
 import accounts.Attendee;
 import festival.ErrorLog;
@@ -8,6 +11,9 @@ import festival.ErrorLog;
 
 public class AttendeeMenu extends Menu {
 	
+	/**
+	 * Displays the delete attendee menu
+	 */
 	public static void display_delete_attendee() {
 		
 		do {
@@ -21,17 +27,24 @@ public class AttendeeMenu extends Menu {
 
 				amg.remove_attendee(input);
 				
-				menu_end();
+				Menu.menu_end();
+				
+			} else {
+				
+				ErrorLog.printInfo("Please enter an attendee ref");
 				
 			}
 			
 			
 		} while (exit_menu == false);
 		
-		menu_reset();
+		Menu.menu_reset();
 		
 	}
 	
+	/**
+	 * Displays the menu to create a new attendee
+	 */
 	public static void display_create_attendee() {
 		
 		do {
@@ -44,25 +57,27 @@ public class AttendeeMenu extends Menu {
 			System.out.println("-- Create new attendee --\n");
 			System.out.println("First Name : ");
 			
+			// Get the attendee's first name
 			first_name = get_input();
 			if (first_name.isEmpty() == false) {
 				
+				// Get the attendee's last name
 				System.out.println("Last Name : ");
 				last_name = get_input();
 				if (last_name.isEmpty() == false) {
 					
+					// Get the attendee's age
 					System.out.println("Age : ");
-					
 					age = Integer.parseInt(get_input());
 					if (age > 0 && age < 100) {
 						
+						// Get the attendee's email address
 						System.out.println("Email Address : ");
-						
 						email = get_input();
 						if (email.isEmpty() == false && email.contains("@")) {
 							
 							amg.create_attendee(first_name, last_name, age, email);
-							menu_end();
+							Menu.menu_end();
 							
 						}
 						
@@ -85,12 +100,16 @@ public class AttendeeMenu extends Menu {
 			
 		} while (exit_menu == false);
 		
-		menu_reset();
+		Menu.menu_reset();
 		
 	}
 	
+	/**
+	 * Displays the menu to edit attendees
+	 */
 	public static void display_edit_attendee() {
 		
+		final int EXIT_MENU = 0;
 		final int EDIT_NAME = 1;
 		final int EDIT_AGE = 2;
 		final int EDIT_EMAIL = 3;
@@ -103,118 +122,120 @@ public class AttendeeMenu extends Menu {
 		
 		do {
 			
-			try {
+			System.out.println("\n-- Select Attendee --");
+			System.out.println("Attendee Ref : ");
 				
-				System.out.println("\n-- Select Attendee --");
-				System.out.println("Attendee Ref : ");
-					
-				String ref = get_input();
-				//assert(ref.isEmpty()) : "Blah";
-				if (ref.isEmpty() == false) {
-					
-					att = (Attendee)amg.get_item(ref);
-						
-				}
+			String ref = get_input();
+			// TODO assert
+			//assert(ref.isEmpty()) : "Blah";
+			if (ref.isEmpty() == false) {
 				
-			} catch (SQLException ex) {
-				System.out.println(ex.getMessage());
-			}
+				att = amg.get_attendee(ref);
 			
-			System.out.println("\n-- Edit Attendee --");
-			System.out.println("Edit Name : " + EDIT_NAME);
-			System.out.println("Edit Age : " + EDIT_AGE);
-			System.out.println("Edit Email : " + EDIT_EMAIL);
-			System.out.println("Edit Booking : " + EDIT_BOOKING);
-			
-			choice = get_option();
-			if (choice > 0 && choice <= 4) {
+				System.out.println("\n-- Edit Attendee --");
+				System.out.println("Edit Name : " + EDIT_NAME);
+				System.out.println("Edit Age : " + EDIT_AGE);
+				System.out.println("Edit Email : " + EDIT_EMAIL);
+				System.out.println("Edit Booking : " + EDIT_BOOKING);
+				System.out.println("Exit Menu : " + Menu.EXIT_MENU);
 				
-				switch(choice) {
-				
-				case EDIT_NAME :
+				choice = get_option();
+				if (choice > 0) {
 					
-					System.out.println("First Name : ");
-					first_name = get_input();
+					switch(choice) {
 					
-					if (first_name.isEmpty() == false) {
+					case EDIT_NAME :
 						
-						System.out.println("Last Name : ");
-						last_name = get_input();
-						
-						if (last_name.isEmpty() == false) {
+						// Get attendee's first name
+						System.out.println("First Name : ");
+						first_name = get_input();
+						if (first_name.isEmpty() == false) {
 							
-							att.setFirst_Name(first_name);
-							att.setLast_Name(last_name);
+							// Get attendee's last name
+							System.out.println("Last Name : ");
+							last_name = get_input();
+							if (last_name.isEmpty() == false) {
+								
+								att.setFirst_Name(first_name);
+								att.setLast_Name(last_name);
+								
+							}
 							
 						}
 						
-					}
-					
-					break;
-					
-				case EDIT_AGE :
-					
-					System.out.println("Age : ");
-					
-					choice = get_option();
-					if (choice > 0) {
+						break;
 						
-						att.setAge(choice);
+					case EDIT_AGE :
 						
-					}
-					
-					break;
-					
-				case EDIT_EMAIL :
-					
-					System.out.println("Email : ");
-					input = get_input();
-					
-					if (input.isEmpty() == false && input.contains("@")) {
+						// Get attendee's age
+						System.out.println("Age : ");
 						
-						att.setEmailAddress(input);
-						
-					}
-					
-					break;
-					
-				case EDIT_BOOKING :
-					
-					System.out.println("Booking Ref : ");
-					input = get_input();
-					
-					if (input.isEmpty() == false) {
-						
-						if (bmg.does_booking_exist(input)) {
+						choice = get_option();
+						if (choice > 0) {
 							
-							att.setBooking(input);
+							att.setAge(choice);
 							
 						}
 						
+						break;
+						
+					case EDIT_EMAIL :
+						
+						// Get attendee's email address
+						System.out.println("Email : ");
+						input = get_input();
+						
+						if (input.isEmpty() == false && input.contains("@")) {
+							
+							att.setEmailAddress(input);
+							
+						}
+						
+						break;
+						
+					case EDIT_BOOKING :
+						
+						// Get attendee's booking ref
+						System.out.println("Booking Ref : ");
+						input = get_input();
+						
+						if (input.isEmpty() == false) {
+							
+							if (bmg.does_booking_exist(input)) {
+								
+								att.setBooking(input);
+								
+							}
+							
+						}
+						
+						break;
+					case EXIT_MENU :
+						
+						Menu.menu_end();
+						break;
 					}
-					
-					break;
 				}
+			
+			} else {
 				
-				Menu.menu_end();
+				ErrorLog.printInfo("Please enter an attendee ref");
 				
 			}
 			
 			
 		} while (exit_menu == false);
 		
-		try {
-			
-			amg.update_entry(att);
-			
-		} catch (SQLException e) {
-			ErrorLog.printError("Could not update attendee at this time.", ErrorLog.SEVERITY_MEDIUM);
-		}
+		// Apply changes
+		amg.update_attendee(att.getRef());
 		
 		Menu.menu_reset();
 		
 	}
 	
+	/**
+	 * Displays a list of attendees that are assigned to a booking ref
+	 */
 	public static void display_list_attendees() {
 		
 		do {

@@ -1,8 +1,13 @@
+/**
+ * @author Joshua Preece
+ * @version 0.8
+ * @description Defines the staff menu options
+ */
 package menuOptions;
 
 public enum StaffMenuOptions {
 
-	EXIT_MENU,
+	UNKNOWN_OPTION,
 	CREATE_ATTENDEE,
 	EDIT_ATTENDEE,
 	DELETE_ATTENDEE,

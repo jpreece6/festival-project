@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 0.3
+ * @description Price object used to store price information
+ */
 package prices;
 
 public class Price {
@@ -7,26 +12,42 @@ public class Price {
 	
 	/**
 	 * Create a new Price object
-	 * @param day
-	 * @param price
+	 * @param day Price_Entry day/entry to be set
+	 * @param price String price of entry
 	 */
 	public Price(Price_Entry day, String price) {
 		this.day = day;
 		this.price = price;
 	}
 	
+	/**
+	 * Sets the price
+	 * @param price String
+	 */
 	public void setPrice(String price) {
 		this.price = price;
 	}
 	
+	/**
+	 * Gets the price
+	 * @return String price
+	 */
 	public String getPrice() {
 		return this.price;
 	}
 	
+	/**
+	 * Sets the day / entry
+	 * @param day Day
+	 */
 	public void setDay(Price_Entry day) {
 		this.day = day;
 	}
 	
+	/**
+	 * Gets the day / entry
+	 * @return Day
+	 */
 	public Price_Entry getDay() {
 		return day;
 	}
@@ -36,6 +57,7 @@ public class Price {
 	 * of this Price object
 	 */
 	public String toString() {
+		// TODO
 		System.out.println("\n-- Price --");
 		final String FORMAT = "%-20s";
 		System.out.format(FORMAT, "Day", "Price");

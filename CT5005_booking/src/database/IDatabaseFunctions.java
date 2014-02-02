@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 0.9
+ * @description Interface defines the methods needed for classes to communicate with the remote database
+ */
 package database;
 
 import java.sql.SQLException;

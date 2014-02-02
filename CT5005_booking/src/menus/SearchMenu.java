@@ -1,9 +1,17 @@
+/**
+ * @author Joshua Preece
+ * @version 0.4
+ * @desription Menus to search for attendees and bookings
+ */
 package menus;
 
 import menuOptions.SearchOptions;
 
 public class SearchMenu extends Menu {
 	
+	/**
+	 * Displays the search menu
+	 */
 	public static void display_search_menu() {
 		
 		do {
@@ -13,12 +21,13 @@ public class SearchMenu extends Menu {
 			System.out.println("Find Booking : " + SearchOptions.FIND_BOOKING.ordinal());
 			System.out.println("Find Child : " + SearchOptions.FIND_CHILD.ordinal());
 			System.out.println("Find Tent : " + SearchOptions.FIND_TENT.ordinal());
+			System.out.println("Exit Menu : " + Menu.EXIT_MENU);
 			
 			choice = get_option();
 			if (choice >= 0) {
 				
 				System.out.println("Category e.g. (ref, first_name, last_name, age, email_address, booking) : ");
-				
+				// Get the user to select a category
 				String column = get_input();
 				if (column.isEmpty() == false) {
 				
@@ -44,16 +53,18 @@ public class SearchMenu extends Menu {
 							
 							// TODO
 							
+						} else if (choice == Menu.EXIT_MENU) {
+							
+							Menu.menu_end();
+							
 						}
 					}
 				}
 			}
 			
-			menu_end();
-			
 		} while (exit_menu == false);
 		
-		menu_reset();
+		Menu.menu_reset();
 		
 	}
 	

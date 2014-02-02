@@ -1,8 +1,13 @@
+/**
+ * @author Joshua Preece
+ * @version 0.2
+ * @description Defines the attendee menu options
+ */
 package menuOptions;
 
 public enum AttendeeMenuOptions {
 
-	EXIT_MENU,
+	UNKOWN_OPTION,
 	CREATE_ATTENDEE,
 	EDIT_ATTENDEE,
 	

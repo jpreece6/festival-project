@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 0.2
+ * @description Provides methods to print error messages and their severity
+ */
 package festival;
 
 public abstract class ErrorLog {

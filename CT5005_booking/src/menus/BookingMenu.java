@@ -1,10 +1,19 @@
+/**
+ * @author Joshua Preece
+ * @version 0.2
+ * @description Handles the methods used to manipulate bookings
+ */
 package menus;
 
+import festival.ErrorLog;
 import prices.Price_Entry;
 import booking.Booking;
 
 public class BookingMenu extends Menu {
 	
+	/**
+	 * Displays the menu to delete a booking from the database
+	 */
 	public static void display_delete_booking() {
 		
 		do {
@@ -12,9 +21,16 @@ public class BookingMenu extends Menu {
 			System.out.println("\n-- Delete Booking --");
 			System.out.println("Booking Ref :  ");
 			
+			// Get the booking ref
 			input = get_input();
 			if (input.isEmpty() == false) {
+				
 				bmg.delete_booking(input);
+			
+			} else {
+				
+				ErrorLog.printInfo("Please enter a booking ref");
+				
 			}
 			
 			Menu.menu_end();
@@ -25,6 +41,9 @@ public class BookingMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Displays the menu to create a new booking
+	 */
 	public static void display_create_booking() {
 		
 		do {
@@ -61,6 +80,9 @@ public class BookingMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Displays the menu to edit a booking
+	 */
 	public static void display_edit_booking() {
 		
 		final int EDIT_DAYS = 1;
@@ -75,6 +97,7 @@ public class BookingMenu extends Menu {
 			System.out.println("\n-- Edit Booking --");
 			System.out.println("Booking Ref :");
 			
+			// Get the booking ref
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
@@ -84,12 +107,14 @@ public class BookingMenu extends Menu {
 				System.out.println("Add a tent : " + EDIT_ADD_TENT);
 				System.out.println("Remove a tent : " + EDIT_REMOVE_TENT);
 				System.out.println("List all tents : " + LIST_TENTS);
+				System.out.println("Exit Menu : " + Menu.EXIT_MENU);
 				
 				choice = get_option();
 				if (choice > 0) {
 					
 					switch (choice) {
 					
+					// Edit the booking's day
 					case EDIT_DAYS :
 						
 						pmg.list_price_types(null);
@@ -104,12 +129,16 @@ public class BookingMenu extends Menu {
 						}
 						
 						break;
+						
+					// Add a tent to the booking
 					case EDIT_ADD_TENT :
 						
 						System.out.println("Adding Tent...");
 						tmg.add_tent(bok.getRef());
 						
 						break;
+						
+					// Remove a tent from the booking
 					case EDIT_REMOVE_TENT:
 						
 						System.out.println("Removing Tent...");
@@ -123,28 +152,32 @@ public class BookingMenu extends Menu {
 						}
 						
 						break;
+						
+					// List all tents assigned to this booking
 					case LIST_TENTS :
 						
 						tmg.list_tents(input);
 						
 						break;
 					
+					// Exit this menu
+					case Menu.EXIT_MENU :
+						
+						Menu.menu_end();
+						break;
 					}
-					
-					
 				}
 			}
-			
-			Menu.menu_end();
-			
 			
 		} while (exit_menu == false);
 		
 		Menu.menu_reset();
 		
-		
 	}
 	
+	/**
+	 * Display the total booking cost
+	 */
 	public static void display_booking_cost() {
 		
 		do {
@@ -152,6 +185,7 @@ public class BookingMenu extends Menu {
 			System.out.println("\n-- Booking Cost --");
 			System.out.println("Booking Ref : ");
 			
+			// Get the booking ref
 			input = get_input();
 			if (input.isEmpty() == false) {
 				

@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 0.3
+ * @description Menus for setting and getting the festivals booking prices
+ */
 package menus;
 
 import prices.Price_Entry;
@@ -5,6 +10,9 @@ import festival.ErrorLog;
 
 public class PriceMenu extends Menu {
 
+	/**
+	 * Display the menu to set the prices for the festival
+	 */
 	public static void display_set_prices() {
 		
 		do {
@@ -66,6 +74,9 @@ public class PriceMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Display the current prices
+	 */
 	public static void display_get_prices() {
 		
 		do {

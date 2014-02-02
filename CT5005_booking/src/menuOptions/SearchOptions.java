@@ -1,8 +1,13 @@
+/**
+ * @author Joshua Preece
+ * @version 0.2
+ * @description Defines the search menu option
+ */
 package menuOptions;
 
 public enum SearchOptions {
 
-	EXIT_MENU,
+	UNKNOWN_OPTION,
 	FIND_ATTENDEE,
 	FIND_BOOKING,
 	FIND_CHILD,

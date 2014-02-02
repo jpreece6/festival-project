@@ -35,7 +35,7 @@ public class StaffMenu extends Menu {
 			System.out.println("Get Prices : " + StaffMenuOptions.GET_PRICES.ordinal());
 			System.out.println();
 			
-			System.out.println("Exit Menu : " + StaffMenuOptions.EXIT_MENU.ordinal());
+			System.out.println("Exit Menu : " + Menu.EXIT_MENU);
 			
 			choice = get_option();
 			if (choice >= 0) {
@@ -93,7 +93,7 @@ public class StaffMenu extends Menu {
 					
 					PriceMenu.display_get_prices();
 					
-				} else if (choice == StaffMenuOptions.EXIT_MENU.ordinal()) {
+				} else if (choice == Menu.EXIT_MENU) {
 					
 					Menu.menu_end();
 					

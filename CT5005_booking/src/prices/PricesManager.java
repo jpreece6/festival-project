@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 0.2
+ * @description Handles the database functions for the prices table
+ */
 package prices;
 
 import java.sql.ResultSet;
@@ -12,12 +17,22 @@ public class PricesManager implements IDatabaseFunctions {
 	
 	private Price pri;
 	
+	/**
+	 * Add a new price entry to the database
+	 * @param day Day entry
+	 * @param price String price
+	 */
 	public void set_price(Price_Entry day, String price) {
 		
 		try {
 			pri = new Price(day, price);
 
-			add_entry(pri);
+			// Make sure that an entry for this day/entry does not already exist
+			if (DatabaseManager.does_entry_exist("prices", "type", day.toString())) {
+				
+				add_entry(pri);
+			
+			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Set price failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
@@ -35,6 +50,7 @@ public class PricesManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Make sure that this entry does exist before updating
 			if (DatabaseManager.does_entry_exist("prices", "type", entry.toString())) {
 			
 				pri = new Price(entry, price);
@@ -53,6 +69,11 @@ public class PricesManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Checks if the day/entry does exist
+	 * @param entry String
+	 * @return Boolean true if it does exist false if not
+	 */
 	public boolean does_day_exist(String entry) {
 		try {
 			
@@ -64,6 +85,10 @@ public class PricesManager implements IDatabaseFunctions {
 		}
 	}
 	
+	/**
+	 * Lists the price types defined
+	 * @param exclude String[] array of the types to exclude from the list
+	 */
 	public void list_price_types(String[] exclude) {
 		
 		for (int i = 0; i < Price_Entry.values().length; i++) {
@@ -91,6 +116,9 @@ public class PricesManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Print all the prices currently stored in the database
+	 */
 	public void print_stored_prices() {
 
 		try {

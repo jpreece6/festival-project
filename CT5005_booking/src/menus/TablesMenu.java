@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 1.2
+ * @description Menus to create and drop tables on the remote database
+ */
 package menus;
 
 import java.sql.SQLException;
@@ -6,6 +11,9 @@ import festival.ErrorLog;
 
 public class TablesMenu extends Menu {
 	
+	/**
+	 * Display the menu to create all tables
+	 */
 	public static void display_create_tables() {
 		
 		do {
@@ -14,6 +22,7 @@ public class TablesMenu extends Menu {
 			
 			try {
 			
+				// Create all tables
 				amg.create_table();
 				bmg.create_table();
 				pmg.create_table();
@@ -33,7 +42,9 @@ public class TablesMenu extends Menu {
 		
 	}
 	
-	
+	/**
+	 * Display menu to drop all tables
+	 */
 	public static void display_drop_tables() {
 		
 		do {
@@ -42,6 +53,7 @@ public class TablesMenu extends Menu {
 				
 				System.out.println("\nDropping Tables....");
 				
+				// Drop all tables
 				amg.drop_table();
 				bmg.drop_table();
 				pmg.drop_table();

@@ -1,8 +1,8 @@
 /**
  * @author Joshua Preece
  * @version 1.0
- * @description This class allows the app to connect to a remote database and defines methods which aid getting information about
- * the database and its tables
+ * @description This class allows the program to connect to a remote database and defines methods 
+ * which aid getting information about the database and its tables.
  */
 
 package database;
@@ -16,6 +16,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
+import festival.ErrorLog;
 
 public class DatabaseManager {
 
@@ -58,7 +60,7 @@ public class DatabaseManager {
 			}
 			
 		} catch (Exception ex) {
-			
+			ErrorLog.printError("Could not load database credentials!\n" + ex.getMessage(), ErrorLog.SEVERITY_CRITICAL);
 		}
 	}
 	
@@ -81,8 +83,9 @@ public class DatabaseManager {
 	}
 	
 	/**
-	 * 
-	 * @param result
+	 * Prints the results of a ResultSet returned by a search function
+	 * @param title String title of the results
+	 * @param result ResultSet containing the data retrieved from the database
 	 * @throws SQLException
 	 */
 	public static void print_results(String title, ResultSet result) throws SQLException {
@@ -113,9 +116,9 @@ public class DatabaseManager {
 	}
 	
 	/**
-	 * 
-	 * @param table
-	 * @return
+	 * Counts the number of entries in a table
+	 * @param table String name of the table to count
+	 * @return Integer count
 	 * @throws SQLException
 	 */
 	public static int count_items(String table) throws  SQLException {

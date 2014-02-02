@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @vesion 1.1
+ * @description Menus for the attendee's to register and create bookings
+ */
 package menus;
 
 public class UserMenu extends Menu {

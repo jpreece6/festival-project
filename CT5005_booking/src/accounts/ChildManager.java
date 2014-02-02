@@ -43,6 +43,11 @@ public class ChildManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Search for a child in the children's table
+	 * @param column String column to search
+	 * @param data String data to search for
+	 */
 	public void search_for_child(String column, String data) {
 		
 		try {

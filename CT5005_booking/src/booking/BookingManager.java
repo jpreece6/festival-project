@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 1.5
+ * @description Hanles the database functions for the bookings table
+ */
 package booking;
 
 import java.sql.ResultSet;
@@ -12,12 +17,13 @@ import festival.ErrorLog;
 public class BookingManager implements IDatabaseFunctions {
 
 	private static Booking bok;
-	
-	public BookingManager() {
-		
-		
-	}
 
+	/**
+	 * Create a new booking in the database
+	 * @param attendee_ref String attendee ref to set as booker
+	 * @param price_entry String price entry of this booking
+	 * @return Boolean true if added successfully, false if not
+	 */
 	public boolean create_booking(String attendee_ref, Price_Entry price_entry) {
 		
 		try {
@@ -86,6 +92,10 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Edit a booking in the database
+	 * @param book Booking object which contains all the changes
+	 */
 	public void edit_booking(Booking book) {
 		
 		try {
@@ -107,11 +117,25 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Retrieve a booking from the datavase
+	 * @param booker_ref String booking to retrieve
+	 * @return Booking object
+	 */
 	public Booking getBooking(String booker_ref) {
 		
 		try {
 			
-			return (Booking)get_item(booker_ref);
+			if (DatabaseManager.does_entry_exist("bookings", "ref", booker_ref)) {
+				
+				return (Booking)get_item(booker_ref);
+			
+			} else {
+				
+				ErrorLog.printInfo("Could not find booking. Please check ref");
+				return null;
+				
+			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Could not retrieve booking. Please check ref\n" + ex.getMessage(), ErrorLog.SEVERITY_LOW);
@@ -171,6 +195,10 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Print all attendees that are assigned to this booking
+	 * @param booking_ref String booking to print from
+	 */
 	public void print_all_attendees_attached(String booking_ref) {
 		
 		try {
@@ -185,6 +213,11 @@ public class BookingManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Get the number of attendees that are assigned to this booking
+	 * @param book Booking to count
+	 * @return Integer number of attendees
+	 */
 	public int get_number_of_attendees(Booking book) {
 		
 		bok = book;

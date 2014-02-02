@@ -16,9 +16,15 @@ import festival.ErrorLog;
 import festival.Festival;
 
 public class AttendeeManager implements IDatabaseFunctions {
-	
-	
-	
+
+	/**
+	 * Creates a new attendee
+	 * @param first_name String attendee's first name
+	 * @param last_name String attendee's last name
+	 * @param age String attendee's age. If the attendee is under 12 years old they will be placed into the
+	 * children's table for health and safety reasons.
+	 * @param email_address String email address of the attendee
+	 */
 	public void create_attendee(String first_name, String last_name, int age, String email_address) {
 		
 		// Create new attendee object
@@ -54,6 +60,12 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Search for a specific attendees with specific information
+	 * @param column String column/category to search e.g first_name,
+	 * last_name, age, email_address and booking_ref
+	 * @param data String data to search for
+	 */
 	public void search_for_attendee(String column, String data) {
 		
 		try {
@@ -75,7 +87,10 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 	}
 
-	
+	/**
+	 * Remove an attendee from the database
+	 * @param attendee_ref String ref of the attendee to be removed
+	 */
 	public void remove_attendee(String attendee_ref) {
 		
 		try {
@@ -98,6 +113,10 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Update an attendee's information
+	 * @param attendee_ref String attendee to update
+	 */
 	public void update_attendee(String attendee_ref) {
 		
 		try {
@@ -115,6 +134,33 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Could not update attendee!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	/**
+	 * Retrieve an attendee from the database
+	 * @param attendee_ref String attendee ref to retrieve
+	 * @return Attendee object containing the results
+	 */
+	public Attendee get_attendee(String attendee_ref) {
+		
+		try {
+			
+			if (DatabaseManager.does_entry_exist("attendees", "ref", attendee_ref)) {
+				
+				return (Attendee)get_item(attendee_ref);
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find attendee. Please check ref");
+				return null;
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not retireve attendee. Please check ref\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return null;
 		}
 		
 	}

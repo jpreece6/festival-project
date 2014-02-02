@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 0.6
+ * @description Defines default menu functionality
+ */
 package menus;
 
 import java.util.Scanner;
@@ -19,6 +24,8 @@ public abstract class Menu {
 	protected static int choice;
 	protected static String input;
 	protected static boolean exit_menu;
+
+	protected static final int EXIT_MENU = 0;
 	
 	/**
 	 * Main entry point to he menu
