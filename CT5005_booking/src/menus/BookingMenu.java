@@ -27,7 +27,7 @@ public class BookingMenu extends Menu {
 				
 				bmg.delete_booking(input);
 				// Remove all tents assigned to this booking
-				tmg.remove_all_tents(get_input());
+				tmg.remove_all_tents(input);
 			
 			} else {
 				
