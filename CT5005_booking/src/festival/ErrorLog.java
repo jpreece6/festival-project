@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.2
- * @description Provides methods to print error messages and their severity
+ * Provides methods to print error messages and their severity
  */
 package festival;
 
@@ -41,6 +41,12 @@ public abstract class ErrorLog {
 		
 	}
 	
+	/**
+	 * Print basic information. This can be used as a warning to the user.
+	 * Such as when they have not entered in a correct value. Or a value that they have
+	 * entered cannot be found in the database.
+	 * @param msg String message to print
+	 */
 	public static void printInfo(String msg) {
 		
 		System.out.println("\n-- INFO --");

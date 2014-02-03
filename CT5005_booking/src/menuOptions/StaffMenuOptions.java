@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.8
- * @description Defines the staff menu options
+ * Defines the staff menu options
  */
 package menuOptions;
 

@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 1.2
- * @description Menus to create and drop tables on the remote database
+ * Menus to create and drop tables on the remote database
  */
 package menus;
 

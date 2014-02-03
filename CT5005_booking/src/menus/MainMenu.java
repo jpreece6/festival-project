@@ -1,9 +1,17 @@
+/**
+ * @author Joshua Preece
+ * @version 0.3
+ * Creates the main menu interface for users to use
+ */
 package menus;
 
 import menuOptions.MainMenuOptions;
 
 public class MainMenu extends Menu {
 	
+	/**
+	 * Displays the main menu for users to navigate the app
+	 */
 	public static void display_menu() {
 		
 		do {
@@ -11,6 +19,7 @@ public class MainMenu extends Menu {
 			System.out.println("\n-- Main Menu --");
 			System.out.println("Attendee Menu : " + MainMenuOptions.ATTENDEE_LOGIN.ordinal());
 			System.out.println("Staff Menu : " + MainMenuOptions.STAFF_LOGIN.ordinal());
+			System.out.println("Search Menu : " + MainMenuOptions.SEARCH_OPTION.ordinal());
 			System.out.println("Exit : " + Menu.EXIT_MENU);
 		
 			choice = get_option();
@@ -25,6 +34,11 @@ public class MainMenu extends Menu {
 					
 					// Opens the staff menu for staff
 					StaffMenu.display_menu();
+					
+				} else if (choice == MainMenuOptions.SEARCH_OPTION.ordinal()) {
+					
+					// Opens the search interface
+					SearchMenu.display_search_menu();
 					
 				} else if (choice == Menu.EXIT_MENU) {
 					

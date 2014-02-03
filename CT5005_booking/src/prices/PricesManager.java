@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.2
- * @description Handles the database functions for the prices table
+ * Handles the database functions for the prices table
  */
 package prices;
 
@@ -100,6 +100,7 @@ public class PricesManager implements IDatabaseFunctions {
 				int index = 0;
 				do {
 		
+					// Does this entry match the exlude if not then print
 					if (Price_Entry.values()[i].toString().equals(exclude[index]) == false) {
 						System.out.println(Price_Entry.values()[i].toString() + " : " + Price_Entry.values()[i].ordinal());
 					}

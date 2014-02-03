@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.4
- * @description Handles the staff menus
+ * Handles the staff menus
  */
 
 package menus;
@@ -11,6 +11,9 @@ import festival.ErrorLog;
 
 public class StaffMenu extends Menu {
 	
+	/**
+	 * Displays the main staff menu interface
+	 */
 	public static void display_menu() {
 
 		do {

@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 1.5
- * @description Hanles the database functions for the bookings table
+ * Handles the database functions for the bookings table
  */
 package booking;
 
@@ -44,7 +44,7 @@ public class BookingManager implements IDatabaseFunctions {
 				if (DatabaseManager.does_entry_exist("bookings", "booker", bok.getBooker()) == false) {
 					
 					add_entry(bok);
-					// TODO Update booker booking --
+
 					System.out.println("Booking created...");
 					return bok;
 					
@@ -105,8 +105,10 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Check booking exists before updating
 			if (DatabaseManager.does_entry_exist("bookings", "ref", book.getRef())) {
 				
+				// TODO check if booker COMPARE
 				update_entry(book);
 				System.out.println("Booking updated!");
 				
@@ -123,7 +125,7 @@ public class BookingManager implements IDatabaseFunctions {
 	}
 	
 	/**
-	 * Retrieve a booking from the datavase
+	 * Retrieve a booking from the database
 	 * @param booking_ref String booking to retrieve
 	 * @return Booking object
 	 */
@@ -131,6 +133,7 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Check booking exists before retrieving
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
 				return (Booking)get_item(booking_ref);
@@ -165,23 +168,6 @@ public class BookingManager implements IDatabaseFunctions {
 		}
 		
 	}
-	
-	/**
-	 * Prints the details of a booking stored in the database
-	 * @param booking 
-	 */
-	/*public void print_booking_details(Booking booking) {
-		
-		try {
-			
-			DatabaseManager.print_results("Booking Details", DatabaseManager.search_database("bookings", "ref", booking.getRef()));
-			DatabaseManager.print_results("", null);
-			
-		} catch (SQLException ex) {
-			ErrorLog.printError(ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
-		}
-		
-	}*/
 	
 	/**
 	 * Search for a booking within the database
@@ -261,36 +247,45 @@ public class BookingManager implements IDatabaseFunctions {
 			ResultSet tent_rs;
 			ResultSet cal_rs;
 			
+			// Does the booking exist
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
 				rs = DatabaseManager.search_database("bookings", "ref", booking_ref);
 				
+				// Get the bookings valid_day/Price_type
 				if (rs.next()) {
 					
 					valid = rs.getString("valid_day");
 					
 				}
 				
+				// Make sure we we're able to get the valid_day/Price_type
 				if (valid.isEmpty() == false) {
 					
 					valid_rs = DatabaseManager.search_database("prices", "type", valid);
 					
+					// Get the price of the valid_day/Price_type
 					if (valid_rs.next()) {
 						
+						// Update total with the new price
 						total += Integer.parseInt(valid_rs.getString("price"));
 						
-						// Cal Tents
+
 						tent_rs = DatabaseManager.search_database("prices", "type", "TENTS");
 						
+						// Get 
 						if (tent_rs.next()) {
 							
 							cal_rs = DatabaseManager.search_database("tents", "booking", booking_ref);
+							
+							// If this booking has tents get their price and add to the total
 							while (cal_rs.next()) {
 								
 								total += Integer.parseInt(tent_rs.getString("price"));
 								
 							}
 							
+							// Return the total cost
 							return total;
 							
 						} else {
@@ -414,6 +409,7 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		if (result.next()) {
 			
+			// Assign the results to a new booking object to be returned
 			bok.setRef(result.getString("ref"));
 			bok.setValid_Day(Price_Entry.valueOf(result.getString("valid_day")));
 			bok.setBooker(result.getString("booker"));

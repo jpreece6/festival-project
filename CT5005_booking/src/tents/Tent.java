@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 1.1
- * @description Tent object for storing information about tents
+ * Tent object for storing information about tents
  */
 package tents;
 
@@ -40,6 +40,14 @@ public class Tent {
 	 */
 	public String get_booking_ref() {
 		return this.booking_ref;
+	}
+	
+	public String toString() {
+		System.out.println("\n-- Tent --");
+		System.out.println("Space Number : " + get_space_no());
+		System.out.println("Booking : " + get_booking_ref());
+		System.out.println("--  END Tent --\n");
+		return "";
 	}
 	
 }

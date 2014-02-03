@@ -1,11 +1,10 @@
 /**
  * @author Joshua Preece
  * @version 1.2
- * @description Menus used to manipulate attendees
+ * Menus used to manipulate attendees
  */
 package menus;
 
-import database.DatabaseManager;
 import accounts.Attendee;
 import festival.ErrorLog;
 
@@ -22,11 +21,40 @@ public class AttendeeMenu extends Menu {
 			System.out.println("\n-- Delete Attendee -- ");
 			System.out.println("Attendee Ref : ");
 			
+			Attendee att = new Attendee();
+			
+			// Get the attendee ref
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
-
-				amg.remove_attendee(input);
+				// Get the attendee details from the database
+				att = amg.get_attendee(input);
+				
+				// Check if we were able to retrieve data
+				if (att == null) {
+					
+					// Check if the attendee is a child and is stored in the childrens database
+					ErrorLog.printInfo("Could not find attendee. Checking if attendee is a child");
+					att = cmg.get_child(input);
+					
+					// If we're unable to indetify the attendee print an error
+					if (att == null) {
+						
+						ErrorLog.printInfo("Could not find attendee. Please check ref");
+						
+					} else {
+						
+						// Remove the child
+						cmg.remove_child(input);
+						
+					}
+					
+				} else {
+					
+					// Remove the attendee
+					amg.remove_attendee(input);
+					
+				}
 				
 				Menu.menu_end();
 				
@@ -73,22 +101,14 @@ public class AttendeeMenu extends Menu {
 						System.out.println("Email Address : ");
 						att.setEmailAddress(get_input());
 						if (att.getEmailAddress().isEmpty() == false && att.getEmailAddress().contains("@")) {
-							
-							if (att.getAge() <= 12) {
-								
-								cmg.add_child(att);
-								
-							} else {
-								
-								// If create attendee is successful then ask the user if they want to add a booking now
+						
 								att = amg.create_attendee(att);
-								if (att != null) {
-									
-									ErrorLog.printInfo("You Ref Number is : " + att.getRef());
+							
+							if (att != null) {
 								
-									display_add_booking_now(att);
-									
-								}
+								ErrorLog.printInfo("You Ref Number is : " + att.getRef());
+							
+								display_add_booking_now(att);
 								
 							}
 								
@@ -101,6 +121,7 @@ public class AttendeeMenu extends Menu {
 						ErrorLog.printInfo("Please enter an age above 0 and lower than 100");
 						
 					}
+					
 				} else {
 					
 					ErrorLog.printInfo("Please enter a last name");
@@ -142,12 +163,19 @@ public class AttendeeMenu extends Menu {
 			String ref = get_input();
 			// TODO assert
 			//assert(ref.isEmpty()) : "Blah";
+			// Check if we got a ref
 			if (ref.isEmpty() == false) {
 				
+				// Get the attendee's details
 				att = amg.get_attendee(ref);
-				
 				if (att == null) {
-					return;
+					ErrorLog.printInfo("Checking if attendee is child");
+					att = cmg.get_child(ref);
+					
+					if (att == null) {
+						ErrorLog.printInfo("Could not find attendee. Please check ref");
+						return;
+					}
 				}
 			
 				System.out.println("\n-- Edit Attendee --");
@@ -250,7 +278,15 @@ public class AttendeeMenu extends Menu {
 		
 		Menu.menu_reset();
 
-		amg.update_attendee(att);
+		if (att.getAge() <= 12) {
+		
+			cmg.update_child(att);
+			
+		} else {
+			
+			amg.update_attendee(att);
+		
+		}
 		
 	}
 	
@@ -283,6 +319,9 @@ public class AttendeeMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Displays the an attendee's details to the screen
+	 */
 	public static void display_attendee_details() {
 		
 		do {
@@ -290,9 +329,11 @@ public class AttendeeMenu extends Menu {
 			System.out.println("\n-- Attendee Details --");
 			System.out.println("Attendee Ref : ");
 			
+			// Get the attendee ref
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
+				// Get the attendee details
 				Attendee att = amg.get_attendee(input);
 				
 				if (att != null) {
@@ -324,14 +365,22 @@ public class AttendeeMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Ask the user if they want to set a booking to this attendee. This is best used
+	 * when a booking has been created before this attendee. New bookings require an attendee/booker
+	 * so the user should say no if they do not yet have a booking created
+	 * @param att Attendee
+	 */
 	public static void display_add_booking_now(Attendee att) {
 		
 		final String YES = "yes";
 		final String NO = "no";
 		
 		do {
-			
+		
 			System.out.println("Would you like to assign a booking now? (yes or no)");
+			ErrorLog.printInfo("If you have already created a booking then say yes if not then\n"
+					+ "say no and create one. When you create a booking you will be assigned a booking automatically.");
 			
 			input = get_input();
 			if (input.isEmpty() == false) {
@@ -345,7 +394,17 @@ public class AttendeeMenu extends Menu {
 					if (input.isEmpty() == false) {
 						
 						att.setBooking(input);
-						amg.update_attendee(att);
+						
+						// Check if the attendee is a child or not to update the correct table
+						if (att.getAge() <= 12) {
+							
+							cmg.update_child(att);
+							
+						} else {
+	
+							amg.update_attendee(att);
+							
+						}
 						
 						Menu.menu_end();
 						

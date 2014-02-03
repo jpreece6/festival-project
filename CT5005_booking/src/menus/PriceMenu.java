@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.3
- * @description Menus for setting and getting the festivals booking prices
+ * Menus for setting and getting the festivals booking prices
  */
 package menus;
 

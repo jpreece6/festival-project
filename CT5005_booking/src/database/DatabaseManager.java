@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 1.0
- * @description This class allows the program to connect to a remote database and defines methods 
+ * This class allows the program to connect to a remote database and defines methods 
  * which aid getting information about the database and its tables.
  */
 
@@ -44,16 +44,19 @@ public class DatabaseManager {
 			url = prop.getProperty("jdbc.url");
 			username = prop.getProperty("jdbc.username");
 			
+			// Check if the username for the database is empty if so throw an exception
 			if (username.isEmpty()) {
 				throw new Exception("Database username empty!");
 			}
 			
 			password = prop.getProperty("jdbc.password");
 			
+			// Check if the password for the database is empty if so throw an exception
 			if (password.isEmpty()) {
 				throw new Exception("Database password empty!");
 			}
 			
+			// Check if the driver for the database is empty if so throw an exception
 			if (driver.isEmpty()) {
 				throw new Exception("Database driver not found!");
 			} else {
@@ -71,6 +74,7 @@ public class DatabaseManager {
 	 */
 	public static void createConnection() throws SQLException {
 		
+		// Connect to the database
 		conn = DriverManager.getConnection(url, username, password);
 		
 	}
@@ -96,12 +100,14 @@ public class DatabaseManager {
 		System.out.println("\n-- " + title + " --");
 		final String FORMAT = "%-20s";
 		
+		// Print the column names
 		for (int i = 1; i <= meta.getColumnCount(); i++) {
 			
 			System.out.format(FORMAT, meta.getColumnName(i));
 		
 		}
 		
+		// Print the returned results
 		while (result.next()) {
 			
 			System.out.println();
@@ -201,7 +207,6 @@ public class DatabaseManager {
 	 * @param column String column to search in
 	 * @param data String item to search for
 	 * @return Returns a ResultSet of the matched items
-	 * @Pre-Condition the database must not be empty
 	 * @throws SQLException
 	 */
 	public static ResultSet search_database(String table, String column, String data) throws SQLException {
@@ -225,7 +230,7 @@ public class DatabaseManager {
 		final String CONTENT = "0123456789";
 		Random rnd = new Random();
 		
-		
+		// Build the new random ref
 		StringBuilder sb = new StringBuilder(LENGTH);
 		for (int i = 0; i < LENGTH; i++) {
 			

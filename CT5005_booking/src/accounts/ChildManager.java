@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.2
- * @description ChildManager handles the database requests for attendees under the age of 12
+ * ChildManager handles the database requests for attendees under the age of 12
  */
 
 package accounts;
@@ -31,7 +31,7 @@ public class ChildManager implements IDatabaseFunctions {
 			if (count <= Festival.MAX_ATTENDEES) {
 			
 				// Ensure that the booking is not already assigned maximum
-				if (DatabaseManager.count_specific_items("children", "booking", attend.getBooking()) < 2) {
+				if (DatabaseManager.count_specific_items("children", "booking", attend.getBooking()) < Festival.BOOKING_MAX_CHILDREN) {
 					
 					add_entry(attend);
 				
@@ -57,6 +57,7 @@ public class ChildManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Check if the child exists in the database before removing
 			if (DatabaseManager.does_entry_exist("children", "ref", attendee_ref)) {
 				
 				remove_entry(attendee_ref);
@@ -74,6 +75,34 @@ public class ChildManager implements IDatabaseFunctions {
 	}
 	
 	/**
+	 * Retrieve an child from the database
+	 * @param child_ref String child ref to retrieve
+	 * @return Attendee object containing the results
+	 */
+	public Attendee get_child(String child_ref) {
+		
+		try {
+			
+			// Check the child exists before retrieving
+			if (DatabaseManager.does_entry_exist("children", "ref", child_ref)) {
+				
+				return (Attendee)get_item(child_ref);
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find child. Please check ref");
+				return null;
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not retireve child. Please check ref\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return null;
+		}
+		
+	}
+	
+	/**
 	 * Updates a child entry in the database
 	 * @param child Attendee object
 	 */
@@ -81,9 +110,19 @@ public class ChildManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Check if the child exists before updating
 			if (DatabaseManager.does_entry_exist("children", "ref", child.getRef())) {
 				
-				update_entry(child);
+				// Ensure that the booking does not already have the maximum assigned bookings
+				if (DatabaseManager.count_specific_items("children", "booking", child.getBooking()) <= Festival.BOOKING_MAX_CHILDREN) {
+					
+					update_entry(child);
+				
+				} else {
+					
+					ErrorLog.printInfo("Booking already has the maximum number of children");
+					
+				}
 				
 			} else {
 				
@@ -231,11 +270,11 @@ public class ChildManager implements IDatabaseFunctions {
 		
 		if (result.next()) {
 			
+			// Assign a new attendee object the results to be returned
 			att.setRef(result.getString("ref"));
 			att.setFirst_Name(result.getString("first_name"));
 			att.setLast_Name(result.getString("last_name"));
 			att.setAge(result.getInt("age"));
-			att.setEmailAddress(result.getString("email_address"));
 			
 			if (result.getString("booking") != null) {
 				

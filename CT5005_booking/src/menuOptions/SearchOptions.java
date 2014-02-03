@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.2
- * @description Defines the search menu option
+ * Defines the search menu option
  */
 package menuOptions;
 

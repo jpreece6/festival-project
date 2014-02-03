@@ -1,3 +1,11 @@
+/**
+ * @author Joshua Preece
+ * @version 0.4
+ * Object to store booking information
+ * - Ref
+ * - Booker Ref
+ * - Price_Type / Valid Day
+ */
 package booking;
 
 import prices.Price_Entry;
@@ -56,12 +64,15 @@ public class Booking {
 		return this.valid_day;
 	}
 	
+	/**
+	 * Prints this bookings details
+	 */
 	public String toString() {
 		
 		System.out.println("\n-- BOOKING DETAILS --");
 		System.out.println("Booking Ref : " + getRef());
 		System.out.println("Booker : " + getBooker());
-		System.out.println("-- END BOOKER --\n");
+		System.out.println("-- END BOOKING --\n");
 		return "";
 	}
 	

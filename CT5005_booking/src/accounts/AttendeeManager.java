@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
- * @description Class handles all database communication for the attendees table and functions 
  * @version 0.6
+ * Class handles all database communication for the attendees table and functions 
  */
 
 package accounts;
@@ -18,12 +18,10 @@ import festival.Festival;
 public class AttendeeManager implements IDatabaseFunctions {
 
 	/**
-	 * Creates a new attendee
-	 * @param first_name String attendee's first name
-	 * @param last_name String attendee's last name
-	 * @param age String attendee's age. If the attendee is under 12 years old they will be placed into the
-	 * children's table for health and safety reasons.
-	 * @param email_address String email address of the attendee
+	 * Create and add a new attendee to the database
+	 * @param att Attendee object to save to the database
+	 * @return Attendee pass this back to the caller so they have access to the attendees
+	 * assigned ref
 	 */
 	public Attendee create_attendee(Attendee att) {
 		
@@ -38,9 +36,12 @@ public class AttendeeManager implements IDatabaseFunctions {
 			int count = (DatabaseManager.count_items("attendees") + DatabaseManager.count_items("children"));
 			if (count <= Festival.MAX_ATTENDEES) {
 				
+				// Generate an set a new ref for this new attendee
 				ref = DatabaseManager.generate_random_id();
 				att.setRef(ref);
 				
+				// Check is the attendee 12 years old or younger if so add them to the
+				// childrens database instead of the attendees database to better identify them
 				if (att.getAge() <= 12) {
 					
 					ErrorLog.printInfo("Attendee under 12 years old or younger will be added to the childrens table for health and safety");
@@ -50,7 +51,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 				} else {
 				
 					add_entry(att);
-					
 				
 				}
 				
@@ -127,6 +127,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Check to see if the attendee exists in the database and then update
 			if (DatabaseManager.does_entry_exist("attendees", "ref", att.getRef())) {
 				
 				update_entry(att);
@@ -152,6 +153,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Check to see if the attendee exists in the database
 			if (DatabaseManager.does_entry_exist("attendees", "ref", attendee_ref)) {
 				
 				return (Attendee)get_item(attendee_ref);
@@ -176,7 +178,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 		Attendee att = (Attendee)data;
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
-			
+		
+		// Insert a new record into the database
 		stat.executeUpdate("INSERT INTO attendees (ref, first_name, last_name, age, email_address, booking) "
 				+ "VALUES('" + att.getRef() + "', '" + att.getFirst_Name() + "', '" + att.getLast_Name()
 				+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
@@ -200,10 +203,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 	}
 	
-	/**
-	 * @Pre-Conditions Check if the booking assigned to the attendee, 
-	 * ensure it does not already have the maximum number of attendees assigned.
-	 */
 	@Override
 	public void update_entry(Object data) throws SQLException {
 		
@@ -211,7 +210,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
 		// validate that a booking does not already have the max number of attendees
-		if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) <= 4) {
+		if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) <= Festival.BOOKING_MAX_ATTENDEES) {
 			
 			stat.executeUpdate("UPDATE attendees SET ref='" + att.getRef() + "', first_name='" + att.getFirst_Name() 
 					+ "', last_name='" + att.getLast_Name() + "', age='"
@@ -280,6 +279,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		if (result.next()) {
 			
+			// Assign the results to a new attendee object to be returned
 			att.setRef(result.getString("ref"));
 			att.setFirst_Name(result.getString("first_name"));
 			att.setLast_Name(result.getString("last_name"));
@@ -291,6 +291,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 			
 		}
 		
+		// Return null if nothing found
 		return null;
 	}
 }

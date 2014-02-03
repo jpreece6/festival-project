@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.6
- * @description This is the main entry point to the program. This is a festival system which allows
+ * This is the main entry point to the program. This is a festival system which allows
  * attendees and staff members to book tickets to a festival.
  */
 
@@ -21,6 +21,9 @@ public class Festival {
 	
 	public static final int MAX_ATTENDEES = 4000;
 	public static final int MAX_TENTS = 400;
+	public static final int BOOKING_MAX_ATTENDEES = 4;
+	public static final int BOOKING_MAX_CHILDREN = 2;
+	public static final int BOOKING_MAX_TENTS = 2;
 	
 	public static void main(String[] args) {
 

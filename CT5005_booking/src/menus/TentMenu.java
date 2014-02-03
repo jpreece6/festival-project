@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.1
- * @description Menus for tents
+ * Menus for tents
  */
 package menus;
 
@@ -9,6 +9,9 @@ import festival.ErrorLog;
 
 public class TentMenu extends Menu {
 
+	/**
+	 * Display the interface for tents
+	 */
 	public static void display_add_tent() {
 		
 		do {
@@ -43,6 +46,9 @@ public class TentMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Display the interface to remove tents
+	 */
 	public static void display_remove_tent() {
 		
 		do {
@@ -69,6 +75,9 @@ public class TentMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Displays the interface to list all tents for a specific booking
+	 */
 	public static void display_list_tents() {
 		
 		do {

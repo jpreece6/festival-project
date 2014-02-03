@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.8
- * @description Handles the database function for the tents table
+ * Handles the database function for the tents table
  */
 package tents;
 
@@ -18,6 +18,11 @@ public class TentManager implements IDatabaseFunctions {
 
 	private static Tent tnt;
 	
+	/**
+	 * Add a new tent to the database
+	 * @param booking_ref String booking to assign to this tent
+	 * @return Returns true if succeeds, false if not
+	 */
 	public boolean add_tent(String booking_ref) {
 		
 		try {
@@ -28,7 +33,7 @@ public class TentManager implements IDatabaseFunctions {
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
 				// Ensure that the booking does not have more than 2 tents already
-				if (DatabaseManager.count_specific_items("tents", "booking", booking_ref) < 2) {
+				if (DatabaseManager.count_specific_items("tents", "booking", booking_ref) < Festival.BOOKING_MAX_TENTS) {
 					
 					if (DatabaseManager.count_items("tents") <= Festival.MAX_TENTS) {
 						
@@ -68,6 +73,7 @@ public class TentManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Does the tent exist before removing
 			if (DatabaseManager.does_entry_exist("tents", "space_no", space_no)) {
 			
 				remove_entry(space_no);
@@ -88,10 +94,12 @@ public class TentManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Does the booking exist before removing the tents
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
 				ResultSet rs = DatabaseManager.search_database("tents", "booking", booking_ref);
 				
+				// TODO CHECK
 				while (rs.next()) {
 					
 					remove_tent(rs.getString("space_no"));
@@ -114,6 +122,7 @@ public class TentManager implements IDatabaseFunctions {
 		
 		try {
 
+			// Does the booking exist before listing
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 			
 				DatabaseManager.print_results("Tent List Result", DatabaseManager.search_database("tents", "booking", booking_ref));
@@ -133,6 +142,7 @@ public class TentManager implements IDatabaseFunctions {
 		
 		try {
 			
+			// Does at least 1 tent have this booking assigned
 			if (DatabaseManager.does_entry_exist("tents", "booking", booking_ref)) {
 				
 				return DatabaseManager.count_specific_items("tents", "booking", booking_ref);
@@ -146,6 +156,23 @@ public class TentManager implements IDatabaseFunctions {
 		} catch (SQLException ex) {
 			ErrorLog.printError("Could not count number of tents!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 			return 0;
+		}
+		
+	}
+	
+	/**
+	 * Search for a tent in the tents table
+	 * @param column String column to search
+	 * @param data String data to search for
+	 */
+	public void search_for_tent(String column, String data) {
+		
+		try {
+			
+			DatabaseManager.print_results("Tent Search Result", DatabaseManager.search_database("tents", column, data));
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not find tent!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}

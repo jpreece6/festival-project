@@ -1,3 +1,13 @@
+/**
+ * @author Joshua Preece
+ * @version 0.2
+ * Object to store price/price_type information
+ * - Ref
+ * - First Name
+ * - Last Name
+ * - Age
+ * - Email
+ */
 package accounts;
 
 public abstract class Person {

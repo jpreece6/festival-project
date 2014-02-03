@@ -1,12 +1,13 @@
 /**
  * @author Joshua Preece
  * @version 0.6
- * @description Defines default menu functionality
+ * Defines default menu functionality
  */
 package menus;
 
 import java.util.Scanner;
 
+import festival.ErrorLog;
 import prices.PricesManager;
 import tents.TentManager;
 import accounts.AttendeeManager;
@@ -15,6 +16,7 @@ import booking.BookingManager;
 
 public abstract class Menu {
 
+	// Create all the managers that are needed in all the menu classes
 	protected static AttendeeManager amg = new AttendeeManager();
 	protected static BookingManager bmg = new BookingManager();
 	protected static PricesManager pmg = new PricesManager();
@@ -49,6 +51,7 @@ public abstract class Menu {
 			return scan.nextInt();
 			
 		} catch (Exception ex) {
+			ErrorLog.printError("Please enter a integer number!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 			return 0;
 		}
 		
@@ -66,18 +69,20 @@ public abstract class Menu {
 			return scan.next();
 			
 		} catch (Exception ex) {
+			ErrorLog.printError("Please enter a valid string!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 			return "";
 		}
 		
 	}
 	
+	/*
 	protected static void clear_screen() {
 		
 		for (int i = 0; i < 20; i++) {
 			System.out.println("");
 		}
 		
-	}
+	}*/
 	
 	/**
 	 * Sets exit menu to true to allow menus to exit from their do while loop

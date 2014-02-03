@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.4
- * @desription Menus to search for attendees and bookings
+ * Menus to search for attendees and bookings
  */
 package menus;
 
@@ -55,7 +55,7 @@ public class SearchMenu extends Menu {
 							
 						} else if (choice == SearchOptions.FIND_TENT.ordinal()) {
 							
-							// TODO
+							tmg.search_for_tent(column, search);
 							
 						}
 					}

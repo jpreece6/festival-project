@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @vesion 1.1
- * @description Menus for the attendee's to register and create bookings
+ * Menus for the attendee's to register and create bookings
  */
 package menus;
 
@@ -10,6 +10,9 @@ import menuOptions.UserMenuOptions;
 
 public class UserMenu extends Menu {
 
+	/**
+	 * Displays the main user interface
+	 */
 	public static void display_user_menu() {
 		
 		do {
@@ -63,6 +66,9 @@ public class UserMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Display the interface which allows the user to manipulate specific attendees
+	 */
 	private static void display_attendee_options() {
 		
 		final int PRINT_DETAILS = 1;
@@ -115,6 +121,9 @@ public class UserMenu extends Menu {
 		
 	}
 	
+	/**
+	 * Display the interface which allows the user to manipulate specific bookings
+	 */
 	private static void display_booking_options() {
 		
 		final int PRINT_DETAILS = 1;
@@ -202,6 +211,7 @@ public class UserMenu extends Menu {
 		
 	}
 	
+	/*
 	private static void display_child_options() {
 		
 		final int PRINT_DETAILS = 1;
@@ -252,6 +262,6 @@ public class UserMenu extends Menu {
 		
 		Menu.menu_reset();
 		
-	}
+	}*/
 	
 }

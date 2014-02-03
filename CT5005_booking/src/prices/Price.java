@@ -1,7 +1,7 @@
 /**
  * @author Joshua Preece
  * @version 0.3
- * @description Price object used to store price information
+ * Price object used to store price information
  */
 package prices;
 
