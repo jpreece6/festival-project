@@ -134,7 +134,6 @@ public class TentManager implements IDatabaseFunctions {
 				
 			} else {
 				
-				ErrorLog.printInfo("Could not find tents assigned to this booking ref");
 				return 0;
 				
 			}
@@ -172,7 +171,7 @@ public class TentManager implements IDatabaseFunctions {
 
 		Statement stat = DatabaseManager.getConnection().createStatement();
 			
-		stat.execute("DELETE FROM tents WHERE sapce_no=" + space);
+		stat.execute("DELETE FROM tents WHERE space_no=" + space);
 
 		stat.close();
 		
