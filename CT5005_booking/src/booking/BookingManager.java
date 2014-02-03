@@ -179,7 +179,7 @@ public class BookingManager implements IDatabaseFunctions {
 	}*/
 	
 	/**
-	 * Search for a booking in the database
+	 * Search for a booking within the database
 	 * @param column String column to search in
 	 * @param data String data to search for
 	 */
