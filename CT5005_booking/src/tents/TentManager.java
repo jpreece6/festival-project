@@ -27,11 +27,19 @@ public class TentManager implements IDatabaseFunctions {
 			// Ensure that a booking exists
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
-				// Ensure that the booking does not have more than 4 tents already
-				if (DatabaseManager.count_specific_items("tents", "booking", booking_ref) < 4) {
+				// Ensure that the booking does not have more than 2 tents already
+				if (DatabaseManager.count_specific_items("tents", "booking", booking_ref) < 2) {
 					
-					tnt.set_booking_ref(booking_ref);
-					add_entry(tnt);
+					if (DatabaseManager.count_items("tents") <= Festival.MAX_TENTS) {
+						
+						tnt.set_booking_ref(booking_ref);
+						add_entry(tnt);
+					
+					} else {
+						
+						ErrorLog.printInfo("Maximum number of tents allocated");
+						
+					}
 					
 				} else {
 					
@@ -67,6 +75,32 @@ public class TentManager implements IDatabaseFunctions {
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Remove tent failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+		}
+		
+	}
+	
+	public void remove_all_tents(String booking_ref) {
+		
+		try {
+			
+			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
+				
+				ResultSet rs = DatabaseManager.search_database("tents", "booking", booking_ref);
+				
+				while (rs.next()) {
+					
+					remove_tent(rs.getString("space_no"));
+					
+				}
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find booking. Please check ref");
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not delete all tents!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
 		
 	}
