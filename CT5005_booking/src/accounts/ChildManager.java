@@ -26,14 +26,20 @@ public class ChildManager implements IDatabaseFunctions {
 		
 		try {
 			
-			// Ensure that the booking
-			if (DatabaseManager.count_specific_items("children", "booking", attend.getBooking()) < 2) {
-				
-				add_entry(attend);
+			// Check if the database does not have the maximum number of attendees
+			int count = (DatabaseManager.count_items("attendees") + DatabaseManager.count_items("children"));
+			if (count <= Festival.MAX_ATTENDEES) {
 			
-			} else {
+				// Ensure that the booking is not already assigned maximum
+				if (DatabaseManager.count_specific_items("children", "booking", attend.getBooking()) < 2) {
+					
+					add_entry(attend);
 				
-				ErrorLog.printInfo("Booking already has the maximum number of assigned children");
+				} else {
+					
+					ErrorLog.printInfo("Booking already has the maximum number of assigned children");
+					
+				}
 				
 			}
 			
@@ -107,26 +113,45 @@ public class ChildManager implements IDatabaseFunctions {
 		
 	}
 	
-	@Override
-	public boolean add_entry(Object data) throws SQLException {
+	/**
+	 * Get the number of children that are assigned to this booking
+	 * @param book Booking to count
+	 * @return Integer number of children
+	 */
+	public int get_number_of_children(Booking book) {
 		
-		int count = DatabaseManager.count_items("attendees");
-		if (count <= Festival.MAX_ATTENDEES) {
+		try {
 			
-			Attendee att = (Attendee)data;
+			ResultSet rs = DatabaseManager.search_database("children", "booking", book.getRef());
 			
-			Statement stat = DatabaseManager.getConnection().createStatement();
+			int count = 0;
+			while (rs.next()) {
 				
-			stat.executeUpdate("INSERT INTO children (ref, first_name, last_name, age, booking) "
-					+ "VALUES(ref_child_auto.nextval, '" + att.getFirst_Name() + "', '" + att.getLast_Name()
-					+ "', '" + att.getAge() + "', '" + att.getBooking() + "')");
+				count++;
+				
+			}
+
+			return count;
 			
-			stat.close();
-			return true;
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not retrieve booking's attendee count!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return 0;
 		}
+		 
+	}
+	
+	@Override
+	public void add_entry(Object data) throws SQLException {
+			
+		Attendee att = (Attendee)data;
 		
-		ErrorLog.printInfo("No available attendee spaces");
-		return false;
+		Statement stat = DatabaseManager.getConnection().createStatement();
+			
+		stat.executeUpdate("INSERT INTO children (ref, first_name, last_name, age, booking) "
+				+ "VALUES('" + att.getRef() + "', '" + att.getFirst_Name() + "', '" + att.getLast_Name()
+				+ "', '" + att.getAge() + "', '" + att.getBooking() + "')");
+			
+		stat.close();
 	}
 
 	@Override
@@ -147,13 +172,8 @@ public class ChildManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		Booking b = new Booking();
-		att.setBooking(b.getRef());
-		att.setBooking("1");
-		att.toString();
-		
-		stat.executeUpdate("UPDATE children SET first_name='" + att.getFirst_Name() + "', last_name="
-				+ att.getLast_Name() + "', age='" + Integer.toString(att.getAge())
+		stat.executeUpdate("UPDATE children SET ref='" + att.getRef() + "', first_name='" + att.getFirst_Name() 
+				+ "', last_name='" + att.getLast_Name() + "', age='" + Integer.toString(att.getAge())
 				+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
 		
 		stat.close();
@@ -176,9 +196,6 @@ public class ChildManager implements IDatabaseFunctions {
 					+ ", booking varchar(10),"
 					+ "PRIMARY KEY (ref))");
 			
-			stat.execute("CREATE SEQUENCE ref_child_auto START WITH 1"
-					+ " INCREMENT BY 1 NOMAXVALUE");
-			
 			stat.close();
 			
 			System.out.println("CREATE children DONE...");
@@ -194,8 +211,6 @@ public class ChildManager implements IDatabaseFunctions {
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
 			stat.execute("DROP TABLE children");
-			
-			stat.execute("DROP SEQUENCE ref_child_auto");
 			
 			stat.close();
 			

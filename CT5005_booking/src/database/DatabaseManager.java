@@ -16,6 +16,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.Random;
 
 import festival.ErrorLog;
 
@@ -211,6 +212,28 @@ public class DatabaseManager {
 		
 		//stat.close();
 		return rs;
+		
+	}
+	
+	/**
+	 * Generates a random id to be used in the database
+	 * @return String random string
+	 */
+	public static String generate_random_id() {
+		
+		final int LENGTH = 5;
+		final String CONTENT = "0123456789";
+		Random rnd = new Random();
+		
+		
+		StringBuilder sb = new StringBuilder(LENGTH);
+		for (int i = 0; i < LENGTH; i++) {
+			
+			sb.append(CONTENT.charAt(rnd.nextInt(CONTENT.length())));
+			
+		}
+		
+		return sb.toString();
 		
 	}
 	

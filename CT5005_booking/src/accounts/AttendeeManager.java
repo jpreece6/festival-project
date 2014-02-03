@@ -25,18 +25,21 @@ public class AttendeeManager implements IDatabaseFunctions {
 	 * children's table for health and safety reasons.
 	 * @param email_address String email address of the attendee
 	 */
-	public void create_attendee(String first_name, String last_name, int age, String email_address) {
-		
-		// Create new attendee object
-		Attendee att = new Attendee(first_name, last_name, age, email_address);
+	public Attendee create_attendee(Attendee att) {
 		
 		// Create set an empty booking for now
 		att.setBooking("null");
 		
+		String ref = "";
+		
 		try {
 
 			// Check if the database does not have the maximum number of attendees
-			if (DatabaseManager.count_items("attendees") <= Festival.MAX_ATTENDEES) {
+			int count = (DatabaseManager.count_items("attendees") + DatabaseManager.count_items("children"));
+			if (count <= Festival.MAX_ATTENDEES) {
+				
+				ref = DatabaseManager.generate_random_id();
+				att.setRef(ref);
 				
 				if (att.getAge() <= 12) {
 					
@@ -47,15 +50,18 @@ public class AttendeeManager implements IDatabaseFunctions {
 				} else {
 				
 					add_entry(att);
+					
 				
 				}
 				
 			}
 			
 			System.out.println("Create attendee successful...");
+			return att;
 			
 		} catch (SQLException e) {
 			ErrorLog.printError("Create attendee failed!\n" + e.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return null;
 		}
 		
 	}
@@ -164,30 +170,18 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 	}
 
-	/**
-	 * @Pre-Conditions The attendees must not have the maximum number of attendees in this case 4000.
-	 */
 	@Override
-	public boolean add_entry(Object data) throws SQLException {
+	public void add_entry(Object data) throws SQLException {
+			
+		Attendee att = (Attendee)data;
 		
-		// Add both the number of attendees and children to get the total number of attendees currently registered
-		int count = (DatabaseManager.count_items("attendees") + DatabaseManager.count_items("children"));
-		if (count <= Festival.MAX_ATTENDEES) {
+		Statement stat = DatabaseManager.getConnection().createStatement();
 			
-			Attendee att = (Attendee)data;
-			
-			Statement stat = DatabaseManager.getConnection().createStatement();
-				
-			stat.executeUpdate("INSERT INTO attendees (ref, first_name, last_name, age, email_address, booking) "
-					+ "VALUES(ref_auto.nextval, '" + att.getFirst_Name() + "', '" + att.getLast_Name()
-					+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
-			
-			stat.close();
-			return true;
-		}
-		
-		ErrorLog.printInfo("No available attendee spaces");
-		return false;
+		stat.executeUpdate("INSERT INTO attendees (ref, first_name, last_name, age, email_address, booking) "
+				+ "VALUES('" + att.getRef() + "', '" + att.getFirst_Name() + "', '" + att.getLast_Name()
+				+ "', '" + att.getAge() + "', '" + att.getEmailAddress() + "', '" + att.getBooking() + "')");
+
+		stat.close();
 	}
 
 	@Override
@@ -219,8 +213,8 @@ public class AttendeeManager implements IDatabaseFunctions {
 		// validate that a booking does not already have the max number of attendees
 		if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) <= 4) {
 			
-			stat.executeUpdate("UPDATE attendees SET first_name='" + att.getFirst_Name() + "', last_name='" 
-					+ att.getLast_Name() + "', age='"
+			stat.executeUpdate("UPDATE attendees SET ref='" + att.getRef() + "', first_name='" + att.getFirst_Name() 
+					+ "', last_name='" + att.getLast_Name() + "', age='"
 					+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
 					+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
 		
@@ -250,9 +244,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 					+ "email_address varchar(100), booking varchar(10),"
 					+ "PRIMARY KEY (ref))");
 			
-			stat.execute("CREATE SEQUENCE ref_auto START WITH 1"
-					+ " INCREMENT BY 1 NOMAXVALUE");
-			
 			stat.close();
 			
 			System.out.println("CREATE attendees DONE...");
@@ -269,8 +260,6 @@ public class AttendeeManager implements IDatabaseFunctions {
 			Statement stat = DatabaseManager.getConnection().createStatement();
 			
 			stat.execute("DROP TABLE attendees");
-			
-			stat.execute("DROP SEQUENCE ref_auto");
 			
 			stat.close();
 			

@@ -5,6 +5,7 @@
  */
 package menus;
 
+import database.DatabaseManager;
 import accounts.Attendee;
 import festival.ErrorLog;
 
@@ -49,41 +50,45 @@ public class AttendeeMenu extends Menu {
 		
 		do {
 			
-			String first_name;
-			String last_name;
-			int age;
-			String email;
+			Attendee att = new Attendee();
 			
 			System.out.println("-- Create new attendee --\n");
 			System.out.println("First Name : ");
 			
 			// Get the attendee's first name
-			first_name = get_input();
-			if (first_name.isEmpty() == false) {
+			att.setFirst_Name(get_input());
+			if (att.getFirst_Name().isEmpty() == false) {
 				
 				// Get the attendee's last name
 				System.out.println("Last Name : ");
-				last_name = get_input();
-				if (last_name.isEmpty() == false) {
+				att.setLast_Name(get_input());
+				if (att.getLast_Name().isEmpty() == false) {
 					
 					// Get the attendee's age
 					System.out.println("Age : ");
-					age = Integer.parseInt(get_input());
-					if (age > 0 && age < 100) {
+					att.setAge(Integer.parseInt(get_input()));
+					if (att.getAge() > 0 && att.getAge() < 100) {
 						
 						// Get the attendee's email address
 						System.out.println("Email Address : ");
-						email = get_input();
-						if (email.isEmpty() == false && email.contains("@")) {
+						att.setEmailAddress(get_input());
+						if (att.getEmailAddress().isEmpty() == false && att.getEmailAddress().contains("@")) {
 							
-							if (age <= 12) {
+							if (att.getAge() <= 12) {
 								
-								Attendee att = new Attendee(first_name, last_name, age, email);
 								cmg.add_child(att);
 								
 							} else {
 								
-								amg.create_attendee(first_name, last_name, age, email);
+								// If create attendee is successful then ask the user if they want to add a booking now
+								att = amg.create_attendee(att);
+								if (att != null) {
+									
+									ErrorLog.printInfo("You Ref Number is : " + att.getRef());
+								
+									display_add_booking_now(att);
+									
+								}
 								
 							}
 								
@@ -319,4 +324,57 @@ public class AttendeeMenu extends Menu {
 		
 	}
 	
+	public static void display_add_booking_now(Attendee att) {
+		
+		final String YES = "yes";
+		final String NO = "no";
+		
+		do {
+			
+			System.out.println("Would you like to assign a booking now? (yes or no)");
+			
+			input = get_input();
+			if (input.isEmpty() == false) {
+				
+				String response = input.toLowerCase().trim();
+				if (response.equals(YES)) {
+					
+					System.out.println("Booking Ref : ");
+					
+					input = get_input();
+					if (input.isEmpty() == false) {
+						
+						att.setBooking(input);
+						amg.update_attendee(att);
+						
+						Menu.menu_end();
+						
+					} else {
+						
+						ErrorLog.printInfo("Please enter a booking ref");
+						
+					}
+					
+					
+				} else if (response.equals(NO)) {
+					
+					Menu.menu_end();
+					
+				} else {
+					
+					ErrorLog.printInfo("Please enter Yes or No");
+					
+				}
+				
+			} else {
+				
+				ErrorLog.printInfo("Please provide a response!");
+				
+			}
+			
+		} while(exit_menu == false);
+		
+		Menu.menu_reset();
+		
+	}
 }

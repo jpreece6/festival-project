@@ -15,7 +15,7 @@ public class UserMenu extends Menu {
 		do {
 			
 			System.out.println("\n-- Attendee Menu --");
-			System.out.println("Register as an attendee : " + UserMenuOptions.REGISTER_ATTENDEE.ordinal());
+			System.out.println("Register an attendee : " + UserMenuOptions.REGISTER_ATTENDEE.ordinal());
 			System.out.println("Create a booking : " + UserMenuOptions.CREATE_BOOKING.ordinal());
 			System.out.println();
 			System.out.println("Attendee Options : " + UserMenuOptions.ATTENDEE_OPTIONS.ordinal());

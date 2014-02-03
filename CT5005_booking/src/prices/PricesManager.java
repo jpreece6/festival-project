@@ -143,7 +143,7 @@ public class PricesManager implements IDatabaseFunctions {
 	}
 	
 	@Override
-	public boolean add_entry(Object data) throws SQLException {
+	public void add_entry(Object data) throws SQLException {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 			
@@ -151,8 +151,6 @@ public class PricesManager implements IDatabaseFunctions {
 				+ "VALUES('" + pri.getDay().toString() + "', '" + pri.getPrice() + "')");
 		
 		stat.close();
-
-		return false;
 	}
 
 	@Override

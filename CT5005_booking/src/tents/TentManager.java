@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 0.8
+ * @description Handles the database function for the tents table
+ */
 package tents;
 
 import java.sql.ResultSet;
@@ -13,12 +18,7 @@ public class TentManager implements IDatabaseFunctions {
 
 	private static Tent tnt;
 	
-	public TentManager() {
-		
-		
-	}
-	
-	public void add_tent(String booking_ref) {
+	public boolean add_tent(String booking_ref) {
 		
 		try {
 			
@@ -34,27 +34,32 @@ public class TentManager implements IDatabaseFunctions {
 						
 						tnt.set_booking_ref(booking_ref);
 						add_entry(tnt);
+						return true;
 					
 					} else {
 						
 						ErrorLog.printInfo("Maximum number of tents allocated");
+						return false;
 						
 					}
 					
 				} else {
 					
 					ErrorLog.printInfo("Booking already has the maximum number of assigned tents");
+					return false;
 					
 				}
 				
 			} else {
 				
 				ErrorLog.printInfo("Could not find booking. Please check ref");
+				return false;
 				
 			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Add tent failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return false;
 		}
 		
 	}
@@ -146,7 +151,7 @@ public class TentManager implements IDatabaseFunctions {
 	}
 	
 	@Override
-	public boolean add_entry(Object data) throws SQLException {
+	public void add_entry(Object data) throws SQLException {
 		
 		tnt = (Tent)data;
 		
@@ -159,11 +164,13 @@ public class TentManager implements IDatabaseFunctions {
 					+ "VALUES(ref_tent_auto.nextval, '" + tnt.get_booking_ref() + "')");
 			
 			stat.close();
-			return true;
+			
+		} else {
+			
+			ErrorLog.printInfo("No available tent spaces");
+			
 		}
 		
-		ErrorLog.printInfo("No available tent spaces");
-		return false;
 	}
 
 	@Override

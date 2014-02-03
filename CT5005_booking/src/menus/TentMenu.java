@@ -19,8 +19,16 @@ public class TentMenu extends Menu {
 			input = get_input();
 			if (input.isEmpty() == false) {
 				
-				tmg.add_tent(input);
-				System.out.println("-- Tent Added --\n");
+				if (tmg.add_tent(input)) {
+					
+					System.out.println("-- Tent Added --\n");
+					
+				} else {
+					
+					System.out.println("Unable to add tent!");
+					
+				}
+				
 				Menu.menu_end();
 				
 			} else {

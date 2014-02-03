@@ -26,6 +26,10 @@ public class SearchMenu extends Menu {
 			choice = get_option();
 			if (choice >= 0) {
 				
+				if (choice == Menu.EXIT_MENU) {
+					return;
+				}
+				
 				System.out.println("Category e.g. (ref, first_name, last_name, age, email_address, booking) : ");
 				// Get the user to select a category
 				String column = get_input();
@@ -52,10 +56,6 @@ public class SearchMenu extends Menu {
 						} else if (choice == SearchOptions.FIND_TENT.ordinal()) {
 							
 							// TODO
-							
-						} else if (choice == Menu.EXIT_MENU) {
-							
-							Menu.menu_end();
 							
 						}
 					}

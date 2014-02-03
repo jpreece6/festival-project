@@ -12,10 +12,9 @@ public interface IDatabaseFunctions {
 	/**
 	 * Adds a new entry to the database
 	 * @param data Object to be added to the database
-	 * @return Returns true if item was added to the database or false if it failed.
 	 * @throws SQLException
 	 */
-	public boolean add_entry(Object data) throws SQLException;
+	public void add_entry(Object data) throws SQLException;
 	
 	/**
 	 * Remove an item from the database

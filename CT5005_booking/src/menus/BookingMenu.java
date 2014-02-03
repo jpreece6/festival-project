@@ -65,7 +65,10 @@ public class BookingMenu extends Menu {
 				if (choice >= 0 && choice <= 9) {
 					
 					// If booking created successfully update booker with booking ref
-					if (bmg.create_booking(input, Price_Entry.values()[choice])); {
+					Booking bok = bmg.create_booking(input, Price_Entry.values()[choice]);
+					if (bok != null) {
+						
+						ErrorLog.printInfo("Your Booking Ref is : " + bok.getRef());
 						
 						// TODO update booking ref
 					}
@@ -117,7 +120,8 @@ public class BookingMenu extends Menu {
 					// Edit the booking's day
 					case EDIT_DAYS :
 						
-						pmg.list_price_types(null);
+						String[] exclude = {"TENTS"};
+						pmg.list_price_types(exclude);
 						System.out.println("Select new price entry : ");
 						
 						int entry = get_option();
@@ -125,6 +129,12 @@ public class BookingMenu extends Menu {
 							
 							bok.setValid_Day(Price_Entry.values()[entry]);
 							bmg.edit_booking(bok);
+							
+							Menu.menu_end();
+							
+						} else {
+							
+							ErrorLog.printInfo("Please select a valid option");
 							
 						}
 						
@@ -188,10 +198,14 @@ public class BookingMenu extends Menu {
 				Booking bok = bmg.getBooking(input);
 				if (bok != null) {
 					
+					int attendee_count = bmg.get_number_of_attendees(bok);
+					int children_count = cmg.get_number_of_children(bok);
+					int total_count = attendee_count + children_count;
+					
 					System.out.println("Ref : " + bok.getRef());
 					System.out.println("Price Type : " + bok.getValid_Day());
 					System.out.println("Booker : " + bok.getBooker());
-					System.out.println("Number of attendees : " + Integer.toString(bmg.get_number_of_attendees(bok)));
+					System.out.println("Number of attendees : " + Integer.toString(total_count));
 					System.out.println("Number of tents : " + Integer.toString(tmg.get_number_of_tents(bok.getRef())));
 					System.out.println("-- End Booking Details --\n");
 					
