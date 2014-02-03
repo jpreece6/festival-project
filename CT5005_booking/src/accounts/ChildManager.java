@@ -116,7 +116,16 @@ public class ChildManager implements IDatabaseFunctions {
 				// Ensure that the booking does not already have the maximum assigned bookings
 				if (DatabaseManager.count_specific_items("children", "booking", child.getBooking()) <= Festival.BOOKING_MAX_CHILDREN) {
 					
-					update_entry(child);
+					if (child.getAge() > 12) {
+					
+						ErrorLog.printInfo("You cannot update a childs age over 12 years.\n"
+								+ "You must delete this child and then create a new attendee.");
+						
+					} else {
+						
+						update_entry(child);
+						
+					}
 				
 				} else {
 					
