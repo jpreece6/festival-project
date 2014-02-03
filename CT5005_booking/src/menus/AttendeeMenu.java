@@ -335,23 +335,24 @@ public class AttendeeMenu extends Menu {
 				
 				// Get the attendee details
 				Attendee att = amg.get_attendee(input);
-				
-				if (att != null) {
+				if (att == null) {
+					ErrorLog.printInfo("Checking if attendee is child");
+					att = cmg.get_child(input);
 					
-					System.out.println("Ref : " + att.getRef());
-					System.out.println("Name : " + att.getFirst_Name() + " " + att.getLast_Name());
-					System.out.println("Age : " + att.getAge());
-					System.out.println("Email : " + att.getEmailAddress());
-					System.out.println("Booking : " + att.getBooking());
-					System.out.println("-- End Attendee Details --\n");
-					
-					Menu.menu_end();
-					
-				} else {
-					
-					ErrorLog.printError("Could not retrieve attendee!", ErrorLog.SEVERITY_MEDIUM);
-					
+					if (att == null) {
+						ErrorLog.printInfo("Could not find attendee. Please check ref");
+						return;
+					}
 				}
+					
+				System.out.println("Ref : " + att.getRef());
+				System.out.println("Name : " + att.getFirst_Name() + " " + att.getLast_Name());
+				System.out.println("Age : " + att.getAge());
+				System.out.println("Email : " + att.getEmailAddress());
+				System.out.println("Booking : " + att.getBooking());
+				System.out.println("-- End Attendee Details --\n");
+				
+				Menu.menu_end();
 				
 			} else {
 				

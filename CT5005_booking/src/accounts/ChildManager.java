@@ -62,6 +62,8 @@ public class ChildManager implements IDatabaseFunctions {
 				
 				remove_entry(attendee_ref);
 				
+				ErrorLog.printInfo("Child removed successfully..");
+				
 			} else {
 				
 				ErrorLog.printInfo("Could not find child to remove. Please check ref");
@@ -114,7 +116,7 @@ public class ChildManager implements IDatabaseFunctions {
 			if (DatabaseManager.does_entry_exist("children", "ref", child.getRef())) {
 				
 				// Ensure that the booking does not already have the maximum assigned bookings
-				if (DatabaseManager.count_specific_items("children", "booking", child.getBooking()) <= Festival.BOOKING_MAX_CHILDREN) {
+				if (DatabaseManager.count_specific_items("children", "booking", child.getBooking()) < Festival.BOOKING_MAX_CHILDREN) {
 					
 					if (child.getAge() > 12) {
 					

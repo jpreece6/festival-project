@@ -130,7 +130,16 @@ public class AttendeeManager implements IDatabaseFunctions {
 			// Check to see if the attendee exists in the database and then update
 			if (DatabaseManager.does_entry_exist("attendees", "ref", att.getRef())) {
 				
-				update_entry(att);
+				// validate that a booking does not already have the max number of attendees
+				if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) < Festival.BOOKING_MAX_ATTENDEES) {
+					
+					update_entry(att);
+				
+				} else {
+					
+					ErrorLog.printInfo("Booking already has the maximum number of assigned attendees");
+					
+				}
 				
 			} else {
 				
@@ -208,19 +217,11 @@ public class AttendeeManager implements IDatabaseFunctions {
 		
 		Attendee att = (Attendee)data;
 		Statement stat = DatabaseManager.getConnection().createStatement();
-		
-		// validate that a booking does not already have the max number of attendees
-		if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) <= Festival.BOOKING_MAX_ATTENDEES) {
 			
-			stat.executeUpdate("UPDATE attendees SET ref='" + att.getRef() + "', first_name='" + att.getFirst_Name() 
-					+ "', last_name='" + att.getLast_Name() + "', age='"
-					+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
-					+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
-		
-		} else {
-			
-			ErrorLog.printInfo("Booking already has the maximum number of attendees assigned");
-		}
+		stat.executeUpdate("UPDATE attendees SET ref='" + att.getRef() + "', first_name='" + att.getFirst_Name() 
+				+ "', last_name='" + att.getLast_Name() + "', age='"
+				+ Integer.toString(att.getAge()) + "', email_address='" + att.getEmailAddress() 
+				+ "', booking='" + att.getBooking() + "' WHERE ref=" + att.getRef());
 		
 		stat.close();
 		
