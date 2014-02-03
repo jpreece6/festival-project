@@ -65,7 +65,7 @@ public class BookingMenu extends Menu {
 					// If booking created successfully update booker with booking ref
 					if (bmg.create_booking(input, Price_Entry.values()[choice])); {
 						
-						// update booking ref
+						// TODO update booking ref
 					}
 					
 				}
@@ -99,6 +99,10 @@ public class BookingMenu extends Menu {
 			if (input.isEmpty() == false) {
 				
 				bok = bmg.getBooking(input);
+				
+				if (bok == null) {
+					return;
+				}
 			
 				System.out.println("Change Price Type : " + EDIT_DAYS);
 				System.out.println("Exit Menu : " + Menu.EXIT_MENU);
@@ -156,6 +160,51 @@ public class BookingMenu extends Menu {
 				System.out.println("Total : £" + bmg.get_total_cost(input));
 				
 				Menu.menu_end();
+				
+			} else {
+				
+				ErrorLog.printInfo("Please enter a booking ref");
+				
+			}
+			
+		} while (exit_menu == false);
+		
+		Menu.menu_reset();
+		
+	}
+	
+	public static void display_booking_details() {
+		
+		do {
+			
+			System.out.println("\n-- Booking Details --");
+			System.out.println("Booking Ref : ");
+			
+			input = get_input();
+			if (input.isEmpty() == false) {
+				
+				Booking bok = bmg.getBooking(input);
+				if (bok != null) {
+					
+					System.out.println("Ref : " + bok.getRef());
+					System.out.println("Price Type : " + bok.getValid_Day());
+					System.out.println("Booker : " + bok.getBooker());
+					System.out.println("Number of attendees : " + Integer.toString(bmg.get_number_of_attendees(bok)));
+					System.out.println("Number of tents : " + Integer.toString(tmg.get_number_of_tents(bok.getRef())));
+					System.out.println("-- End Booking Details --\n");
+					
+					Menu.menu_end();
+					
+				} else {
+					
+					ErrorLog.printInfo("Could not retrieve booking. Please check ref");
+					
+				}
+				
+				
+			} else {
+				
+				ErrorLog.printInfo("Please enter a booking ref");
 				
 			}
 			

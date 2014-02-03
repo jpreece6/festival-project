@@ -247,13 +247,16 @@ public class BookingManager implements IDatabaseFunctions {
 	 * @param booking_ref String booking ref to calculate cost for
 	 * @return String cost
 	 */
-	public String get_total_cost(String booking_ref) {
+	public int get_total_cost(String booking_ref) {
 		
 		try {
 			
 			int total = 0;
 			String valid = "";
 			ResultSet rs;
+			ResultSet valid_rs;
+			ResultSet tent_rs;
+			ResultSet cal_rs;
 			
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
@@ -267,46 +270,54 @@ public class BookingManager implements IDatabaseFunctions {
 				
 				if (valid.isEmpty() == false) {
 					
-					rs = DatabaseManager.search_database("prices", "type", valid);
+					valid_rs = DatabaseManager.search_database("prices", "type", valid);
 					
-					if (rs.next()) {
+					if (valid_rs.next()) {
 						
-						total += Integer.parseInt(rs.getString("price"));
+						total += Integer.parseInt(valid_rs.getString("price"));
 						
-					}
+						// Cal Tents
+						tent_rs = DatabaseManager.search_database("prices", "type", "TENTS");
 						
-					if (DatabaseManager.does_entry_exist("tents", "booking", booking_ref)) {
-						
-						rs = DatabaseManager.search_database("prices", "type", "TENTS");
-						
-						if (rs.next()) {
+						if (tent_rs.next()) {
 							
-							total += Integer.parseInt(rs.getString("price"));
-							return Integer.toString(total);
+							cal_rs = DatabaseManager.search_database("tents", "booking", booking_ref);
+							while (cal_rs.next()) {
+								
+								total += Integer.parseInt(tent_rs.getString("price"));
+								
+							}
+							
+							return total;
+							
+						} else {
+							ErrorLog.printError("Could not find prices for tents. Please check prices.", ErrorLog.SEVERITY_MEDIUM);
+							return 0;
 							
 						}
 						
 					} else {
-						
-						return Integer.toString(total);
-						
+						ErrorLog.printInfo("Could not find booking valid day. Please check ref.");
+						return total;
 					}
 					
+				} else {
+					
+					ErrorLog.printInfo("Could not find booking valid day. Please check ref.");
+					return 0;
+					
 				}
-				
-				ErrorLog.printInfo("Could not find booking valid day. Please check ref.");
-				return "?";
 				
 			} else {
 				
 				ErrorLog.printInfo("Could not find booking. Please check ref.");
-				return "?";
+				return 0;
 				
 			}
 			
 		} catch (SQLException ex) {
 			ErrorLog.printError("Could not calculate and retrieve the total cost!\n" + ex.getMessage(),	ErrorLog.SEVERITY_MEDIUM);
-			return "Error";
+			return 0;
 		}
 		
 	}

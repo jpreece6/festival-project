@@ -28,9 +28,10 @@ public class PricesManager implements IDatabaseFunctions {
 			pri = new Price(day, price);
 
 			// Make sure that an entry for this day/entry does not already exist
-			if (DatabaseManager.does_entry_exist("prices", "type", day.toString())) {
+			if (DatabaseManager.does_entry_exist("prices", "type", day.toString()) == false) {
 				
 				add_entry(pri);
+				System.out.println("Price added...");
 			
 			}
 			
@@ -55,6 +56,7 @@ public class PricesManager implements IDatabaseFunctions {
 			
 				pri = new Price(entry, price);
 				update_entry(pri);
+				System.out.println("Price updated");
 				
 			} else {
 				

@@ -90,6 +90,28 @@ public class TentManager implements IDatabaseFunctions {
 		
 	}
 	
+	public int get_number_of_tents(String booking_ref){
+		
+		try {
+			
+			if (DatabaseManager.does_entry_exist("tents", "booking", booking_ref)) {
+				
+				return DatabaseManager.count_specific_items("tents", "booking", booking_ref);
+				
+			} else {
+				
+				ErrorLog.printInfo("Could not find tents assigned to this booking ref");
+				return 0;
+				
+			}
+			
+		} catch (SQLException ex) {
+			ErrorLog.printError("Could not count number of tents!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
+			return 0;
+		}
+		
+	}
+	
 	@Override
 	public boolean add_entry(Object data) throws SQLException {
 		

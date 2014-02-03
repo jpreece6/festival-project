@@ -47,19 +47,21 @@ public class PriceMenu extends Menu {
 									pmg.set_price(Price_Entry.values()[val], price);
 									
 								} else {
-									
+
 									pmg.update_price(Price_Entry.values()[val], price);
 									
 								}
+								
+							} else {
+								
+								ErrorLog.printError("Price was empty?", ErrorLog.SEVERITY_LOW);
 								
 							}
 							
 						}
 						
 					} catch (Exception ex) {
-						ex.printStackTrace();
-						ErrorLog.printError("", ErrorLog.SEVERITY_LOW);
-						//break;
+						ErrorLog.printError("Could not set price!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 					}
 					
 				}

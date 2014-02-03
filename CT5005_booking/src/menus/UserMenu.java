@@ -146,7 +146,7 @@ public class UserMenu extends Menu {
 				
 				case PRINT_DETAILS :
 					
-					// TODO
+					BookingMenu.display_booking_details();
 					
 					break;
 				case EDIT_BOOKING :
