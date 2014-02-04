@@ -57,11 +57,11 @@ public class Price {
 	 * of this Price object
 	 */
 	public String toString() {
-		// TODO
 		System.out.println("\n-- Price --");
 		final String FORMAT = "%-20s";
 		System.out.format(FORMAT, "Day", "Price");
 		System.out.format(FORMAT, getDay().toString(), getPrice());
+		System.out.println("-- END Price --\n");
 		return "";
 	}
 	

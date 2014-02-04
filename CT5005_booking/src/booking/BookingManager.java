@@ -30,6 +30,8 @@ public class BookingManager implements IDatabaseFunctions {
 			
 			String ref = "";
 			
+			assert attendee_ref.isEmpty() == false : "Attendee ref not set";
+			
 			bok = new Booking();
 			bok.setBooker(attendee_ref);
 			bok.setValid_Day(price_entry);
@@ -79,6 +81,8 @@ public class BookingManager implements IDatabaseFunctions {
 
 		try {
 			
+			assert booking_ref.isEmpty() == false : "Could not find booking ref to delete booking";
+			
 			// Check if the booking exists before removing it
 			if (DatabaseManager.does_entry_exist("bookings", "ref", booking_ref)) {
 				
@@ -105,6 +109,8 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		try {
 			
+			assert bok != null : "Was not assigned booking to edit";
+			
 			// Check booking exists before updating
 			if (DatabaseManager.does_entry_exist("bookings", "ref", book.getRef())) {
 				
@@ -130,6 +136,8 @@ public class BookingManager implements IDatabaseFunctions {
 	 * @return Booking object
 	 */
 	public Booking getBooking(String booking_ref) {
+		
+		assert booking_ref.isEmpty() == false : "Booking ref not provided to get booking";
 		
 		try {
 			
@@ -158,6 +166,8 @@ public class BookingManager implements IDatabaseFunctions {
 	 */
 	public boolean does_booking_exist(String booking_ref) {
 		
+		assert booking_ref.isEmpty() == false : "No booking ref given to check for existance";
+		
 		try {
 			
 			return DatabaseManager.does_entry_exist("bookings", "ref", booking_ref);
@@ -176,6 +186,9 @@ public class BookingManager implements IDatabaseFunctions {
 	 */
 	public void search_for_booking(String column, String data) {
 		
+		assert column.isEmpty() == false : "No column given";
+		assert data.isEmpty() == false : "No query given";
+		
 		try {
 			
 			DatabaseManager.print_results("Booking Search Results", DatabaseManager.search_database("bookings", column, data));
@@ -191,6 +204,8 @@ public class BookingManager implements IDatabaseFunctions {
 	 * @param booking_ref String booking to print from
 	 */
 	public void print_all_attendees_attached(String booking_ref) {
+		
+		assert booking_ref.isEmpty() == false : "No booking ref given to print attendees";
 		
 		try {
 			
@@ -210,6 +225,8 @@ public class BookingManager implements IDatabaseFunctions {
 	 * @return Integer number of attendees
 	 */
 	public int get_number_of_attendees(Booking book) {
+		
+		assert book != null : "No booking given to get number of attendees";
 		
 		try {
 			
@@ -237,6 +254,8 @@ public class BookingManager implements IDatabaseFunctions {
 	 * @return String cost
 	 */
 	public int get_total_cost(String booking_ref) {
+		
+		assert booking_ref.isEmpty() == false : "No booking ref given for calculate cost";
 		
 		try {
 			

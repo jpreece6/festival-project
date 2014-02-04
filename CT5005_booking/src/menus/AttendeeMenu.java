@@ -25,6 +25,7 @@ public class AttendeeMenu extends Menu {
 			
 			// Get the attendee ref
 			input = get_input();
+			assert input.isEmpty() : "Input empty";
 			if (input.isEmpty() == false) {
 				
 				// Get the attendee details from the database
@@ -161,15 +162,15 @@ public class AttendeeMenu extends Menu {
 			System.out.println("Attendee Ref : ");
 				
 			String ref = get_input();
-			// TODO assert
-			//assert(ref.isEmpty()) : "Blah";
 			// Check if we got a ref
 			if (ref.isEmpty() == false) {
 				
+				assert ref.isEmpty() == false : "Ref was not inputted ";
 				// Get the attendee's details
 				att = amg.get_attendee(ref);
 				if (att == null) {
 					ErrorLog.printInfo("Checking if attendee is child");
+					
 					att = cmg.get_child(ref);
 					
 					if (att == null) {

@@ -59,14 +59,14 @@ public abstract class Menu {
 	
 	/**
 	 * Gets input from the user
-	 * @return String inpit
+	 * @return String input
 	 */
 	protected static String get_input() {
 		
 		try {
 			
 			Scanner scan = new Scanner(System.in);
-			return scan.next();
+			return scan.next().toLowerCase().trim();
 			
 		} catch (Exception ex) {
 			ErrorLog.printError("Please enter a valid string!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);

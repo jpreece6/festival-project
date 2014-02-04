@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 1.2
+ * Repeatable testing framework to test the festival application
+ */
 package testing;
 
 import java.sql.SQLException;
@@ -19,34 +24,34 @@ public class Testharness {
 	
 	static Attendee[] simple_list = {
 		
-		new Attendee("Josh", "Preece", 19, "email@a.com"),
-		new Attendee("Havvanur", "ozkan", 18, "email@b.com")
+		new Attendee("josh", "preece", 19, "email@a.com"),
+		new Attendee("havvanur", "ozkan", 18, "email@b.com")
 		
 	};
 	
 	static Attendee[] full_list = {
 		
-		new Attendee("Havvanur", "ozkan", 18, "email@b.com"),
-		new Attendee("Ada", "test", 22, "email@c.com"),
-		new Attendee("Limestone", "linden", 40, "email@d.com"),
-		new Attendee("Snow", "Little", 16, "email@e.com"),
+		new Attendee("havvanur", "ozkan", 18, "email@b.com"),
+		new Attendee("ada", "test", 22, "email@c.com"),
+		new Attendee("limestone", "linden", 40, "email@d.com"),
+		new Attendee("snow", "little", 16, "email@e.com"),
 		
-		new Attendee("Ada", "test", 1, "email@c.com"),
-		new Attendee("Limestone", "linden", 11, "email@d.com"),
+		new Attendee("ada", "test", 1, "email@c.com"),
+		new Attendee("limestone", "linden", 11, "email@d.com"),
 		
 	};
 	
 	static Attendee[] overflow = {
 		
-		new Attendee("Josh", "Preece", 19, "email@a.com"),
-		new Attendee("Havvanur", "ozkan", 18, "email@b.com"),
-		new Attendee("Ada", "test", 22, "email@c.com"),
-		new Attendee("Limestone", "linden", 40, "email@d.com"),
-		new Attendee("Snow", "Little", 16, "email@e.com"),
+		new Attendee("josh", "preece", 19, "email@a.com"),
+		new Attendee("havvanur", "ozkan", 18, "email@b.com"),
+		new Attendee("ada", "test", 22, "email@c.com"),
+		new Attendee("limestone", "linden", 40, "email@d.com"),
+		new Attendee("snow", "little", 16, "email@e.com"),
 		
-		new Attendee("Ada", "test", 1, "email@c.com"),
-		new Attendee("Limestone", "linden", 2, "email@d.com"),
-		new Attendee("Snow", "Little", 12, "email@e.com")
+		new Attendee("ada", "test", 1, "email@c.com"),
+		new Attendee("limestone", "linden", 2, "email@d.com"),
+		new Attendee("snow", "little", 12, "email@e.com")
 		
 	};
 	
@@ -163,6 +168,9 @@ public class Testharness {
 
 	}
 	
+	/**
+	 * Print the number of errors found while testing
+	 */
 	private static void print_errors() {
 		
 		if (ErrorLog.get_number_of_errors() == 0) {
@@ -177,6 +185,9 @@ public class Testharness {
 		
 	}
 	
+	/**
+	 * Print the number of warnings found while testing
+	 */
 	private static void print_warnings() {
 		
 		if (ErrorLog.get_number_of_warnings() > 0) {

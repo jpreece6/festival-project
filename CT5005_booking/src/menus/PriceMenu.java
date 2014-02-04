@@ -41,7 +41,8 @@ public class PriceMenu extends Menu {
 							String price = get_input();
 							
 							if (price.isEmpty() == false) {
-															
+											
+								// Check that the price type exists
 								if (pmg.does_day_exist(Price_Entry.values()[val].toString()) == false) { 
 									
 									pmg.set_price(Price_Entry.values()[val], price);

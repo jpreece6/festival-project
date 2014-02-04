@@ -16,8 +16,15 @@ public class Booking {
 	private String booker_ref;
 	private Price_Entry valid_day;
 	
+	/**
+	 * Create a new booking with no params
+	 */
 	public Booking() {}
 	
+	/**
+	 * Create a new booking object and assign a valid day / price type
+	 * @param entry Price_Type
+	 */
 	public Booking(Price_Entry entry) {
 		this.valid_day = entry;
 	}

@@ -69,6 +69,10 @@ public class TentManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Removes a tent from the tents table
+	 * @param space_no String space number of the tent to remove
+	 */
 	public void remove_tent(String space_no) {
 		
 		try {
@@ -90,6 +94,10 @@ public class TentManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * Remove all tents from the table which match the booking ref
+	 * @param booking_ref String booking ref to match 
+	 */
 	public void remove_all_tents(String booking_ref) {
 		
 		try {
@@ -99,7 +107,6 @@ public class TentManager implements IDatabaseFunctions {
 				
 				ResultSet rs = DatabaseManager.search_database("tents", "booking", booking_ref);
 				
-				// TODO CHECK
 				while (rs.next()) {
 					
 					remove_tent(rs.getString("space_no"));
@@ -118,6 +125,10 @@ public class TentManager implements IDatabaseFunctions {
 		
 	}
 	
+	/**
+	 * List all tents that match the booking ref
+	 * @param booking_ref String booking ref to check
+	 */
 	public void list_tents(String booking_ref) {
 		
 		try {
@@ -135,9 +146,14 @@ public class TentManager implements IDatabaseFunctions {
 		} catch (SQLException ex) {
 			ErrorLog.printError("Print tents failed!\n" + ex.getMessage(), ErrorLog.SEVERITY_MEDIUM);
 		}
-		
+	
 	}
 	
+	/**
+	 * Gets the number of tents assigned a particular booking ref
+	 * @param booking_ref String booking ref to check
+	 * @return Integer number of tents
+	 */
 	public int get_number_of_tents(String booking_ref){
 		
 		try {

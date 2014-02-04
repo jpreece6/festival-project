@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Preece
+ * @version 1.3
+ * Test case object to aid in testing the festival application 
+ */
 package testing;
 
 import java.sql.SQLException;
@@ -23,54 +28,68 @@ public class Testcase {
 	private Booking test_booking;
 	private Attendee[] list_attendees;
 	
-	private int totalExpected = 0;
-	private boolean isFull = false;
-	private boolean isEmpty = true;
-	
+	/**
+	 * Create a bew test case object
+	 * @param description String description of the purpose of the test case
+	 * @param booking Booking booking to test the attendees against
+	 * @param attendees Array of Attendees to test with
+	 */
 	public Testcase(String description, Booking booking, Attendee[] attendees) {
 		this.description = description;
 		this.test_booking = booking;
 		this.list_attendees = attendees;
 	}
 	
+	/**
+	 * Get the test case description
+	 * @return String description
+	 */
 	public String getDescription() {
 		return this.description;
 	}
 	
-	public int getTotalExpected() {
-		return this.totalExpected;
-	}
-	
-	public boolean isFull() {
-		return this.isFull;
-	}
-	
-	public boolean isEmpty() {
-		return this.isEmpty;
-	}
-	
+	/**
+	 * Gets the array of attendees for testing
+	 * @return Array of attendees
+	 */
 	public Attendee[] getAttendees() {
 		return this.list_attendees;
 	}
 	
+	/**
+	 * Gets the number of attndees attached to the booking
+	 * @param booking Booking booking to check
+	 * @return Integer count of attendees
+	 */
 	public int get_number_of_attendees(Booking booking) {
 		
 		return bmg.get_number_of_attendees(booking);
 		
 	}
 	
+	/**
+	 * Gets the number of children assigned to this booking
+	 * @param booking Booking to check
+	 * @return Integer number of children
+	 */
 	public int get_number_of_children(Booking booking) {
 		
 		return cmg.get_number_of_children(booking);
 		
 	}
 	
+	// TODO
 	public int get_number_of_tents(Booking booking) {
 		
 		return tmg.get_number_of_tents(booking.getRef());
 		
 	}
 	
+	/**
+	 * Add an attendee to the booking
+	 * @param att Attendee to add
+	 * @return Attendee to process
+	 */
 	public Attendee add_attendee(Attendee att) {
 		
 		Attendee nAtt = new Attendee();
@@ -79,17 +98,30 @@ public class Testcase {
 		return nAtt;
 	}
 	
+	/**
+	 * Update an attendee
+	 * @param att Attendee to update
+	 */
 	public void update_attendee(Attendee att) {
 		
 		amg.update_attendee(att);
 		
 	}
 	
+	/**
+	 * Update a child
+	 * @param att Attendee child to update
+	 */
 	public void update_child(Attendee att) {
 		
 		cmg.update_child(att);
 	}
 	
+	/**
+	 * Add a booking to the database
+	 * @param attendee_ref String ref of the attendee making the booking
+	 * @return 
+	 */
 	public Booking add_booking(String attendee_ref) {
 		
 		Booking bok;
