@@ -8,7 +8,6 @@ package testing;
 import java.sql.SQLException;
 
 import prices.Price_Entry;
-import tents.Tent;
 import accounts.Attendee;
 import booking.Booking;
 import database.DatabaseManager;
