@@ -371,8 +371,16 @@ public class BookingManager implements IDatabaseFunctions {
 		
 		Statement stat = DatabaseManager.getConnection().createStatement();
 		
-		stat.executeUpdate("UPDATE bookings SET ref='" + bok.getRef() + "', valid_day='" + bok.getValid_Day().toString() + "', booker='" + bok.getBooker()
-				+ "' WHERE ref=" + bok.getRef());
+		if (DatabaseManager.does_entry_exist("bookings", "ref", bok.getRef())) {
+		
+			stat.executeUpdate("UPDATE bookings SET ref='" + bok.getRef() + "', valid_day='" + bok.getValid_Day().toString() + "', booker='" + bok.getBooker()
+					+ "' WHERE ref=" + bok.getRef());
+			
+		} else {
+			
+			ErrorLog.printError("Could not find booking to update. Please check ref", ErrorLog.SEVERITY_MEDIUM);
+			
+		}
 		
 		stat.close();
 		

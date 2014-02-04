@@ -36,7 +36,7 @@ public class Testharness {
 		new Attendee("ada", "test", 22, "email@c.com"),
 		new Attendee("limestone", "linden", 40, "email@d.com"),
 		new Attendee("snow", "little", 16, "email@e.com"),
-		
+		// TODO bug check if booking exists before assign
 		new Attendee("ada", "test", 1, "email@c.com"),
 		new Attendee("limestone", "linden", 11, "email@d.com"),
 		

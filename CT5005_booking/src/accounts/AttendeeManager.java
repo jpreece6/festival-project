@@ -130,14 +130,23 @@ public class AttendeeManager implements IDatabaseFunctions {
 			// Check to see if the attendee exists in the database and then update
 			if (DatabaseManager.does_entry_exist("attendees", "ref", att.getRef())) {
 				
-				// validate that a booking does not already have the max number of attendees
-				if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) < Festival.BOOKING_MAX_ATTENDEES) {
+				// Check if the updated attendee as a valid booking
+				if (DatabaseManager.does_entry_exist("bookings", "ref", att.getRef())) {
+				
+					// validate that a booking does not already have the max number of attendees
+					if (DatabaseManager.count_specific_items("attendees", "booking", att.getBooking()) < Festival.BOOKING_MAX_ATTENDEES) {
+						
+						update_entry(att);
 					
-					update_entry(att);
+					} else {
+						
+						ErrorLog.printInfo("Booking already has the maximum number of assigned attendees");
+						
+					}
 				
 				} else {
 					
-					ErrorLog.printInfo("Booking already has the maximum number of assigned attendees");
+					ErrorLog.printInfo("Booking does not exist. Please check ref");
 					
 				}
 				
