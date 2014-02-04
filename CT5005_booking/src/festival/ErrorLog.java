@@ -7,6 +7,9 @@ package festival;
 
 public abstract class ErrorLog {
 
+	private static int num_errors = 0;
+	private static int num_warnings = 0;
+	
 	/**
 	 * Critical error application cannot continue
 	 */
@@ -39,6 +42,7 @@ public abstract class ErrorLog {
 		System.out.println("Severity : " + severity);
 		System.out.println("-- END ERROR --\n");
 		
+		num_errors++;
 	}
 	
 	/**
@@ -52,6 +56,26 @@ public abstract class ErrorLog {
 		System.out.println("\n-- INFO --");
 		System.out.println("Message : " + msg);
 		System.out.println("-- END INFO --\n");
+		
+		num_warnings++;
+	}
+	
+	/**
+	 * Returns the number of errors/exceptions that the application
+	 * has encountered. This method is used heavily in the test harness
+	 * @return Integer number of errors thrown
+	 */
+	public static int get_number_of_errors() {
+		return num_errors;
+	}
+	
+	/**
+	 * Gets the number of warnings shown to the user. Every ErrorLog.printInfo
+	 * will increase the warning count.
+	 * @return Integer number of warnings
+	 */
+	public static int get_number_of_warnings() {
+		return num_warnings;
 	}
 	
 }
