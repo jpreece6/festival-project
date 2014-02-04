@@ -8,6 +8,7 @@ package testing;
 import java.sql.SQLException;
 
 import prices.Price_Entry;
+import tents.Tent;
 import accounts.Attendee;
 import booking.Booking;
 import database.DatabaseManager;
@@ -17,8 +18,9 @@ public class Testharness {
 
 	private static final String COL1 = "%-30s";
 	private static final String COL2 = "%-30s";
-	private static final String COL3 = "%-10s";
-	private static final String lineFormat = COL1 + COL2 + COL3;
+	private static final String COL3 = "%-30s";
+	private static final String COL4 = "%-10s";
+	private static final String lineFormat = COL1 + COL2 + COL3 + COL4;
 	
 	static Booking booking = new Booking(Price_Entry.MONDAY);
 	
@@ -55,11 +57,12 @@ public class Testharness {
 		
 	};
 	
+	
 	static Testcase[] sample = {
 		
-		new Testcase("Add a small number of attendees to a booking", booking, simple_list),
-		new Testcase("Add the max number of attendees to a booking", booking, full_list),
-		new Testcase("Add more than the maximum number of attendees", booking, overflow)
+		new Testcase("Add a small number of attendees to a booking", booking, simple_list, 1),
+		new Testcase("Add the max number of attendees to a booking", booking, full_list, 2),
+		new Testcase("Add more than the maximum number of attendees", booking, overflow, 3)
 		
 	};
 	
@@ -134,6 +137,13 @@ public class Testharness {
 							tc.update_child(ar);
 							
 						}
+						
+					}
+					
+					// Add tents
+					for (int i = 0; i < tc.getNumber_of_tents(); i++) {
+						
+						tc.add_tent(booking);
 						
 					}
 					

@@ -27,6 +27,7 @@ public class Testcase {
 	private String description;
 	private Booking test_booking;
 	private Attendee[] list_attendees;
+	private int num_of_tents = 0;
 	
 	/**
 	 * Create a bew test case object
@@ -34,10 +35,11 @@ public class Testcase {
 	 * @param booking Booking booking to test the attendees against
 	 * @param attendees Array of Attendees to test with
 	 */
-	public Testcase(String description, Booking booking, Attendee[] attendees) {
+	public Testcase(String description, Booking booking, Attendee[] attendees, int number_of_tents) {
 		this.description = description;
 		this.test_booking = booking;
 		this.list_attendees = attendees;
+		this.num_of_tents = number_of_tents;
 	}
 	
 	/**
@@ -46,6 +48,14 @@ public class Testcase {
 	 */
 	public String getDescription() {
 		return this.description;
+	}
+	
+	/**
+	 * Get the number of tents for this test case
+	 * @return Integer number of tents
+	 */
+	public int getNumber_of_tents() {
+		return num_of_tents;
 	}
 	
 	/**
@@ -128,6 +138,13 @@ public class Testcase {
 		bok = bmg.create_booking(attendee_ref, test_booking.getValid_Day());
 		
 		return bok;
+	}
+	
+	public void add_tent(Booking book) {
+		
+		tmg.add_tent(book.getRef());
+		System.out.println("Tent added successfully...");
+		
 	}
 	
 	/**
