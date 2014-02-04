@@ -19,7 +19,7 @@ public class Festival {
 	private static final String APP_NAME = "Festival Booking";
 	private static final String VERSION = "0.6";
 	
-	public static final int MAX_ATTENDEES = 4000;
+	public static final int MAX_ATTENDEES = 2000;
 	public static final int MAX_TENTS = 400;
 	public static final int BOOKING_MAX_ATTENDEES = 4;
 	public static final int BOOKING_MAX_CHILDREN = 2;

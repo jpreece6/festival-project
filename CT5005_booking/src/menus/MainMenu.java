@@ -23,7 +23,8 @@ public class MainMenu extends Menu {
 			System.out.println("Exit : " + Menu.EXIT_MENU);
 		
 			choice = get_option();
-			if (choice >= 0) {
+			assert choice < 0 : "Option less than 0"; 
+			if (choice >= 0 && choice < 4) {
 			
 				if (choice == MainMenuOptions.ATTENDEE_LOGIN.ordinal()) {
 					

@@ -53,15 +53,21 @@ public class Testcase {
 		return this.list_attendees;
 	}
 	
-	public void list_bookings() {
+	public int get_number_of_attendees(Booking booking) {
 		
-		
+		return bmg.get_number_of_attendees(booking);
 		
 	}
 	
-	public void list_attendees() {
+	public int get_number_of_children(Booking booking) {
 		
+		return cmg.get_number_of_children(booking);
 		
+	}
+	
+	public int get_number_of_tents(Booking booking) {
+		
+		return tmg.get_number_of_tents(booking.getRef());
 		
 	}
 	
@@ -77,6 +83,11 @@ public class Testcase {
 		
 		amg.update_attendee(att);
 		
+	}
+	
+	public void update_child(Attendee att) {
+		
+		cmg.update_child(att);
 	}
 	
 	public Booking add_booking(String attendee_ref) {

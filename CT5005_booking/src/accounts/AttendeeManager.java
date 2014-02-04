@@ -44,7 +44,7 @@ public class AttendeeManager implements IDatabaseFunctions {
 				// childrens database instead of the attendees database to better identify them
 				if (att.getAge() <= 12) {
 					
-					ErrorLog.printInfo("Attendee under 12 years old or younger will be added to the childrens table for health and safety");
+					//ErrorLog.printInfo("Attendee under 12 years old or younger will be added to the childrens table for health and safety");
 					ChildManager cmg = new ChildManager();
 					cmg.add_child(att);
 					

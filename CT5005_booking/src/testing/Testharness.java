@@ -17,12 +17,22 @@ public class Testharness {
 	
 	static Booking booking = new Booking(Price_Entry.MONDAY);
 	
+	static Attendee[] simple_list = {
+		
+		new Attendee("Josh", "Preece", 19, "email@a.com"),
+		new Attendee("Havvanur", "ozkan", 18, "email@b.com")
+		
+	};
+	
 	static Attendee[] full_list = {
 		
 		new Attendee("Havvanur", "ozkan", 18, "email@b.com"),
 		new Attendee("Ada", "test", 22, "email@c.com"),
 		new Attendee("Limestone", "linden", 40, "email@d.com"),
-		new Attendee("Snow", "Little", 16, "email@e.com")
+		new Attendee("Snow", "Little", 16, "email@e.com"),
+		
+		new Attendee("Ada", "test", 1, "email@c.com"),
+		new Attendee("Limestone", "linden", 11, "email@d.com"),
 		
 	};
 	
@@ -32,12 +42,17 @@ public class Testharness {
 		new Attendee("Havvanur", "ozkan", 18, "email@b.com"),
 		new Attendee("Ada", "test", 22, "email@c.com"),
 		new Attendee("Limestone", "linden", 40, "email@d.com"),
-		new Attendee("Snow", "Little", 16, "email@e.com")
+		new Attendee("Snow", "Little", 16, "email@e.com"),
+		
+		new Attendee("Ada", "test", 1, "email@c.com"),
+		new Attendee("Limestone", "linden", 2, "email@d.com"),
+		new Attendee("Snow", "Little", 12, "email@e.com")
 		
 	};
 	
 	static Testcase[] sample = {
 		
+		new Testcase("Add a small number of attendees to a booking", booking, simple_list),
 		new Testcase("Add the max number of attendees to a booking", booking, full_list),
 		new Testcase("Add more than the maximum number of attendees", booking, overflow)
 		
@@ -78,7 +93,7 @@ public class Testharness {
 				if (tc.create_tables()) {
 					
 					System.out.println("\n-- Run Test Case --");
-					// TODO add first attendee
+					// add first attendee
 					Attendee[] list_attendee = tc.getAttendees();
 					Attendee bookerAttendee = list_attendee[0];
 					Attendee returnedAtt = new Attendee();
@@ -87,10 +102,10 @@ public class Testharness {
 					returnedAtt = tc.add_attendee(bookerAttendee);
 				
 					// Create a new booking
-					Booking returnedBooking = new Booking();
-					returnedBooking = tc.add_booking(returnedAtt.getRef());
+					//Booking returnedBooking = new Booking();
+					booking = tc.add_booking(returnedAtt.getRef());
 					
-					returnedAtt.setBooking(returnedBooking.getRef());
+					returnedAtt.setBooking(booking.getRef());
 					tc.update_attendee(returnedAtt);
 					
 					
@@ -99,17 +114,29 @@ public class Testharness {
 					for (int i = 1; i < list_attendee.length; i++) {
 						
 						// Set all the attendees bookings to the new booking
-						list_attendee[i].setBooking(returnedBooking.getRef());
+						list_attendee[i].setBooking(booking.getRef());
 
 						// Add each attendee to the database
 						Attendee ar = tc.add_attendee(list_attendee[i]);
-						ar.setBooking(returnedBooking.getRef());
-						tc.update_attendee(ar);
+						ar.setBooking(booking.getRef());
+						
+						if (list_attendee[i].getAge() > 12) {
+						
+							tc.update_attendee(ar);
+							
+						} else {
+							
+							tc.update_child(ar);
+							
+						}
 						
 					}
 					
-					
-					
+				
+					System.out.printf(lineFormat, "Test Number", "No. Attendees", "No. Children", "No. Tents");
+					System.out.println();
+					System.out.printf(lineFormat, test_number, tc.get_number_of_attendees(booking),
+							tc.get_number_of_children(booking), tc.get_number_of_tents(booking));
 					
 					
 				} else {
@@ -127,11 +154,9 @@ public class Testharness {
 				
 			}
 			
-			System.out.println("-- Testcase " + test_number + " - END --\n");
+			System.out.println("\n\n-- Testcase " + test_number + " - END --\n");	
 			
 		}
-		
-		System.out.printf(lineFormat, "Test Number", "Booking Details", "Attendee Details");
 		
 		print_errors();
 		print_warnings();
