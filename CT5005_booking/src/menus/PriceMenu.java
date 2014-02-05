@@ -38,10 +38,12 @@ public class PriceMenu extends Menu {
 							
 							// Get user to input price
 							System.out.println(Price_Entry.values()[val].toString() + " Price = ");
+							// Get the price as an int just in case the user tries to enter letters
 							int price = get_option();
-							
+							// Check if price is > 0
 							if (price > 0) {
 								
+								// convert to string
 								String pri = Integer.toString(price);
 								
 								// Check that the price type exists
