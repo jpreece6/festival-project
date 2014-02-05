@@ -38,18 +38,20 @@ public class PriceMenu extends Menu {
 							
 							// Get user to input price
 							System.out.println(Price_Entry.values()[val].toString() + " Price = ");
-							String price = get_input();
+							int price = get_option();
 							
-							if (price.isEmpty() == false) {
-											
+							if (price > 0) {
+								
+								String pri = Integer.toString(price);
+								
 								// Check that the price type exists
 								if (pmg.does_day_exist(Price_Entry.values()[val].toString()) == false) { 
 									
-									pmg.set_price(Price_Entry.values()[val], price);
+									pmg.set_price(Price_Entry.values()[val], pri);
 									
 								} else {
 
-									pmg.update_price(Price_Entry.values()[val], price);
+									pmg.update_price(Price_Entry.values()[val], pri);
 									
 								}
 								
